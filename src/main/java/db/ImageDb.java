@@ -3,6 +3,8 @@ package db;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
@@ -13,6 +15,7 @@ public class ImageDb {
 
 	public ImageDb() {
 		this.count = 0;
+		//map nog initialiseren
 	}
 
 	public void addNewImage(Part file) {
@@ -28,5 +31,13 @@ public class ImageDb {
 	
 	public RenderedImage getImage(String fileName){
 		return images.get(fileName);
+	}
+	
+	public List<BufferedImage> getImages(){
+		List<BufferedImage> allImages = new ArrayList<>();
+		for (BufferedImage image : images.values()) {
+			allImages.add(image);
+		}
+		return allImages;
 	}
 }
