@@ -56,7 +56,6 @@ public class Controller extends HttpServlet {
 			break;
 		case "imageoverview":
 			destination = imageOverview(request, response);
-		default:
 		case "sendMail":
 			destination = sendMail(request, response);
 			break;
