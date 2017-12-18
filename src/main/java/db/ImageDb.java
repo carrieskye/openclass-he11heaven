@@ -1,9 +1,9 @@
 package db;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
@@ -26,5 +26,7 @@ public class ImageDb {
 		}
 	}
 	
-	
+	public RenderedImage getImage(String fileName){
+		return images.get(fileName);
+	}
 }
