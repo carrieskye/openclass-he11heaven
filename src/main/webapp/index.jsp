@@ -12,9 +12,9 @@
 <body>
 
 <div class="container-fluid">
-	<i class="fa fa-home" style="font-size:48px;"></i>
-  <h1>My First Bootstrap Page</h1>
-  <p>This is some text.</p> 
+		  <i class="fa fa-home" style="font-size:48px;"></i>
+		  <h1>My First Bootstrap Page</h1>
+		  <p>This is some text.</p> 
 </div>
 
 </body>
