@@ -34,7 +34,7 @@
 				<enableFlashCharts>false</enableFlashCharts> </configuration> </execution> 
 				</executions> </plugin> -->
 		</plugins>
-		<finalName>NameOfYourApplication</finalName>
+		<finalName>OpenClass-11</finalName>
 	</build>
 
 	<dependencies>
