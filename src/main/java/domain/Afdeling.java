@@ -1,11 +1,12 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Afdeling {
 	
 	private String naam;
-	private ArrayList<Opleiding> opleidingen;
+	private List<Opleiding> opleidingen;
 	
 	public Afdeling(String naam) {
 		setNaam(naam);
@@ -22,8 +23,15 @@ public class Afdeling {
 	public String getNaam() {
 		return this.naam;
 	}
+	public void setOpleidingen(List<Opleiding> opleidingen) {
+		if(opleidingen == null) {
+			throw new DomainException();
+		}
+		
+		this.opleidingen = opleidingen;
+	}
 	
-	public ArrayList<Opleiding> getOpleidingen() {
+	public List<Opleiding> getOpleidingen() {
 		return this.opleidingen;
 	}
 	public Opleiding getOpleiding(int id) {
