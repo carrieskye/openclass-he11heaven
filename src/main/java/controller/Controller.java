@@ -92,7 +92,7 @@ public class Controller extends HttpServlet {
 			destination = registerStudent(request, response);
 			break;
 		case "registrationOverview":
-			destination = registrationOverview(request,response);
+			destination = registrationOverview(request, response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -201,7 +201,8 @@ public class Controller extends HttpServlet {
 		return "registration.jsp";
 	}
 
-	private String registerStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private String registerStudent(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		List<String> result = new ArrayList<String>();
 		Student student = new Student();
 		result = getFirstName(student, request, result);
@@ -254,7 +255,7 @@ public class Controller extends HttpServlet {
 		}
 		return result;
 	}
-	
+
 	private String registrationOverview(HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("sessionId");
 		int sessionId = Integer.valueOf(id);
