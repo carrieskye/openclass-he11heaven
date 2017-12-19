@@ -23,6 +23,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ImageDb imageDb;
 	private SimpleMail mail;
+	ArrayList<Afdeling> afdelingen = new ArrayList<>();
 
 	public Controller() {
 		super();
@@ -76,9 +77,15 @@ public class Controller extends HttpServlet {
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		int id = Integer.parseInt(request.getParameter("id"));
-		Opleiding o = afdelingen.getOpleiding(id);
-		request.setAttribute("openDays", o.getOpenLesDagen());
-		return null;
+		String  a = request.getParameter("afdeling");
+		for (Afdeling afd : afdelingen) {
+			if (a.equals(afd.getNaam())) {
+				Afdeling af = afd;
+				Opleiding o = af.getOpleiding(id);
+				request.setAttribute("openDays", o.getOpenLesDagen());
+			}
+		}
+		return "overviewOpenDays.jsp";
 	}
 
 	private String sendMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -117,7 +124,6 @@ public class Controller extends HttpServlet {
 	}
 	
 	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
-		ArrayList<Afdeling> afdelingen = new ArrayList<>();
 		
 		Afdeling a1 = new Afdeling("Lerarenopleiding");
 		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 1));
