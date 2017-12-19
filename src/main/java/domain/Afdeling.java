@@ -9,6 +9,7 @@ public class Afdeling {
 	
 	public Afdeling(String naam) {
 		setNaam(naam);
+		opleidingen = new ArrayList<>();
 	}
 
 	private void setNaam(String naam) {
