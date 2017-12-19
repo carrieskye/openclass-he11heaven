@@ -6,7 +6,6 @@
 <html>
 <head>
 <title>Opleiding overzicht</title>
-<jsp:include page="fragments/head.jspf" />
 </head>
 
 <body>

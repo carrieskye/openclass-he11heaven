@@ -46,7 +46,7 @@ public class StudentDb {
 			int key = -1;
 			if (rs.next()) {
 				// Retrieve the auto generated key(s).
-				key = rs.getInt(1);
+				key = rs.getInt("studentid");
 			}
 
 			return key;
