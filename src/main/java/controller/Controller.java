@@ -1,9 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-
-import javax.mail.MessagingException;
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,8 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import db.ImageDb;
+import domain.Afdeling;
+import domain.Opleiding;
 import domain.SimpleMail;
 
 @WebServlet("/Controller")
@@ -23,6 +23,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ImageDb imageDb;
 	private SimpleMail mail;
+	ArrayList<Afdeling> afdelingen = new ArrayList<>();
 
 	public Controller() {
 		super();
@@ -56,8 +57,14 @@ public class Controller extends HttpServlet {
 			break;
 		case "imageoverview":
 			destination = imageOverview(request, response);
+			break;
 		case "sendMail":
 			destination = sendMail(request, response);
+			break;
+		case "overviewOpendays":
+			destination = openDayOverview(request,response);
+		case "getOpleidingenOverzicht":
+			destination = getOpleidingenOverzicht(request, response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -66,6 +73,19 @@ public class Controller extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
+	}
+
+	private String openDayOverview(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		int id = Integer.parseInt(request.getParameter("id"));
+		String  a = request.getParameter("afdeling");
+		for (Afdeling afd : afdelingen) {
+			if (a.equals(afd.getNaam())) {
+				Afdeling af = afd;
+				Opleiding o = af.getOpleiding(id);
+				request.setAttribute("openDays", o.getOpenLesDagen());
+			}
+		}
+		return "overviewOpenDays.jsp";
 	}
 
 	private String sendMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,11 +104,7 @@ public class Controller extends HttpServlet {
 			throws IOException, ServletException {
 		Part file = request.getPart("image");
 		this.imageDb.addNewImage(file);
-		response.sendRedirect("Controller?action=imageOverview");
-	}
-	
-	public String getImageDirectory(){
-		return "UCLL/project2coaching/images";
+		response.sendRedirect("Controller?action=imageoverview");
 	}
 
 	private void downloadImage(HttpServletRequest request, HttpServletResponse response)
@@ -98,12 +114,34 @@ public class Controller extends HttpServlet {
 
 		response.setHeader("Content-Disposition", "attachment; filename=\"download." + fileFormat + "\"");
 		ImageIO.write(this.imageDb.getImage(fileName), fileFormat, response.getOutputStream());
-		response.sendRedirect("Controller?action=imageOverview");
+		response.sendRedirect("Controller?action=imageoverview");
 	}
 
 	private String imageOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		request.setAttribute("images", imageDb.getImages());
 		return "imageOverview.jsp";
+	}
+	
+	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
+		
+		Afdeling a1 = new Afdeling("Lerarenopleiding");
+		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 1));
+		a1.addOpleiding(new Opleiding("Lager onderwijs", 2));
+		
+		Afdeling a2 = new Afdeling("Gezondheid");
+		a2.addOpleiding(new Opleiding("Mondzorg", 3));
+		a2.addOpleiding(new Opleiding("Vroedkunde", 4));
+		
+		Afdeling a3 = new Afdeling("Welzijn");
+		a3.addOpleiding(new Opleiding("Sociaal werk", 5));
+		
+		afdelingen.add(a1);
+		afdelingen.add(a2);
+		afdelingen.add(a3);
+		
+		request.setAttribute("afdelingen", afdelingen);
+		
+		return "opleidingOverzicht.jsp";
 	}
 }
