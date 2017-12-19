@@ -20,7 +20,8 @@
 </head>
 
 <body>
-<h1>Overzicht openlesdagen</h1>
+	<%@include file="header.jspf"%>
+	<h1>Overzicht openlesdagen</h1>
 <main>
 		<table>
 			<tr>
