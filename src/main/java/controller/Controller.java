@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
 import db.AfdelingDb;
 import db.ImageDb;
 import db.SessieDb;
@@ -186,6 +187,24 @@ public class Controller extends HttpServlet {
 	}
 
 	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
+
+		Afdeling a1 = new Afdeling("Lerarenopleiding");
+		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 1));
+		a1.addOpleiding(new Opleiding("Lager onderwijs", 2));
+
+		Afdeling a2 = new Afdeling("Gezondheid");
+		a2.addOpleiding(new Opleiding("Mondzorg", 3));
+		a2.addOpleiding(new Opleiding("Vroedkunde", 4));
+
+		Afdeling a3 = new Afdeling("Welzijn");
+		a3.addOpleiding(new Opleiding("Sociaal werk", 5));
+
+		afdelingen.add(a1);
+		afdelingen.add(a2);
+		afdelingen.add(a3);
+
+		request.setAttribute("afdelingen", afdelingen);
 		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
 		return "opleidingOverzicht.jsp";
 	}
