@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.ImageDb;
+import domain.Opleiding;
 import domain.SimpleMail;
 
 @WebServlet("/Controller")
@@ -56,6 +57,8 @@ public class Controller extends HttpServlet {
 		case "sendMail":
 			destination = sendMail(request, response);
 			break;
+		case "overviewOpendays":
+			destination = openDayOverview(request,response);
 		default:
 			destination = "index.jsp";
 		}
@@ -63,6 +66,13 @@ public class Controller extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
+	}
+
+	private String openDayOverview(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		int id = Integer.parseInt(request.getParameter("id"));
+		Opleiding o = afdelingen.getOpleiding(id);
+		request.setAttribute("openDays", o.getOpenLesDagen());
+		return null;
 	}
 
 	private String sendMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
