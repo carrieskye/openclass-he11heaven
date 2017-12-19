@@ -3,6 +3,7 @@ package controller;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -15,11 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.joda.time.DateTime;
-
 import db.ImageDb;
-import domain.OpenClassSession;
 import domain.Afdeling;
+import domain.OpenClassSession;
 import domain.Opleiding;
 import domain.SimpleMail;
 
@@ -69,8 +68,10 @@ public class Controller extends HttpServlet {
 			break;
 		case "sessionoverview":
 			destination = sessionOverview(request, response);
+			break;
 		case "overviewOpendays":
 			destination = openDayOverview(request, response);
+			break;
 		case "getOpleidingenOverzicht":
 			destination = getOpleidingenOverzicht(request, response);
 			break;
@@ -149,13 +150,15 @@ public class Controller extends HttpServlet {
 	private String sessionOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		ArrayList<OpenClassSession> sessions = new ArrayList<>();
+		LocalDateTime startDate = LocalDateTime.of(2018, 3, 14, 13, 0);
+		LocalDateTime endDate = LocalDateTime.of(2018, 3, 14, 14, 0);
+
 		sessions.add(new OpenClassSession("Bomen en Grafen",
 				"Gaat over bomen- en grafen structuren in de wiskunde, wordt aanzien als het gemakkelijkste examen van het tweede semester.",
-				new DateTime(), new DateTime(), 20));
-		sessions.add(new OpenClassSession("OOP", "Programmeren in Java voor gevorderden.", new DateTime(),
-				new DateTime(), 20));
+				startDate, endDate, 20));
+		sessions.add(new OpenClassSession("OOP", "Programmeren in Java voor gevorderden.", startDate, endDate, 20));
 		sessions.add(new OpenClassSession("Scripttalen", "Het aanleren van een scripttaal, in dit geval is dat Python.",
-				new DateTime(), new DateTime(), 20));
+				startDate, endDate, 20));
 
 		ArrayList<ArrayList<OpenClassSession>> dividedSessions = new ArrayList<>();
 		for (int i = 0; i < sessions.size(); i += 2) {
