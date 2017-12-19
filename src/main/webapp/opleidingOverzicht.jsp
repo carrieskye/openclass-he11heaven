@@ -14,7 +14,7 @@
 	<c:forEach var="afdeling" items="${afdelingen}">
 		<h2><c:out value="${afdeling.naam}" /></h2>
 		<ul>
-		<c:forEach var="opleidingen" items="${opleidingen}">
+		<c:forEach var="opleiding" items="${afdeling.opleidingen}">
 			<li><c:out value="${opleiding.naam}" /></li>
 		</c:forEach>
 		</ul>

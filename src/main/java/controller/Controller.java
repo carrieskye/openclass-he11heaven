@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.ImageDb;
+import domain.Afdeling;
+import domain.Opleiding;
 import domain.SimpleMail;
 
 @WebServlet("/Controller")
@@ -56,6 +60,9 @@ public class Controller extends HttpServlet {
 		case "sendMail":
 			destination = sendMail(request, response);
 			break;
+		case "getOpleidingenOverzicht":
+			destination = getOpleidingenOverzicht(request, response);
+			break;
 		default:
 			destination = "index.jsp";
 		}
@@ -98,5 +105,28 @@ public class Controller extends HttpServlet {
 			throws IOException, ServletException {
 		request.setAttribute("images", imageDb.getImages());
 		return "imageOverview.jsp";
+	}
+	
+	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
+		ArrayList<Afdeling> afdelingen = new ArrayList<>();
+		
+		Afdeling a1 = new Afdeling("Lerarenopleiding");
+		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 1));
+		a1.addOpleiding(new Opleiding("Lager onderwijs", 1));
+		
+		Afdeling a2 = new Afdeling("Gezondheid");
+		a2.addOpleiding(new Opleiding("Mondzorg", 1));
+		a2.addOpleiding(new Opleiding("Vroedkunde", 1));
+		
+		Afdeling a3 = new Afdeling("Welzijn");
+		a3.addOpleiding(new Opleiding("Sociaal werk", 1));
+		
+		afdelingen.add(a1);
+		afdelingen.add(a2);
+		afdelingen.add(a3);
+		
+		request.setAttribute("afdelingen", afdelingen);
+		
+		return "opleidingOverzicht.jsp";
 	}
 }
