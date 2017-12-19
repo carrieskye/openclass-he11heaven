@@ -52,8 +52,8 @@ public class SessieDb {
 			String eindtijd = result.getString("einde");
 			int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
 			
-			LocalDateTime begin = LocalDateTime.of(1,1,1, Integer.parseInt(begintijd.substring(0,2)), Integer.parseInt(begintijd.substring(3,5)));
-			LocalDateTime einde = LocalDateTime.of(1,1,1, Integer.parseInt(eindtijd.substring(0,2)), Integer.parseInt(eindtijd.substring(3,5)));
+			LocalDateTime begin = LocalDateTime.of(2020,1,1, Integer.parseInt(begintijd.substring(0,2)), Integer.parseInt(begintijd.substring(3,5)));
+			LocalDateTime einde = LocalDateTime.of(2020,1,1, Integer.parseInt(eindtijd.substring(0,2)), Integer.parseInt(eindtijd.substring(3,5)));
 
 
 			OpenClassSession sessie = new OpenClassSession (sessionId, title, description, begin, einde, maxInschrijvingen);
@@ -81,8 +81,8 @@ public class SessieDb {
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
 				
 				
-				LocalDateTime begin = LocalDateTime.of(1,1,1, Integer.parseInt(begintijd.substring(0,2)), Integer.parseInt(begintijd.substring(3,5)));
-				LocalDateTime einde = LocalDateTime.of(1,1,1, Integer.parseInt(eindtijd.substring(0,2)), Integer.parseInt(eindtijd.substring(3,5)));
+				LocalDateTime begin = LocalDateTime.of(2020,1,1, Integer.parseInt(begintijd.substring(0,2)), Integer.parseInt(begintijd.substring(3,5)));
+				LocalDateTime einde = LocalDateTime.of(2020,1,1, Integer.parseInt(eindtijd.substring(0,2)), Integer.parseInt(eindtijd.substring(3,5)));
 
 				
 				OpenClassSession sessie = new OpenClassSession (sessionId, title, description, begin, einde, maxInschrijvingen);
