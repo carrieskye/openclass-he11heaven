@@ -25,14 +25,10 @@
 		<table>
 			<tr>
 				<th>Datum</th>
-				<th>Tijdsduur</th>
-				<th>Campus</th>
 			</tr>
 			<c:forEach var="openLesDag" items="${openDays}">
 				<tr>
 					<td>${openLesDag.datum}</td>
-					<td>${openLesDag.time}</td>
-					<td>${openLesDag.campus}</td>
 				</tr>
 			</c:forEach>
 

@@ -30,17 +30,27 @@ public class StudentDb {
 
 	}
 
-	public void add(Student student) {
+	public int add(Student student) {
 		if (student == null) {
 			throw new DbException("No student given");
 		}
 		String sql = "INSERT INTO student(voornaam, naam, email) " + "VALUES (?,?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				PreparedStatement statement = connection.prepareStatement(sql);) {
+				PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 			statement.setString(1, student.getFirstName());
 			statement.setString(2, student.getLastName());
 			statement.setString(3, student.getEmail());
 			statement.executeUpdate();
+
+			ResultSet rs = statement.getGeneratedKeys();
+			int key = -1;
+			if (rs.next()) {
+				// Retrieve the auto generated key(s).
+				key = rs.getInt(1);
+			}
+
+			return key;
+
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
