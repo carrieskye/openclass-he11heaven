@@ -93,6 +93,7 @@ public class SessieDb {
 		}
 
 	}
+<<<<<<< HEAD
 
 	public void schrijfIn(Student student, OpenClassSession sessie) {
 		if (student == null)
@@ -109,5 +110,9 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
+=======
+	
+	
+>>>>>>> 5be03163ae92a675fae7e2d9d85930d37af262aa
 
 }

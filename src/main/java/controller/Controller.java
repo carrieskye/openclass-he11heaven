@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.AfdelingDb;
 import db.ImageDb;
+import db.OpenLesdagDb;
 import db.SessieDb;
 import db.StudentDb;
 import domain.Afdeling;
@@ -32,8 +33,9 @@ public class Controller extends HttpServlet {
 	private ImageDb imageDb;
 	private SimpleMail mail;
 	private AfdelingDb afdelingDb;
-	ArrayList<Afdeling> afdelingen = new ArrayList<>();
-	private SessieDb sessieDb = new SessieDb();
+	ArrayList<Afdeling> afdelingen;
+	private SessieDb sessieDb;
+	private OpenLesdagDb openLesdagDb;
 	private StudentDb studentDb;
 	private InschrijvingenDb inschrijvingenDb;
 
@@ -42,6 +44,9 @@ public class Controller extends HttpServlet {
 		imageDb = new ImageDb();
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
+		afdelingen = new ArrayList<>();
+		sessieDb = new SessieDb();
+		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		ischrijvingenDb = new InschrijvingenDb();
 	}
@@ -113,9 +118,10 @@ public class Controller extends HttpServlet {
 			if (a.equals(afd.getNaam())) {
 				Afdeling af = afd;
 				Opleiding o = af.getOpleiding(id);
-				request.setAttribute("openDays", o.getOpenLesDagen());
+				request.setAttribute("openDays", openLesdagDb.getLesdagen(o));
 			}
 		}
+		
 		return "overviewOpenDays.jsp";
 	}
 
