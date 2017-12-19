@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class OpenClassSession {
+	private int id;
 	private String title;
 	private String description;
 	private LocalDateTime start;
@@ -13,7 +14,8 @@ public class OpenClassSession {
 	private int maxEntries;
 	private ArrayList<Student> students;
 
-	public OpenClassSession(String title, String description, LocalDateTime start, LocalDateTime end, int maxEntries) {
+	public OpenClassSession(int id, String title, String description, LocalDateTime start, LocalDateTime end, int maxEntries) {
+		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.start = start;
@@ -31,6 +33,10 @@ public class OpenClassSession {
 		} else {
 			throw new DomainException("This session is full.");
 		}
+	}
+	
+	public int getId(){
+		return id;
 	}
 
 	public String getTitle() {
