@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import db.AfdelingDb;
 import db.ImageDb;
 import db.SessieDb;
+import db.StudentDb;
 import domain.Afdeling;
 import domain.OpenClassSession;
 import domain.Opleiding;
@@ -33,12 +34,14 @@ public class Controller extends HttpServlet {
 	private AfdelingDb afdelingDb;
 	ArrayList<Afdeling> afdelingen = new ArrayList<>();
 	private SessieDb sessieDb = new SessieDb();
+	private StudentDb studentDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
 		imageDb = new ImageDb();
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
+		studentDb = new StudentDb();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -204,7 +207,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("errormessage", result);
 			return "registration.jsp";
 		} else {
-			// studentDb.add(student);
+			studentDb.add(student);
 			return sessionOverview(request, response);
 		}
 	}
