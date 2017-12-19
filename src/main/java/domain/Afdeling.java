@@ -34,6 +34,9 @@ public class Afdeling {
 	public List<Opleiding> getOpleidingen() {
 		return this.opleidingen;
 	}
+	public Opleiding getOpleiding(int id) {
+		return opleidingen.get(id);
+	}
 	
 	public void addOpleiding(Opleiding o) {
 		if(o == null) {

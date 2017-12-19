@@ -3,9 +3,7 @@ package db;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
@@ -34,11 +32,8 @@ public class ImageDb {
 		return images.get(fileName);
 	}
 	
-	public List<BufferedImage> getImages(){
-		List<BufferedImage> allImages = new ArrayList<>();
-		for (BufferedImage image : images.values()) {
-			allImages.add(image);
-		}
-		return allImages;
+	public Map<String, BufferedImage> getImages(){
+		return images;
 	}
+	
 }
