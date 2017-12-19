@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.AfdelingDb;
 import db.ImageDb;
+import db.SessieDb;
 import domain.Afdeling;
 import domain.OpenClassSession;
 import domain.Opleiding;
@@ -30,6 +31,7 @@ public class Controller extends HttpServlet {
 	private SimpleMail mail;
 	private AfdelingDb afdelingDb;
 	ArrayList<Afdeling> afdelingen = new ArrayList<>();
+	private SessieDb sessieDb = new SessieDb();
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
@@ -155,8 +157,10 @@ public class Controller extends HttpServlet {
 			throws IOException, ServletException {
 		int columns = 2;
 		
-		ArrayList<OpenClassSession> sessions = new ArrayList<>();
-		LocalDateTime startDate = LocalDateTime.of(2018, 3, 14, 13, 0);
+		ArrayList<OpenClassSession> sessions = sessieDb.getAll();
+		
+		
+		/*LocalDateTime startDate = LocalDateTime.of(2018, 3, 14, 13, 0);
 		LocalDateTime endDate = LocalDateTime.of(2018, 3, 14, 14, 0);
 
 		sessions.add(new OpenClassSession(1, "Bomen en Grafen",
@@ -165,7 +169,7 @@ public class Controller extends HttpServlet {
 		sessions.add(new OpenClassSession(2, "OOP", "Programmeren in Java voor gevorderden.", startDate, endDate, 20));
 		sessions.add(new OpenClassSession(3, "Scripttalen",
 				"Het aanleren van een scripttaal, in dit geval is dat Python.", startDate, endDate, 20));
-
+		 */
 		ArrayList<ArrayList<OpenClassSession>> dividedSessions = new ArrayList<>();
 		for (int i = 0; i < sessions.size(); i += columns) {
 			ArrayList<OpenClassSession> rowSessions = new ArrayList<>();
