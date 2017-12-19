@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.AfdelingDb;
 import db.ImageDb;
+import db.InschrijvingenDb;
 import db.OpenLesdagDb;
 import db.SessieDb;
 import db.StudentDb;
@@ -48,7 +49,7 @@ public class Controller extends HttpServlet {
 		sessieDb = new SessieDb();
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
-		ischrijvingenDb = new InschrijvingenDb();
+		inschrijvingenDb = new InschrijvingenDb();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

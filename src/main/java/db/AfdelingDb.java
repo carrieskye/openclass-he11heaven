@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import domain.Afdeling;
 import domain.DomainException;
 import domain.Opleiding;
