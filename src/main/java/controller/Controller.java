@@ -19,6 +19,8 @@ import org.joda.time.DateTime;
 
 import db.ImageDb;
 import domain.OpenClassSession;
+import domain.Afdeling;
+import domain.Opleiding;
 import domain.SimpleMail;
 
 @WebServlet("/Controller")
@@ -27,6 +29,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ImageDb imageDb;
 	private SimpleMail mail;
+	ArrayList<Afdeling> afdelingen = new ArrayList<>();
 
 	public Controller() {
 		super();
@@ -66,6 +69,10 @@ public class Controller extends HttpServlet {
 			break;
 		case "sessionoverview":
 			destination = sessionOverview(request, response);
+		case "overviewOpendays":
+			destination = openDayOverview(request, response);
+		case "getOpleidingenOverzicht":
+			destination = getOpleidingenOverzicht(request, response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -74,6 +81,20 @@ public class Controller extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
+	}
+
+	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		String a = request.getParameter("afdeling");
+		for (Afdeling afd : afdelingen) {
+			if (a.equals(afd.getNaam())) {
+				Afdeling af = afd;
+				Opleiding o = af.getOpleiding(id);
+				request.setAttribute("openDays", o.getOpenLesDagen());
+			}
+		}
+		return "overviewOpenDays.jsp";
 	}
 
 	private String sendMail(HttpServletRequest request, HttpServletResponse response)
@@ -148,5 +169,27 @@ public class Controller extends HttpServlet {
 
 		request.setAttribute("sessions", dividedSessions);
 		return "sessionOverview.jsp";
+	}
+
+	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
+
+		Afdeling a1 = new Afdeling("Lerarenopleiding");
+		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 1));
+		a1.addOpleiding(new Opleiding("Lager onderwijs", 2));
+
+		Afdeling a2 = new Afdeling("Gezondheid");
+		a2.addOpleiding(new Opleiding("Mondzorg", 3));
+		a2.addOpleiding(new Opleiding("Vroedkunde", 4));
+
+		Afdeling a3 = new Afdeling("Welzijn");
+		a3.addOpleiding(new Opleiding("Sociaal werk", 5));
+
+		afdelingen.add(a1);
+		afdelingen.add(a2);
+		afdelingen.add(a3);
+
+		request.setAttribute("afdelingen", afdelingen);
+
+		return "opleidingOverzicht.jsp";
 	}
 }
