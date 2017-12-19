@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Sessie overzicht</title>
+<title>Registratie</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -17,25 +17,25 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="header.jspf" %>
-
+	<%@include file="header.jspf"%>
 	<div class="container">
-	<h1>Sessie's</h1>
+	<h1>Registratie ${session.title}</h1>
 
-		<c:forEach var="sessionRow" items="${sessions}">
-			<div class="row">
-				<c:forEach var="session" items="${sessionRow}">
-					<div class="col-sm-3">
-						<div class="panel panel-primary">
-							<div class="panel-heading">${session.header}</div>
-							<div class="panel-body">${session.description}</div>
-							<div class="panel-footer"><a href="Controller?action=register&sessionId=${session.id}">Schrijf in</a></div>
-						</div>
-					</div>
-				</c:forEach>
+		<form>
+			<div class="form-group">
+				<label for="firstName">Voornaam</label> <input type="text"
+					class="form-control" id="firstName" placeholder="Voornaam">
 			</div>
-		</c:forEach>
+			<div class="form-group">
+				<label for="lastName">Achternaam</label> <input type="text"
+					class="form-control" id="firstName" placeholder="Achternaam">
+			</div>
+			<div class="form-group">
+				<label for="email">E-mail</label> <input type="email"
+					class="form-control" id="email" placeholder="E-mail">
+			</div>
+			<button type="submit" class="btn btn-primary">Schrijf in</button>
+		</form>
 	</div>
-
 </body>
 </html>
