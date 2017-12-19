@@ -17,6 +17,7 @@
 		  <p>This is some text.</p> 
 		  <a href="uploadImage.jsp">Upload image</a>
 		  <a href="imageOverview.jsp">Image overview</a>
+		  <a href="Controller?action=sessionoverview">Session overview</a>
 </div>
 
 </body>
