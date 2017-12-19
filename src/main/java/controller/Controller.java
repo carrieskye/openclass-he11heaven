@@ -33,28 +33,20 @@ public class Controller extends HttpServlet {
 	private ImageDb imageDb;
 	private SimpleMail mail;
 	private AfdelingDb afdelingDb;
-<<<<<<< HEAD
 	ArrayList<Afdeling> afdelingen;
 	private SessieDb sessieDb;
 	private OpenLesdagDb openLesdagDb;
-=======
-	ArrayList<Afdeling> afdelingen = new ArrayList<>();
-	private SessieDb sessieDb = new SessieDb();
 	private StudentDb studentDb;
->>>>>>> 22d7e389c0c0d9fd5a29230bdca89782a5890785
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
 		imageDb = new ImageDb();
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
-<<<<<<< HEAD
 		afdelingen = new ArrayList<>();
 		sessieDb = new SessieDb();
 		openLesdagDb = new OpenLesdagDb();
-=======
 		studentDb = new StudentDb();
->>>>>>> 22d7e389c0c0d9fd5a29230bdca89782a5890785
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
