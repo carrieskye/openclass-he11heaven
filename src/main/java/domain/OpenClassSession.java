@@ -20,7 +20,6 @@ public class OpenClassSession {
 		this.maxEntries = maxEntries;
 		students = new ArrayList<>();
 	}
-	
 
 	public void register(Student student) throws DomainException {
 		if (student == null) {

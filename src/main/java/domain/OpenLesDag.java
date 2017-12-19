@@ -9,7 +9,6 @@ public class OpenLesDag {
 	private Time eindUur;
 	private String campus;
 	private String time;
-	
 
 	public String getTime() {
 		return time;
@@ -24,7 +23,7 @@ public class OpenLesDag {
 	}
 
 	public void setCampus(String campus) {
-		if(campus == null) {
+		if (campus == null) {
 			throw new DomainException();
 		}
 		this.campus = campus;
@@ -35,7 +34,7 @@ public class OpenLesDag {
 	}
 
 	public void setEindUur(Time eindUur) {
-		if(eindUur == null) {
+		if (eindUur == null) {
 			throw new DomainException();
 		}
 		this.eindUur = eindUur;
@@ -46,7 +45,7 @@ public class OpenLesDag {
 	}
 
 	public void setBeginUur(Time beginUur) {
-		if(beginUur == null) {
+		if (beginUur == null) {
 			throw new DomainException();
 		}
 		this.beginUur = beginUur;
@@ -58,20 +57,20 @@ public class OpenLesDag {
 		setEindUur(eindUur);
 		setCampus(campus);
 		setTime();
-		
+
 	}
-	
+
 	public LocalDate getDatum() {
 		return datum;
 	}
-	
+
 	public void setDatum(LocalDate datum) {
-		if(datum == null) {
+		if (datum == null) {
 			throw new DomainException();
 		}
 		this.datum = datum;
 	}
-	
+
 	public String timeToString() {
 		return this.beginUur.toString() + " - " + this.eindUur.toString();
 	}
