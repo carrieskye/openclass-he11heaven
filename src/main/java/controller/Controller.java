@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.ImageDb;
-<<<<<<< HEAD
-=======
 import domain.Afdeling;
->>>>>>> 5e749a85f08d92a79be587868971e530b0e6f603
 import domain.Opleiding;
 import domain.SimpleMail;
 
@@ -63,14 +60,11 @@ public class Controller extends HttpServlet {
 		case "sendMail":
 			destination = sendMail(request, response);
 			break;
-<<<<<<< HEAD
 		case "overviewOpendays":
 			destination = openDayOverview(request,response);
-=======
 		case "getOpleidingenOverzicht":
 			destination = getOpleidingenOverzicht(request, response);
 			break;
->>>>>>> 5e749a85f08d92a79be587868971e530b0e6f603
 		default:
 			destination = "index.jsp";
 		}
