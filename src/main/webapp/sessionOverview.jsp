@@ -37,7 +37,7 @@
 								</p>
 								<p>
 									<a
-										href="Controller?action=registrationOverview&sessionId=${session.id}">Zie
+										href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht
 										inschrijvingen</a>
 								</p>
 							</div>

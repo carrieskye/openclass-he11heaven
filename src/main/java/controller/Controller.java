@@ -220,6 +220,8 @@ public class Controller extends HttpServlet {
 			return "registration.jsp";
 		} else {
 			studentDb.add(student);
+			System.out.println(studentDb.get(0).getFirstName());
+			inschrijvingenDb.add(studentDb.get(0), Integer.valueOf(request.getParameter("sessionId")));
 			return sessionOverview(request, response);
 		}
 	}
