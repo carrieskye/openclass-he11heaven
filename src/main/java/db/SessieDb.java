@@ -38,8 +38,7 @@ public class SessieDb {
 		}
 		String sql = "SELECT * from sessie WHERE sessieid = ?";
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				PreparedStatement statement = connection.prepareStatement(sql);
-		) {
+				PreparedStatement statement = connection.prepareStatement(sql);) {
 			statement.setInt(1, sessieId);
 			ResultSet result = statement.executeQuery();
 			result.next();
@@ -94,23 +93,23 @@ public class SessieDb {
 		}
 
 	}
-	
+
 	public void schrijfIn(Student student, OpenClassSession sessie) {
-		if (student == null) 
+		if (student == null)
 			throw new DbException("no student given.");
-		if(sessie == null) 
+		if (sessie == null)
 			throw new DbException("no session given.");
-		String sql = "INSERT INTO inschrijving(studentid, sessieid) "
-				+ "VALUES (?,?)";
+		String sql = "INSERT INTO inschrijving(studentid, sessieid) " + "VALUES (?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				PreparedStatement statement = connection.prepareStatement(sql);
-		) {
+				PreparedStatement statement = connection.prepareStatement(sql);) {
 			statement.setInt(1, student.getId());
 			statement.setInt(2, sessie.getId());
 			statement.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
+	
+	
 
 }

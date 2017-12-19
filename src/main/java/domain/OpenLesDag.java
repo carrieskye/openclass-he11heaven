@@ -1,77 +1,35 @@
 package domain;
 
-import java.sql.Time;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class OpenLesDag {
-	private LocalDate datum;
-	private Time beginUur;
-	private Time eindUur;
-	private String campus;
-	private String time;
+	private int id;
+	private Date datum;
 
-	public String getTime() {
-		return time;
+	public int getId() {
+		return id;
 	}
 
-	public void setTime() {
-		this.time = timeToString();
-	}
-
-	public String getCampus() {
-		return campus;
-	}
-
-	public void setCampus(String campus) {
-		if (campus == null) {
+	public void setId(int id) {
+		if (id == 0) {
 			throw new DomainException();
 		}
-		this.campus = campus;
+		this.id = id;
 	}
 
-	public Time getEindUur() {
-		return eindUur;
-	}
-
-	public void setEindUur(Time eindUur) {
-		if (eindUur == null) {
-			throw new DomainException();
-		}
-		this.eindUur = eindUur;
-	}
-
-	public Time getBeginUur() {
-		return beginUur;
-	}
-
-	public void setBeginUur(Time beginUur) {
-		if (beginUur == null) {
-			throw new DomainException();
-		}
-		this.beginUur = beginUur;
-	}
-
-	public OpenLesDag(LocalDate datum, Time beginUur, Time eindUur, String campus) {
+	public OpenLesDag(Date datum) {
 		setDatum(datum);
-		setBeginUur(beginUur);
-		setEindUur(eindUur);
-		setCampus(campus);
-		setTime();
 
 	}
 
-	public LocalDate getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
 
-	public void setDatum(LocalDate datum) {
+	public void setDatum(Date datum) {
 		if (datum == null) {
 			throw new DomainException();
 		}
 		this.datum = datum;
-	}
-
-	public String timeToString() {
-		return this.beginUur.toString() + " - " + this.eindUur.toString();
 	}
 }
