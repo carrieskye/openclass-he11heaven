@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.AfdelingDb;
 import db.ImageDb;
+import db.InschrijvingenDb;
 import db.OpenLesdagDb;
 import db.SessieDb;
 import db.StudentDb;
@@ -37,6 +38,7 @@ public class Controller extends HttpServlet {
 	private SessieDb sessieDb;
 	private OpenLesdagDb openLesdagDb;
 	private StudentDb studentDb;
+	private InschrijvingenDb inschrijvingenDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
@@ -47,6 +49,7 @@ public class Controller extends HttpServlet {
 		sessieDb = new SessieDb();
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
+		inschrijvingenDb = new InschrijvingenDb();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -93,7 +96,9 @@ public class Controller extends HttpServlet {
 			break;
 		case "registerStudent":
 			destination = registerStudent(request, response);
-			System.out.println(destination);
+			break;
+		case "registrationOverview":
+			destination = registrationOverview(request, response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -203,7 +208,8 @@ public class Controller extends HttpServlet {
 		return "registration.jsp";
 	}
 
-	private String registerStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private String registerStudent(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		List<String> result = new ArrayList<String>();
 		Student student = new Student();
 		result = getFirstName(student, request, result);
@@ -255,6 +261,14 @@ public class Controller extends HttpServlet {
 			result.add(exc.getMessage());
 		}
 		return result;
+	}
+
+	private String registrationOverview(HttpServletRequest request, HttpServletResponse response) {
+		String id = request.getParameter("sessionId");
+		int sessionId = Integer.valueOf(id);
+		request.setAttribute("session", sessieDb.get(sessionId));
+		request.setAttribute("students", inschrijvingenDb.get(sessionId));
+		return "registrationOverview.jsp";
 	}
 
 }

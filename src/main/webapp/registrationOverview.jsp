@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Sessie overzicht</title>
+<title>Inschrijvingen ${session.title}</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -20,33 +20,31 @@
 	<%@include file="header.jspf"%>
 
 	<div class="container">
-		<h1>Sessies</h1>
-
-		<c:forEach var="sessionRow" items="${sessions}">
-			<div class="row">
-				<c:forEach var="session" items="${sessionRow}">
-					<div class="col-sm-3">
-						<div class="panel panel-primary">
-							<div class="panel-heading">${session.header}</div>
-							<div class="panel-body">${session.description}</div>
-							<div class="panel-footer">
-								<p>
-									<a
-										href="Controller?action=registerForm&sessionId=${session.id}">Schrijf
-										in</a>
-								</p>
-								<p>
-									<a
-										href="Controller?action=registrationOverview&sessionId=${session.id}">Zie
-										inschrijvingen</a>
-								</p>
-							</div>
-						</div>
-					</div>
+		<h2>Inschrijvingen ${session.title}</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Firstname</th>
+					<th>Lastname</th>
+					<th>Email</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="student" items="${students}">
+					<tr>
+						<td>${student.firstName}</td>
+						<td>${student.lastName}</td>
+						<td>${student.email}</td>
+						<td><a
+							href="Controller?action=updateSessionStudent&sessionId=${session.id}&personId=${student.id}">Wijzig gegevens</a></td>
+						<td><a
+							href="Controller?action=removeSessionStudent&sessionId=${session.id}&personId=${student.id}">Verwijder</a></td>
+					</tr>
 				</c:forEach>
-			</div>
-		</c:forEach>
+			</tbody>
+		</table>
 	</div>
-
 </body>
 </html>
