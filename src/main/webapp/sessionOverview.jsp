@@ -29,7 +29,7 @@
 						<div class="panel panel-primary">
 							<div class="panel-heading">${session.header}</div>
 							<div class="panel-body">${session.description}</div>
-							<div class="panel-footer"><a href="Controller?action=register&sessionId=${session.id}">Schrijf in</a></div>
+							<div class="panel-footer"><a href="Controller?action=registerForm&sessionId=${session.id}">Schrijf in</a></div>
 						</div>
 					</div>
 				</c:forEach>

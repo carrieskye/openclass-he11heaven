@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import domain.Afdeling;
 import domain.OpenClassSession;
 import domain.Opleiding;
 import domain.SimpleMail;
+import domain.Student;
 
 @WebServlet("/Controller")
 @MultipartConfig
@@ -78,8 +80,12 @@ public class Controller extends HttpServlet {
 		case "getOpleidingenOverzicht":
 			destination = getOpleidingenOverzicht(request, response);
 			break;
-		case "register":
-			destination = register(request, response);
+		case "registerForm":
+			destination = registerForm(request, response);
+			break;
+		case "registerStudent":
+			destination = registerStudent(request, response);
+			System.out.println(destination);
 			break;
 		default:
 			destination = "index.jsp";
@@ -177,15 +183,69 @@ public class Controller extends HttpServlet {
 	}
 
 	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
-
 		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
 		return "opleidingOverzicht.jsp";
 	}
 
-	private String register(HttpServletRequest request, HttpServletResponse response) {
+	private String registerForm(HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("sessionId");
 		int sessionId = Integer.valueOf(id);
 		request.setAttribute("session", sessieDb.get(sessionId));
 		return "registration.jsp";
 	}
+
+	private String registerStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		List<String> result = new ArrayList<String>();
+		Student student = new Student();
+		result = getFirstName(student, request, result);
+		result = getLastName(student, request, result);
+		result = getEmail(student, request, result);
+		if (!result.isEmpty()) {
+			request.setAttribute("errormessage", result);
+			return "registration.jsp";
+		} else {
+			// studentDb.add(student);
+			return sessionOverview(request, response);
+		}
+	}
+
+	private List<String> getFirstName(Student student, HttpServletRequest request, List<String> result) {
+		String firstName = request.getParameter("firstName");
+		try {
+			student.setFirstName(firstName);
+			request.setAttribute("firstNameClass", "has-success");
+			request.setAttribute("firstNamePreviousValue", firstName);
+		} catch (Exception exc) {
+			request.setAttribute("firstNameClass", "has-error");
+			result.add(exc.getMessage());
+		}
+		return result;
+	}
+
+	private List<String> getLastName(Student student, HttpServletRequest request, List<String> result) {
+		String lastName = request.getParameter("lastName");
+		try {
+			student.setLastName(lastName);
+			request.setAttribute("lastNameClass", "has-success");
+			request.setAttribute("lastNamePreviousValue", lastName);
+		} catch (Exception exc) {
+			request.setAttribute("lastNameClass", "has-error");
+			result.add(exc.getMessage());
+		}
+		return result;
+	}
+
+	private List<String> getEmail(Student student, HttpServletRequest request, List<String> result) {
+		String email = request.getParameter("email");
+		try {
+			student.setEmail(email);
+			request.setAttribute("emailClass", "has-success");
+			request.setAttribute("emailPreviousValue", email);
+		} catch (Exception exc) {
+			request.setAttribute("emailClass", "has-error");
+			result.add(exc.getMessage());
+		}
+		return result;
+	}
+
 }
