@@ -1,4 +1,4 @@
-Feature: show educations
+Feature: show education
 
 Scenario Outline: i can see the overview where all the departments and there educations are shown
 Given a link to the overview page
