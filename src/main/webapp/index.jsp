@@ -7,7 +7,7 @@
 <body>
 <%@include file="header.jspf" %>
 <div class="container-fluid">
-		  <i class="fa fa-home" style="font-size:48px;"></i>
+		  
 		  <h1>Openlesdagen UCLL</h1>
 		  <p>This is some text.</p> 
 </div>
