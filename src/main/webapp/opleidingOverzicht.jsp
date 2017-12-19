@@ -18,7 +18,7 @@
 			<h2>
 				<c:out value="${afdeling.naam}" />
 			</h2>
-			<ul>
+			<ul id = "${afdeling.naam}">
 				<c:forEach var="opleiding" items="${afdeling.opleidingen}">
 					<a
 						href="Controller?action=overviewOpendays&id=${opleiding.id }&afdeling=${afdeling.naam}"><li><c:out
