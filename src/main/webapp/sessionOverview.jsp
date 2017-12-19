@@ -17,11 +17,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<<<<<<< HEAD
 <%@include file="fragments/header.jspf" %>
-=======
-	<%@include file="header.jspf"%>
->>>>>>> d161835c3d25762e877356a6a4b287b37e12f197
 
 	<div class="container">
 		<h1>Sessies</h1>
