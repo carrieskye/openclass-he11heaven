@@ -35,6 +35,7 @@ public class Controller extends HttpServlet {
 	ArrayList<Afdeling> afdelingen = new ArrayList<>();
 	private SessieDb sessieDb = new SessieDb();
 	private StudentDb studentDb;
+	private InschrijvingenDb inschrijvingenDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
@@ -42,6 +43,7 @@ public class Controller extends HttpServlet {
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
 		studentDb = new StudentDb();
+		ischrijvingenDb = new InschrijvingenDb();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -88,7 +90,9 @@ public class Controller extends HttpServlet {
 			break;
 		case "registerStudent":
 			destination = registerStudent(request, response);
-			System.out.println(destination);
+			break;
+		case "registrationOverview":
+			destination = registrationOverview(request,response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -249,6 +253,14 @@ public class Controller extends HttpServlet {
 			result.add(exc.getMessage());
 		}
 		return result;
+	}
+	
+	private String registrationOverview(HttpServletRequest request, HttpServletResponse response) {
+		String id = request.getParameter("sessionId");
+		int sessionId = Integer.valueOf(id);
+		request.setAttribute("session", sessieDb.get(sessionId));
+		request.setAttribute("students", inschrijvingenDb.get(sessionId));
+		return "registrationOverview.jsp";
 	}
 
 }
