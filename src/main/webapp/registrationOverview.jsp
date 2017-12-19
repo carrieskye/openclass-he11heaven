@@ -1,12 +1,10 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Overzicht Openlesdagen</title>
+<title>Inschrijvingen ${session.title}</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -18,22 +16,35 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-<h1>Overzicht openlesdagen</h1>
-<main>
-		<table>
-			<tr>
-				<th>Datum</th>
-			</tr>
-			<c:forEach var="openLesDag" items="${openDays}">
-				<tr>
-					<td>${openLesDag.datum}</td>
-				</tr>
-			</c:forEach>
+	<%@include file="fragments/header.jspf"%>
 
-			<caption>Overzicht openlesdagen</caption>
+	<div class="container">
+		<h2>Inschrijvingen ${session.title}</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Firstname</th>
+					<th>Lastname</th>
+					<th>Email</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="student" items="${students}">
+					<tr>
+						<td>${student.firstName}</td>
+						<td>${student.lastName}</td>
+						<td>${student.email}</td>
+						<td><a
+							href="Controller?action=updateSessionStudent&sessionId=${session.id}&personId=${student.id}">Wijzig gegevens</a></td>
+						<td><a
+							href="Controller?action=removeSessionStudent&sessionId=${session.id}&personId=${student.id}">Verwijder</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
-		</main>
+	</div>
 </body>
 </html>

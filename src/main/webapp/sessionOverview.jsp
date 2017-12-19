@@ -17,10 +17,10 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="header.jspf" %>
+<%@include file="fragments/header.jspf" %>
 
 	<div class="container">
-	<h1>Sessie's</h1>
+		<h1>Sessies</h1>
 
 		<c:forEach var="sessionRow" items="${sessions}">
 			<div class="row">
@@ -29,7 +29,18 @@
 						<div class="panel panel-primary">
 							<div class="panel-heading">${session.header}</div>
 							<div class="panel-body">${session.description}</div>
-							<div class="panel-footer"><a href="Controller?action=registerForm&sessionId=${session.id}">Schrijf in</a></div>
+							<div class="panel-footer">
+								<p>
+									<a
+										href="Controller?action=registerForm&sessionId=${session.id}">Schrijf
+										in</a>
+								</p>
+								<p>
+									<a
+										href="Controller?action=registrationOverview&sessionId=${session.id}">Zie
+										inschrijvingen</a>
+								</p>
+							</div>
 						</div>
 					</div>
 				</c:forEach>
