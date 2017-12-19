@@ -17,7 +17,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<%@include file="header.jspf"%>
+	<%@include file="fragments/header.jspf"%>
 	<div class="container">
 		<h1>Registratie ${session.title}</h1>
 
@@ -31,10 +31,9 @@
 					</ul>
 				</div>
 			</c:when>
-
 		</c:choose>
 
-		<form method="post" action="Controller?action=registerStudent">
+		<form method="post" action="Controller?action=registerStudent&sessionId=${session.id}">
 			<div class="form-group">
 				<label for="firstName">Voornaam</label> <input type="text" name="firstName"
 					class="form-control" id="firstName" placeholder="Voornaam" required

@@ -17,7 +17,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<%@include file="header.jspf"%>
+<%@include file="fragments/header.jspf" %>
 
 	<div class="container">
 		<h1>Sessies</h1>
@@ -37,7 +37,7 @@
 								</p>
 								<p>
 									<a
-										href="Controller?action=registrationOverview&sessionId=${session.id}">Zie
+										href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht
 										inschrijvingen</a>
 								</p>
 							</div>
