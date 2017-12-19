@@ -54,10 +54,11 @@ public class Tests {
 
 	@Then("^all the \"([^\"]*)\" with there \"([^\"]*)\" are displayed$")
 	public void all_the_with_there_are_displayed(String department, String education) throws Throwable {
-		WebElement ul_elements = driver.findElement(By.id(department));
-		ArrayList<WebElement> departments = (ArrayList<WebElement>) ul_elements.findElement(By.tagName("li"));
+		java.util.List<WebElement> el = driver.findElements(By.id(department));
+		
 		boolean found = false;
-		for (WebElement dep:departments) {
+		for (WebElement dep: el) {
+			System.out.println(dep.getText());
 			if (dep.getText().contains(education)) {
 				found = true;
 			}
