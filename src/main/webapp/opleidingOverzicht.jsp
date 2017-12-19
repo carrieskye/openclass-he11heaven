@@ -10,20 +10,22 @@
 </head>
 
 <body>
-<%@include file="header.jspf" %>
+	<%@include file="header.jspf"%>
 
-	<main> <c:forEach var="afdeling" items="${afdelingen}">
-		<h2>
-			<c:out value="${afdeling.naam}" />
-		</h2>
-		<ul>
-			<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-				<a
-					href="Controller?action=overviewOpendays&id=${opleiding.id }&afdeling=${afdeling.naam}"><li><c:out
-							value="${opleiding.naam}" /></li></a>
-			</c:forEach>
-		</ul>
-	</c:forEach> </main>
-
+	<div class="container">
+	<h1>Opleidingen</h1>
+		<c:forEach var="afdeling" items="${afdelingen}">
+			<h2>
+				<c:out value="${afdeling.naam}" />
+			</h2>
+			<ul>
+				<c:forEach var="opleiding" items="${afdeling.opleidingen}">
+					<a
+						href="Controller?action=overviewOpendays&id=${opleiding.id }&afdeling=${afdeling.naam}"><li><c:out
+								value="${opleiding.naam}" /></li></a>
+				</c:forEach>
+			</ul>
+		</c:forEach>
+	</div>
 </body>
 </html>

@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import db.AfdelingDb;
 import db.ImageDb;
 import db.SessieDb;
@@ -80,6 +78,9 @@ public class Controller extends HttpServlet {
 		case "getOpleidingenOverzicht":
 			destination = getOpleidingenOverzicht(request, response);
 			break;
+		case "register":
+			destination = register(request, response);
+			break;
 		default:
 			destination = "index.jsp";
 		}
@@ -92,9 +93,9 @@ public class Controller extends HttpServlet {
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		
+
 		String a = request.getParameter("afdeling");
-		
+
 		for (Afdeling afd : afdelingen) {
 			if (a.equals(afd.getNaam())) {
 				Afdeling af = afd;
@@ -156,21 +157,10 @@ public class Controller extends HttpServlet {
 
 	private String sessionOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		int columns = 2;
-		
-		ArrayList<OpenClassSession> sessions = sessieDb.getAll();
-		
-		
-		/*LocalDateTime startDate = LocalDateTime.of(2018, 3, 14, 13, 0);
-		LocalDateTime endDate = LocalDateTime.of(2018, 3, 14, 14, 0);
+		int columns = 3;
 
-		sessions.add(new OpenClassSession(1, "Bomen en Grafen",
-				"Gaat over bomen- en grafen structuren in de wiskunde, wordt aanzien als het gemakkelijkste examen van het tweede semester.",
-				startDate, endDate, 20));
-		sessions.add(new OpenClassSession(2, "OOP", "Programmeren in Java voor gevorderden.", startDate, endDate, 20));
-		sessions.add(new OpenClassSession(3, "Scripttalen",
-				"Het aanleren van een scripttaal, in dit geval is dat Python.", startDate, endDate, 20));
-		 */
+		ArrayList<OpenClassSession> sessions = sessieDb.getAll();
+
 		ArrayList<ArrayList<OpenClassSession>> dividedSessions = new ArrayList<>();
 		for (int i = 0; i < sessions.size(); i += columns) {
 			ArrayList<OpenClassSession> rowSessions = new ArrayList<>();
@@ -207,5 +197,12 @@ public class Controller extends HttpServlet {
 		request.setAttribute("afdelingen", afdelingen);
 		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
 		return "opleidingOverzicht.jsp";
+	}
+
+	private String register(HttpServletRequest request, HttpServletResponse response) {
+		String id = request.getParameter("sessionId");
+		int sessionId = Integer.valueOf(id);
+		request.setAttribute("session", sessieDb.get(sessionId));
+		return "registration.jsp";
 	}
 }
