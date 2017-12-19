@@ -5,21 +5,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Opleiding overzicht</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Opleiding overzicht</title>
+	<jsp:include page="fragments/head.jspf"/>
 </head>
 
 <body>
-<h1>Opleiding overzicht</h1>
+<main>
+	<c:forEach var="afdeling" items="${afdelingen}">
+		<h2><c:out value="${afdeling.naam}" /></h2>
+		<ul>
+		<c:forEach var="opleiding" items="${afdeling.opleidingen}">
+			<a href="Controller?action=overviewOpenDays&id=${opleiding.id }" ><li><c:out value="${opleiding.naam}" /></li></a>
+		</c:forEach>
+		</ul>
+	</c:forEach> 
+</main>
 
 </body>
 </html>

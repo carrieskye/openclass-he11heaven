@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: Tom Stockmans
 Build-Jdk: 1.8.0_131
+=======
+Built-By: carolynepeelman
+Build-Jdk: 1.8.0_121
+>>>>>>> ff61a9509453bd5c0b07d04fb3393839fb95f3b0
 Created-By: Maven Integration for Eclipse
 
