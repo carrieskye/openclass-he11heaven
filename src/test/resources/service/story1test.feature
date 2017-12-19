@@ -8,18 +8,18 @@ Then all the <departments> with there <educations> are displayed
 	Examples:
 	|departments				|educations						|
 	|"Lerarenopleiding"	|"Kleuteronderwijs"		|
-	|"Lerarenopleiding"	|"Lager onderwijs"		|
-	|"Lerarenopleiding"	|"secundair onderwijs"|
+	|"Lerarenopleiding"	|"Lager Onderwijs"		|
+	|"Lerarenopleiding"	|"Secundair Onderwijs"|
 	
-	|"Gezondheid"				|"Biomedische laboratoriumtechnologie"	  |
+	|"Gezondheid"				|"Biomedische Laboratoriumtechnologie"	  |
 	|"Gezondheid"				|"Mondzorg"																|
 	|"Gezondheid"				|"Verpleegkunde"													|
 	|"Gezondheid"				|"Voedings- en Dieetkunde"								|
 	|"Gezondheid"				|"Vroedkunde"															|
 	
 	|"Welzijn"					|"Orthopedagogie"											|									
-	|"Welzijn"					|"Sociaal werk"												|
-	|"Welzijn"					|"Sociale readaptatiewetenschappen"		|
+	|"Welzijn"					|"Sociaal Werk"												|
+	|"Welzijn"					|"Sociale Readaptatiewetenschappen"		|
 	
 	|"Management"				|"Bedrijfsmanagement"	|
 	|"Management"				|"Office Management"	|
@@ -28,7 +28,7 @@ Then all the <departments> with there <educations> are displayed
 	|"Technologie"			|"Elektromechanica"				|
 	|"Technologie"			|"Elektronica-ICT"				|
 	|"Technologie"			|"Energietechnologie"			|
-	|"Technologie"			|"Toegepaste informatica"	|
+	|"Technologie"			|"Toegepaste Informatica"	|
 	
 
 	

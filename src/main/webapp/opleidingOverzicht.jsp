@@ -6,11 +6,10 @@
 <html>
 <head>
 <title>Opleiding overzicht</title>
-<jsp:include page="fragments/head.jspf" />
 </head>
 
 <body>
-	<%@include file="header.jspf"%>
+	<%@include file="fragments/header.jspf"%>
 
 	<div class="container">
 	<h1>Opleidingen</h1>
