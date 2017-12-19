@@ -8,7 +8,16 @@ public class OpenLesDag {
 	private Time beginUur;
 	private Time eindUur;
 	private String campus;
+	private String time;
 	
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime() {
+		this.time = timeToString();
+	}
 
 	public String getCampus() {
 		return campus;
@@ -48,6 +57,7 @@ public class OpenLesDag {
 		setBeginUur(beginUur);
 		setEindUur(eindUur);
 		setCampus(campus);
+		setTime();
 		
 	}
 	
