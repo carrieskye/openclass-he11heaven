@@ -28,6 +28,7 @@
 						<div class="panel panel-primary">
 							<div class="panel-heading">${session.header}</div>
 							<div class="panel-body">${session.description}</div>
+							<div class="panel-footer">Schrijf in</div>
 						</div>
 					</div>
 				</c:forEach>
