@@ -8,6 +8,7 @@
 				<li><a href="index.jsp"><i class="fa fa-home" style="font-size:25px;"></i></a></li>
 				<li><a href="Controller?action=getOpleidingenOverzicht">Opleidingen</a></li>
 				<li><a href="Controller?action=sessionoverview">Sessies</a></li>
+				<li><a href="Controller?action=toonVoegSessieToe">Voeg sessie toe</a></li>
 			</ul>
 		</div>
 	</nav>
