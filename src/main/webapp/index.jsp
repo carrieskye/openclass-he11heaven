@@ -15,6 +15,8 @@
 		  <i class="fa fa-home" style="font-size:48px;"></i>
 		  <h1>My First Bootstrap Page</h1>
 		  <p>This is some text.</p> 
+		  <a href="uploadImage.jsp">Upload image</a>
+		  <a href="imageOverview.jsp">Image overview</a>
 </div>
 
 </body>

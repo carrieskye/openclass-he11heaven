@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -15,7 +16,7 @@ public class ImageDb {
 
 	public ImageDb() {
 		this.count = 0;
-		//map nog initialiseren
+		images = new HashMap<>();
 	}
 
 	public void addNewImage(Part file) {
