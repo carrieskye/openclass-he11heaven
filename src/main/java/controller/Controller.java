@@ -71,6 +71,7 @@ public class Controller extends HttpServlet {
 			destination = sessionOverview(request, response);
 		case "overviewOpendays":
 			destination = openDayOverview(request, response);
+			break;
 		case "getOpleidingenOverzicht":
 			destination = getOpleidingenOverzicht(request, response);
 			break;
@@ -86,7 +87,9 @@ public class Controller extends HttpServlet {
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		int id = Integer.parseInt(request.getParameter("id"));
+		
 		String a = request.getParameter("afdeling");
+		
 		for (Afdeling afd : afdelingen) {
 			if (a.equals(afd.getNaam())) {
 				Afdeling af = afd;
@@ -174,15 +177,15 @@ public class Controller extends HttpServlet {
 	private String getOpleidingenOverzicht(HttpServletRequest request, HttpServletResponse response) {
 
 		Afdeling a1 = new Afdeling("Lerarenopleiding");
-		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 1));
-		a1.addOpleiding(new Opleiding("Lager onderwijs", 2));
+		a1.addOpleiding(new Opleiding("Kleuteronderwijs", 0));
+		a1.addOpleiding(new Opleiding("Lager onderwijs", 1));
 
 		Afdeling a2 = new Afdeling("Gezondheid");
-		a2.addOpleiding(new Opleiding("Mondzorg", 3));
-		a2.addOpleiding(new Opleiding("Vroedkunde", 4));
+		a2.addOpleiding(new Opleiding("Mondzorg", 2));
+		a2.addOpleiding(new Opleiding("Vroedkunde", 3));
 
 		Afdeling a3 = new Afdeling("Welzijn");
-		a3.addOpleiding(new Opleiding("Sociaal werk", 5));
+		a3.addOpleiding(new Opleiding("Sociaal werk", 4));
 
 		afdelingen.add(a1);
 		afdelingen.add(a2);
