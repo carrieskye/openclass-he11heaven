@@ -1,0 +1,15 @@
+<header>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.jsp"><img src="images/ucll-logo.jpg" alt="logo" height="40"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="index.jsp">Home</a></li>
+				<li><a href="Controller?action=getOpleidingenOverzicht">Opleidingen</a></li>
+				<li><a href="Controller?action=sessionoverview">Sessies</a></li>
+			</ul>
+		</div>
+	</nav>
+
+</header>
