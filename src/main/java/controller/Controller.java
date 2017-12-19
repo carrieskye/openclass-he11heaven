@@ -89,7 +89,9 @@ public class Controller extends HttpServlet {
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		int id = Integer.parseInt(request.getParameter("id"));
+		
 		String a = request.getParameter("afdeling");
+		
 		for (Afdeling afd : afdelingen) {
 			if (a.equals(afd.getNaam())) {
 				Afdeling af = afd;
@@ -215,7 +217,7 @@ public class Controller extends HttpServlet {
 		afdelingen.add(a3);
 
 		request.setAttribute("afdelingen", afdelingen);
-
+		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
 		return "opleidingOverzicht.jsp";
 	}
 }

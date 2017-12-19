@@ -10,6 +10,7 @@ public class Opleiding {
 	
 	public Opleiding(String naam, int id) {
 		this.setNaam(naam);
+		this.setId(id);
 	}
 
 	public int getId() {
