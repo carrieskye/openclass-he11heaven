@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import db.AfdelingDb;
 import db.ImageDb;
+import db.OpenLesdagDb;
 import db.SessieDb;
 import domain.Afdeling;
 import domain.OpenClassSession;
@@ -29,14 +30,18 @@ public class Controller extends HttpServlet {
 	private ImageDb imageDb;
 	private SimpleMail mail;
 	private AfdelingDb afdelingDb;
-	ArrayList<Afdeling> afdelingen = new ArrayList<>();
-	private SessieDb sessieDb = new SessieDb();
+	ArrayList<Afdeling> afdelingen;
+	private SessieDb sessieDb;
+	private OpenLesdagDb openLesdagDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
 		imageDb = new ImageDb();
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
+		afdelingen = new ArrayList<>();
+		sessieDb = new SessieDb();
+		openLesdagDb = new OpenLesdagDb();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -100,9 +105,10 @@ public class Controller extends HttpServlet {
 			if (a.equals(afd.getNaam())) {
 				Afdeling af = afd;
 				Opleiding o = af.getOpleiding(id);
-				request.setAttribute("openDays", o.getOpenLesDagen());
+				request.setAttribute("openDays", openLesdagDb.getLesdagen(o));
 			}
 		}
+		
 		return "overviewOpenDays.jsp";
 	}
 

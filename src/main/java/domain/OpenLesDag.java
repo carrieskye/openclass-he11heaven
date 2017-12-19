@@ -1,15 +1,27 @@
 package domain;
 
 import java.sql.Time;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class OpenLesDag {
-	private LocalDate datum;
+	private int id;
+	private Date datum;
 	private Time beginUur;
 	private Time eindUur;
 	private String campus;
 	private String time;
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		if (id == 0) {
+			throw new DomainException();
+		}
+		this.id = id;
+	}
+	
 	public String getTime() {
 		return time;
 	}
@@ -51,7 +63,7 @@ public class OpenLesDag {
 		this.beginUur = beginUur;
 	}
 
-	public OpenLesDag(LocalDate datum, Time beginUur, Time eindUur, String campus) {
+	public OpenLesDag(Date datum, Time beginUur, Time eindUur, String campus) {
 		setDatum(datum);
 		setBeginUur(beginUur);
 		setEindUur(eindUur);
@@ -60,11 +72,11 @@ public class OpenLesDag {
 
 	}
 
-	public LocalDate getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
 
-	public void setDatum(LocalDate datum) {
+	public void setDatum(Date datum) {
 		if (datum == null) {
 			throw new DomainException();
 		}
