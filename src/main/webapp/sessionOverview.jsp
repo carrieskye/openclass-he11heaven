@@ -26,7 +26,7 @@
 				<c:forEach var="session" items="${sessionRow}">
 					<div class="col-sm-3">
 						<div class="panel panel-primary">
-							<div class="panel-heading">${session.title}</div>
+							<div class="panel-heading">${session.header}</div>
 							<div class="panel-body">${session.description}</div>
 						</div>
 					</div>

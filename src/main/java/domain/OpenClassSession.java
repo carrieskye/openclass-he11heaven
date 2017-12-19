@@ -1,22 +1,24 @@
 package domain;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import org.joda.time.DateTime;
 
 public class OpenClassSession {
 	private String title;
 	private String description;
-	private DateTime start;
-	private DateTime end;
+	private LocalDateTime start;
+	private LocalDateTime end;
+	private String header;
 	private int maxEntries;
 	private ArrayList<Student> students;
 
-	public OpenClassSession(String title, String description, DateTime start, DateTime end, int maxEntries) {
+	public OpenClassSession(String title, String description, LocalDateTime start, LocalDateTime end, int maxEntries) {
 		this.title = title;
 		this.description = description;
 		this.start = start;
 		this.end = end;
+		setHeader(title, start, end);
 		this.maxEntries = maxEntries;
 		students = new ArrayList<>();
 	}
@@ -39,12 +41,20 @@ public class OpenClassSession {
 		return description;
 	}
 
-	public DateTime getStart() {
+	public LocalDateTime getStart() {
 		return start;
 	}
 
-	public DateTime getEnd() {
+	public LocalDateTime getEnd() {
 		return end;
 	}
 
+	public String getHeader() {
+		return header;
+	}
+
+	public void setHeader(String title, LocalDateTime start, LocalDateTime end) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		this.header = title + " (" + start.format(formatter) + " - " + end.format(formatter) + ")";
+	}
 }
