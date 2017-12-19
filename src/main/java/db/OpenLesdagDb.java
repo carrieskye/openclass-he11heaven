@@ -45,8 +45,10 @@ public class OpenLesdagDb {
 				Time beginUur = result.getTime("beginuur");
 				Time eindUur = result.getTime("einduur");
 				String campus = result.getString("campus");
+				String lokaalCode = result.getString("lokaalcode");
+				int maxDeelnemers = result.getInt("maxdeelnemers");
 				
-				OpenLesDag lesdag = new OpenLesDag(date,beginUur, eindUur, campus);
+				OpenLesDag lesdag = new OpenLesDag(date,beginUur, eindUur, campus, lokaalCode, maxDeelnemers);
 				lesdagen.add(lesdag);
 			}
 			return lesdagen;

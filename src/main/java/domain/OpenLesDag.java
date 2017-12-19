@@ -10,6 +10,31 @@ public class OpenLesDag {
 	private Time eindUur;
 	private String campus;
 	private String time;
+	private String lokaalCode;
+	
+	public String getLokaalCode() {
+		return lokaalCode;
+	}
+
+	public void setLokaalCode(String lokaalCode) {
+		if (lokaalCode == null || lokaalCode.trim().isEmpty()) {
+			throw new DomainException();
+		}
+		this.lokaalCode = lokaalCode;
+	}
+
+	public int getMaxDeelnemers() {
+		return maxDeelnemers;
+	}
+
+	public void setMaxDeelnemers(int maxDeelnemers) {
+		if (maxDeelnemers == 0) {
+			throw new DomainException();
+		}
+		this.maxDeelnemers = maxDeelnemers;
+	}
+
+	private int maxDeelnemers;
 
 	public int getId() {
 		return id;
@@ -63,12 +88,14 @@ public class OpenLesDag {
 		this.beginUur = beginUur;
 	}
 
-	public OpenLesDag(Date datum, Time beginUur, Time eindUur, String campus) {
+	public OpenLesDag(Date datum, Time beginUur, Time eindUur, String campus, String lokaalCode, int maxDeelnemers) {
 		setDatum(datum);
 		setBeginUur(beginUur);
 		setEindUur(eindUur);
 		setCampus(campus);
 		setTime();
+		setLokaalCode(lokaalCode);
+		setMaxDeelnemers(maxDeelnemers);
 
 	}
 

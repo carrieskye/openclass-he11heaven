@@ -27,12 +27,16 @@
 				<th>Datum</th>
 				<th>Tijdsduur</th>
 				<th>Campus</th>
+				<th>Lokaalcode</th>
+				<th>Max deelnemers</th>
 			</tr>
 			<c:forEach var="openLesDag" items="${openDays}">
 				<tr>
 					<td>${openLesDag.datum}</td>
 					<td>${openLesDag.time}</td>
 					<td>${openLesDag.campus}</td>
+					<td>${openLesDag.lokaalCode}</td>
+					<td>${openLesDag.maxDeelnemers}</td>
 				</tr>
 			</c:forEach>
 
