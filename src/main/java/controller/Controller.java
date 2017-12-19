@@ -1,9 +1,6 @@
 package controller;
 
 import java.io.IOException;
-
-
-import javax.mail.MessagingException;
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import db.ImageDb;
 import domain.SimpleMail;
 
@@ -56,6 +52,7 @@ public class Controller extends HttpServlet {
 			break;
 		case "imageoverview":
 			destination = imageOverview(request, response);
+			break;
 		case "sendMail":
 			destination = sendMail(request, response);
 			break;
@@ -84,11 +81,7 @@ public class Controller extends HttpServlet {
 			throws IOException, ServletException {
 		Part file = request.getPart("image");
 		this.imageDb.addNewImage(file);
-		response.sendRedirect("Controller?action=imageOverview");
-	}
-	
-	public String getImageDirectory(){
-		return "UCLL/project2coaching/images";
+		response.sendRedirect("Controller?action=imageoverview");
 	}
 
 	private void downloadImage(HttpServletRequest request, HttpServletResponse response)
@@ -98,7 +91,7 @@ public class Controller extends HttpServlet {
 
 		response.setHeader("Content-Disposition", "attachment; filename=\"download." + fileFormat + "\"");
 		ImageIO.write(this.imageDb.getImage(fileName), fileFormat, response.getOutputStream());
-		response.sendRedirect("Controller?action=imageOverview");
+		response.sendRedirect("Controller?action=imageoverview");
 	}
 
 	private String imageOverview(HttpServletRequest request, HttpServletResponse response)
