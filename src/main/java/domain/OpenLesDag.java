@@ -13,12 +13,17 @@ public class OpenLesDag {
 	private String locatie;
 	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(Date datum,LocalDateTime begin, LocalDateTime einde) {
+	public OpenLesDag(int id, String titel, String locatie, LocalDateTime begin, LocalDateTime einde) {
 		sessies = new ArrayList<>();
+		setId(id);
 		setBegin(begin);
 		setEinde(einde);
 		setTitel(titel);
 		setLocatie(locatie);
+	}
+	
+	public OpenLesDag(int id, String titel, String locatie) {
+		this(id, titel, locatie, null, null);
 	}
 
 	public String getTitel() {
@@ -47,9 +52,9 @@ public class OpenLesDag {
 	}
 
 	public void setBegin(LocalDateTime begin) {
-		if (begin == null) {
-			throw new DomainException("Begindatum/uur mag niet leeg zijn");
-		}
+//		if (begin == null) {
+//			throw new DomainException("Begindatum/uur mag niet leeg zijn");
+//		}
 		this.begin = begin;
 	}
 
@@ -58,9 +63,9 @@ public class OpenLesDag {
 	}
 
 	public void setEinde(LocalDateTime einde) {
-		if (einde == null) {
-			throw new DomainException("Einddatum/uur mag niet leeg zijn");
-		}
+//		if (einde == null) {
+//			throw new DomainException("Einddatum/uur mag niet leeg zijn");
+//		}
 		this.einde = einde;
 	}
 
@@ -86,7 +91,7 @@ public class OpenLesDag {
 		}
 	
 	
-	public void setSessies(List<OpenClassSession> sessies) {
+	private void setSessies(List<OpenClassSession> sessies) {
 		if(sessies == null) {
 			throw new DomainException();
 		}
@@ -101,10 +106,29 @@ public class OpenLesDag {
 		return sessies.get(id);
 	}
 	
-	public void addSessie(OpenClassSession o) {
-		if(o == null) {
+	public void addSessie(OpenClassSession sessie) {
+		if(sessie == null) {
 			throw new DomainException();
 		}
-		sessies.add(o);
+		// als er nog geen begin en einde is, die van sessie overnemen
+		if (begin == null && einde == null) {
+			setBegin(sessie.getStart());
+			setEinde(sessie.getEnd());
+		}
+		// bepalen of toegevoegde sessie vroeger begint of later eindigt dan huidige begin/eind
+		if (sessie.getStart().isBefore(begin)) {
+			setBegin(sessie.getStart());
+		}
+		if (sessie.getEnd().isAfter(einde)) {
+			setEinde(sessie.getEnd());
+		}
+		
+		sessies.add(sessie);
+	}
+	
+	public void addAllSessies(List<OpenClassSession> sessies) {
+		for (OpenClassSession sessie: sessies) {
+			addSessie(sessie);
+		}
 	}
 }
