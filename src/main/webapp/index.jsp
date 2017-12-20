@@ -13,8 +13,8 @@
 		<div class="jumbotron">
 
 			<h1>Openlesdagen UCLL</h1>
-			<p>Op dit platform krijg je een overzicht van open lesdagen per
-				opleiding, en kan je je inschrijven voor deze.</p>
+			<p>Dit platform biedt een snel en eenvoudig overzicht van alle openlesdagen die aangeboden worden voor de verschillende richtingen binnen UCLL.</p>
+			<p>Het overzicht is te vinden onder <a href="Controller?action=getOpleidingenOverzicht"></a></p>
 		</div>
 	</div>
 </body>
