@@ -39,10 +39,10 @@
 								<td>${student.lastName}</td>
 								<td>${student.email}</td>
 								<td><a
-									href="Controller?action=updateSessionStudent&sessionId=${session.id}&personId=${student.id}">Wijzig
+									href="Controller?action=updateSessionStudent&sessionId=${session.id}&studentId=${student.id}">Wijzig
 										gegevens</a></td>
 								<td><a
-									href="Controller?action=removeSessionStudent&sessionId=${session.id}&personId=${student.id}">Verwijder</a></td>
+									href="Controller?action=removeSessionStudent&sessionId=${session.id}&studentId=${student.id}">Verwijder</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
