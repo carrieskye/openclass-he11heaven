@@ -8,14 +8,13 @@ import java.time.format.DateTimeFormatter;
 
 public class OpenLesDag {
 	private int id;
-	private Date datum;
 	private LocalDateTime begin;
 	private LocalDateTime einde;
 	private String titel;
 	private String locatie;
 	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(Date datum,LocalDateTime begin, LocalDateTime einde) {
+	public OpenLesDag(String titel, String locatie, LocalDateTime begin, LocalDateTime einde) {
 		sessies = new ArrayList<>();
 		setBegin(begin);
 		setEinde(einde);
