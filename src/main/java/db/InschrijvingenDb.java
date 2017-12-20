@@ -47,6 +47,7 @@ public class InschrijvingenDb {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
+		
 	}
 
 	public ArrayList<Student> get(int sessieId) {
@@ -74,6 +75,27 @@ public class InschrijvingenDb {
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql);) {
 			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+	}
+	
+	public int telIngeschrevenStudenten(int sessieId) {
+		// aantal ingeschreven studenten toevoegen aan sessie
+		String sql = "SELECT COUNT(*) AS aantal FROM inschrijving I INNER JOIN sessie S ON (I.sessieid = S.sessieid) WHERE S.sessieid = ?";
+		try (Connection connection = DriverManager.getConnection(url, properties);
+			PreparedStatement statement = connection.prepareStatement(sql);) 
+		{
+			statement.setInt(1, sessieId);
+			ResultSet result = statement.executeQuery();
+			int aantalIngeschreven = 0;
+			
+			while (result.next()) {
+				aantalIngeschreven = result.getInt("aantal");
+			}
+			
+			return aantalIngeschreven;
+			
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
