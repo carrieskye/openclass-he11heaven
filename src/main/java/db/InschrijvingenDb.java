@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import domain.OpenClassSession;
 import domain.Student;
 
 public class InschrijvingenDb {
@@ -34,10 +33,10 @@ public class InschrijvingenDb {
 		
 	}
 	
-	public void add(Student student, OpenClassSession sessie) {
+	public void add(Student student, int sessieId) {
 		if (student == null) 
 			throw new DbException("no student given.");
-		if(sessie == null) 
+		if(sessieId == 0) 
 			throw new DbException("no session given.");
 		String sql = "INSERT INTO inschrijving(studentid, sessieid) "
 				+ "VALUES (?,?)";
@@ -45,7 +44,7 @@ public class InschrijvingenDb {
 				PreparedStatement statement = connection.prepareStatement(sql);
 		) {
 			statement.setInt(1, student.getId());
-			statement.setInt(2, sessie.getId());
+			statement.setInt(2, sessieId);
 			statement.executeUpdate();
 		}catch(SQLException e) {
 			throw new DbException(e.getMessage(), e);
@@ -62,9 +61,7 @@ public class InschrijvingenDb {
 			ArrayList<Student> students = new ArrayList<Student>();
 			while (result.next()) {
 				students.add(studentDb.get(result.getInt("studentid")));
-				
 			}
-
 			return students;
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);

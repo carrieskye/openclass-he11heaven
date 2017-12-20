@@ -232,7 +232,8 @@ public class Controller extends HttpServlet {
 			request.setAttribute("errormessage", result);
 			return "registration.jsp";
 		} else {
-			studentDb.add(student);
+			int studentId = studentDb.add(student);
+			inschrijvingenDb.add(studentDb.get(studentId), Integer.valueOf(request.getParameter("sessionId")));
 			return sessionOverview(request, response);
 		}
 	}
