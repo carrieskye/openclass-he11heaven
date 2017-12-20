@@ -55,7 +55,7 @@ public class Controller extends HttpServlet {
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
 		afdelingen = new ArrayList<>();
-		sessieDb = new SessieDb();
+		sessieDb = new SessieDb(this);
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		inschrijvingenDb = new InschrijvingenDb();
@@ -112,7 +112,7 @@ public class Controller extends HttpServlet {
 
 		case "voegSessieToe":
 			destination = voegSessieToe(request, response);
-
+			break;
 		case "updateSessionStudent":
 			destination = updateSessionStudent(request, response);
 			break;
@@ -198,7 +198,6 @@ public class Controller extends HttpServlet {
 		int columns = 3;
 
 		ArrayList<OpenClassSession> sessions = sessieDb.getAll();
-
 		
 		ArrayList<ArrayList<OpenClassSession>> dividedSessions = new ArrayList<>();
 		for (int i = 0; i < sessions.size(); i += columns) {
@@ -407,6 +406,10 @@ public class Controller extends HttpServlet {
 		request.setAttribute("session", sessieDb.get(sessionId));
 		request.setAttribute("studentId", studentId);
 		return registrationOverview(request, response);
+	}
+	
+	public int telAantalInschrijvingen(int sessieId) {
+		return inschrijvingenDb.telIngeschrevenStudenten(sessieId);
 	}
 
 }
