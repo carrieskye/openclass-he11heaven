@@ -14,7 +14,7 @@
 
 			<h1>Openlesdagen UCLL</h1>
 			<p>Dit platform biedt een snel en eenvoudig overzicht van alle openlesdagen die aangeboden worden voor de verschillende richtingen binnen UCLL.</p>
-			<p>Het overzicht is te vinden onder <a href="Controller?action=getOpleidingenOverzicht"></a></p>
+			<p>Het overzicht is te vinden onder <a href="Controller?action=getOpleidingenOverzicht">Opleidingen</a></p>
 		</div>
 	</div>
 </body>
