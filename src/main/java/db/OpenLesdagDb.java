@@ -11,7 +11,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import domain.DomainException;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
@@ -43,9 +42,6 @@ public class OpenLesdagDb {
 				// alle openlesdagen ophalen voor die opleiding
 				while (result.next()) {
 					int id = result.getInt("id");
-					int opleidingid = result.getInt("opleiding");
-					//LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
-					//LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 					String titel = result.getString("titel");
 					String locatie = result.getString("locatie");
 					LocalDate datum = result.getDate("datum").toLocalDate();

@@ -24,31 +24,38 @@
 		<div class="jumbotron">
 
 			<h1>Sessies</h1>
-
-			<c:forEach var="sessionRow" items="${sessions}">
-				<div class="row">
-					<c:forEach var="session" items="${sessionRow}">
-						<div class="col-sm-3">
-							<div class="panel panel-danger">
-								<div class="panel-heading">${session.header}   \ \ \ 0/${session.maxEntries}</div>
-								<div class="panel-body">
-									<p style="font-size: 15px">${session.description}</p>
-									<p style="font-size: 15px">
-										<a
-											href="Controller?action=registerForm&sessionId=${session.id}">Schrijf
-											in</a>
-									</p>
-									<p style="font-size: 15px">
-										<a
-											href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht
-											inschrijvingen</a>
-									</p>
+			<c:choose>
+				<c:when test="${message != null}">
+					<p>${message}</p>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="sessionRow" items="${sessions}">
+						<div class="row">
+							<c:forEach var="session" items="${sessionRow}">
+								<div class="col-sm-3">
+									<div class="panel panel-danger">
+										<div class="panel-heading">${session.header}\\ \
+											0/${session.maxEntries}</div>
+										<div class="panel-body">
+											<p style="font-size: 15px">${session.description}</p>
+											<p style="font-size: 15px">
+												<a
+													href="Controller?action=registerForm&sessionId=${session.id}">Schrijf
+													in</a>
+											</p>
+											<p style="font-size: 15px">
+												<a
+													href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht
+													inschrijvingen</a>
+											</p>
+										</div>
+									</div>
 								</div>
-							</div>
+							</c:forEach>
 						</div>
 					</c:forEach>
-				</div>
-			</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </body>
