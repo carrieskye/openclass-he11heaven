@@ -123,7 +123,7 @@ public class OpenClassSession {
 	
 	public String toStringDate() {
 		
-		return this.getStart().getDayOfMonth() + "-" + this.getStart().getMonthValue() + "-" + this.getStart().getDayOfYear();
+		return this.getStart().getDayOfMonth() + "-" + this.getStart().getMonthValue() + "-" + this.getStart().getYear();
 	}
 	
 	public String toStringHour() {
