@@ -1,16 +1,22 @@
 package domain;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class OpenLesDag {
 	private int id;
+	private Date datum;
 	private LocalDateTime begin;
 	private LocalDateTime einde;
 	private String titel;
 	private String locatie;
+	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(LocalDateTime begin, LocalDateTime einde) {
+	public OpenLesDag(Date datum,LocalDateTime begin, LocalDateTime einde) {
+		sessies = new ArrayList<>();
 		setBegin(begin);
 		setEinde(einde);
 		setTitel(titel);
@@ -27,7 +33,6 @@ public class OpenLesDag {
 		}
 		this.titel = titel;
 	}
-
 	public String getLocatie() {
 		return locatie;
 	}
@@ -80,5 +85,28 @@ public class OpenLesDag {
 	public String getTijdstipString() {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 		return begin.format(timeFormatter) + " - " + einde.format(timeFormatter);
+		}
+	
+	
+	public void setSessies(List<OpenClassSession> sessies) {
+		if(sessies == null) {
+			throw new DomainException();
+		}
+		
+		this.sessies = sessies;
+	}
+	
+	public List<OpenClassSession> getSessies() {
+		return this.sessies;
+	}
+	public OpenClassSession getSessies(int id) {
+		return sessies.get(id);
+	}
+	
+	public void addSessie(OpenClassSession o) {
+		if(o == null) {
+			throw new DomainException();
+		}
+		sessies.add(o);
 	}
 }

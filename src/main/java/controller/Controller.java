@@ -79,9 +79,6 @@ public class Controller extends HttpServlet {
 		case "imageoverview":
 			destination = imageOverview(request, response);
 			break;
-		case "sendMail":
-			destination = sendMail(request, response);
-			break;
 		case "sessionoverview":
 			destination = sessionOverview(request, response);
 			break;
@@ -121,16 +118,16 @@ public class Controller extends HttpServlet {
 		return "overviewOpenDays.jsp";
 	}
 
-	private String sendMail(HttpServletRequest request, HttpServletResponse response)
+	private void sendMail(HttpServletRequest request, HttpServletResponse response, int studentID)
 			throws ServletException, IOException {
 		try {
-			String email = request.getParameter("email");
-			mail.sendMail(email);
+			Student student = studentDb.get(studentID);
+			int sessieID = Integer.parseInt(request.getParameter("sessionId"));
+			OpenClassSession sessie = sessieDb.get(sessieID);
+			mail.sendMail(student, sessie);
 		} catch (Exception e) {
 			throw new ServletException(e.getMessage(), e);
 		}
-
-		return "Controller?action=";
 
 	}
 
@@ -226,6 +223,7 @@ public class Controller extends HttpServlet {
 		} else {
 			int studentId = studentDb.add(student);
 			inschrijvingenDb.add(studentDb.get(studentId), Integer.valueOf(request.getParameter("sessionId")));
+			sendMail(request,response,studentId);
 			return sessionOverview(request, response);
 		}
 	}
