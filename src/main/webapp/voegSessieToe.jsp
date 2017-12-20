@@ -17,22 +17,22 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<%@include file="fragments/header.jspf"%>
 	<div class="container">
-		<h1>Voeg een sessie toe</h1>
+		<%@include file="fragments/header.jspf"%>
+		<div class="jumbotron">
+			<h1>Voeg een sessie toe</h1>
 
-		<c:choose>
-			<c:when test="${errormessage != null}">
-				<div class="alert-danger">
-					<ul>
-						<c:forEach var="string" items="${errormessage}">
-							<li>${string}</li>
-						</c:forEach>
-					</ul>
-				</div>
-			</c:when>
-		</c:choose>
-
+			<c:choose>
+				<c:when test="${errormessage != null}">
+					<div class="alert-danger">
+						<ul>
+							<c:forEach var="string" items="${errormessage}">
+								<li>${string}</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:when>
+			</c:choose>
 		<form method="post" action="Controller?action=voegSessieToe">
 			<div class="form-group">
 				<label for="sessionName">Sessie naam</label> <input type="text" name="sessionName"
@@ -76,14 +76,18 @@
 						
 						<c:forEach var="opleiding" items="${afdeling.opleidingen}">
 								<option><c:out value="${opleiding.naam}" /></option>
-						</c:forEach>
+							</c:forEach>
 						</optgroup>
-					</c:forEach>
-				</select>
-			</div>
-			
-			<button type="submit" class="btn btn-primary">Voeg de sessie toe</button>
-		</form>
+						</c:forEach>
+					
+					</select>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Voeg de
+					sessie toe</button>
+			</form>
+		</div>
+
 	</div>
 
 </body>

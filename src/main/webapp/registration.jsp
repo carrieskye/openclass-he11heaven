@@ -17,8 +17,9 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="fragments/header.jspf"%>
 	<div class="container">
+		<%@include file="fragments/header.jspf"%>
+		<div class="jumbotron">
 		<h1>Registratie ${session.title}</h1>
 
 		<c:choose>
@@ -51,6 +52,6 @@
 			</div>
 			<button type="submit" class="btn btn-primary">Schrijf in</button>
 		</form>
-	</div>
+	</div></div>
 </body>
 </html>

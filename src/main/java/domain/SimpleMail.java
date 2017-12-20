@@ -21,7 +21,7 @@ public class SimpleMail {
     public SimpleMail() {
     }
 
-    public void sendMail(String email) throws Exception{
+    public void sendMail(Student student, OpenClassSession sessie) throws Exception{
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", SMTP_HOST_NAME);
@@ -38,10 +38,11 @@ public class SimpleMail {
         Transport transport = mailSession.getTransport();
 
         MimeMessage message = new MimeMessage(mailSession);
-        message.setContent("This is a test", "text/plain");
+        message.setContent("Beste " + student.getFirstName() + "\n\nU heeft zich ingeschreven voor de sessie: " + sessie.getTitle() + ". \nWe verwachten om " + sessie.getStart() + ". \nZorg dat je optijd bent! \n\nIndien u toch niet meer kan komen kan u altijd de reservatie verwijderen op de site.\n\nMet vriendelijke groet \nHet UCLL-team", "text/plain");
         message.setFrom(new InternetAddress("me@myhost.org"));
+        message.setSubject("Inschrijving Openlesdag UCLL");
         message.addRecipient(Message.RecipientType.TO,
-             new InternetAddress(email));
+             new InternetAddress(student.getEmail()));
 
         transport.connect();
         transport.sendMessage(message,

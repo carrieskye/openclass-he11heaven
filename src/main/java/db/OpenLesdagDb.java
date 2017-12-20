@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-
 import domain.DomainException;
 import domain.OpenLesDag;
 import domain.Opleiding;
@@ -30,18 +29,18 @@ public class OpenLesdagDb {
 		this.properties = properties;
 	}
 	
-	public List<OpenLesDag> getLesdagen(Opleiding opleiding){
+	public List<OpenLesDag> getLesdagen(String opleiding){
 		try(
 			Connection connection = DriverManager.getConnection(url, properties);	
 			Statement statement = connection.createStatement();
 		) {
 			ArrayList<OpenLesDag> lesdagen = new ArrayList<>();
-			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdagen WHERE opleiding = '"+ opleiding.getId() +"'" );
+			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdag WHERE opleiding = '"+ opleiding +"'" );
 			while (result.next()) {
 				Date date = result.getDate("datum");
 				
-				OpenLesDag lesdag = new OpenLesDag(date);
-				lesdagen.add(lesdag);
+				//OpenLesDag lesdag = new OpenLesDag(date);
+				//lesdagen.add(lesdag);
 			}
 			return lesdagen;
 		}catch (SQLException e) {

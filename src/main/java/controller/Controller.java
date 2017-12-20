@@ -87,9 +87,6 @@ public class Controller extends HttpServlet {
 		case "imageoverview":
 			destination = imageOverview(request, response);
 			break;
-		case "sendMail":
-			destination = sendMail(request, response);
-			break;
 		case "sessionoverview":
 			destination = sessionOverview(request, response);
 			break;
@@ -111,8 +108,16 @@ public class Controller extends HttpServlet {
 		case "toonVoegSessieToe":
 			destination = toonVoegSessieToe(request, response);
 			break;
+
 		case "voegSessieToe":
 			destination = voegSessieToe(request, response);
+
+		case "updateSessionStudent":
+			destination = updateSessionStudent(request, response);
+			break;
+		case "removeSessionStudent":
+			destination = removeSessionStudent(request, response);
+
 			break;
 		default:
 			destination = "index.jsp";
@@ -125,31 +130,23 @@ public class Controller extends HttpServlet {
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		int id = Integer.parseInt(request.getParameter("id"));
+		String id = request.getParameter("id");
 
-		String a = request.getParameter("afdeling");
+		request.setAttribute("openDays", openLesdagDb.getLesdagen(id));
 
-		for (Afdeling afd : afdelingen) {
-			if (a.equals(afd.getNaam())) {
-				Afdeling af = afd;
-				Opleiding o = af.getOpleiding(id);
-				request.setAttribute("openDays", openLesdagDb.getLesdagen(o));
-			}
-		}
-		
 		return "overviewOpenDays.jsp";
 	}
 
-	private String sendMail(HttpServletRequest request, HttpServletResponse response)
+	private void sendMail(HttpServletRequest request, HttpServletResponse response, int studentID)
 			throws ServletException, IOException {
 		try {
-			String email = request.getParameter("email");
-			mail.sendMail(email);
+			Student student = studentDb.get(studentID);
+			int sessieID = Integer.parseInt(request.getParameter("sessionId"));
+			OpenClassSession sessie = sessieDb.get(sessieID);
+			mail.sendMail(student, sessie);
 		} catch (Exception e) {
 			throw new ServletException(e.getMessage(), e);
 		}
-
-		return "Controller?action=";
 
 	}
 
@@ -221,13 +218,16 @@ public class Controller extends HttpServlet {
 		request.setAttribute("session", sessieDb.get(sessionId));
 		return "registration.jsp";
 	}
-	
-	private String toonVoegSessieToe(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+	private String toonVoegSessieToe(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
 		return "voegSessieToe.jsp";
 	}
+
 	
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
 		List<String> errors = new ArrayList<String>();
 		OpenClassSession sessie = new OpenClassSession();
 		setTitel(sessie,errors,request.getParameter("sessionName"));
@@ -330,6 +330,7 @@ public class Controller extends HttpServlet {
 		} else {
 			int studentId = studentDb.add(student);
 			inschrijvingenDb.add(studentDb.get(studentId), Integer.valueOf(request.getParameter("sessionId")));
+			sendMail(request, response, studentId);
 			return sessionOverview(request, response);
 		}
 	}
@@ -378,6 +379,24 @@ public class Controller extends HttpServlet {
 		int sessionId = Integer.valueOf(id);
 		request.setAttribute("session", sessieDb.get(sessionId));
 		request.setAttribute("students", inschrijvingenDb.get(sessionId));
+		return "registrationOverview.jsp";
+	}
+
+	private String updateSessionStudent(HttpServletRequest request, HttpServletResponse response) {
+		int studentId = Integer.valueOf(request.getParameter("personId"));
+		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
+		request.setAttribute("session", sessieDb.get(sessionId));
+		request.setAttribute("firstNamePreviousValue", studentDb.get(studentId).getFirstName());
+		request.setAttribute("lastNamePreviousValue", studentDb.get(studentId).getLastName());
+		request.setAttribute("emailPreviousValue", studentDb.get(studentId).getEmail());
+		return "registration.jsp";
+	}
+
+	private String removeSessionStudent(HttpServletRequest request, HttpServletResponse response) {
+		int studentId = Integer.valueOf(request.getParameter("personId"));
+		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
+		inschrijvingenDb.remove(studentId, sessionId);
+		request.setAttribute("session", sessieDb.get(sessionId));
 		return "registrationOverview.jsp";
 	}
 
