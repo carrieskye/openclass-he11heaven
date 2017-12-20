@@ -297,7 +297,7 @@ public class Controller extends HttpServlet {
 		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
 		inschrijvingenDb.remove(studentId, sessionId);
 		request.setAttribute("session", sessieDb.get(sessionId));
-		return "registrationOverview.jsp";
+		return registrationOverview(request, response);
 	}
 
 }
