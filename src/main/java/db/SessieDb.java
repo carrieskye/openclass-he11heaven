@@ -133,6 +133,35 @@ public class SessieDb {
 		}
 	}
 	
+
+	public ArrayList<OpenClassSession> getSessiesOpenLesDag(int openLesDagId) {
+		ArrayList<OpenClassSession> sessies = new ArrayList<OpenClassSession>();
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				Statement statement = connection.createStatement();) {
+			ResultSet result = statement.executeQuery("SELECT * FROM sessie WHERE openlesdagid = " + openLesDagId);
+
+			while (result.next()) {
+				int sessionId = Integer.parseInt(result.getString("sessieid"));
+				String title = result.getString("naam");
+				String description = result.getString("beschrijving");
+				
+				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
+				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
+				String klaslokaal = result.getString("klaslokaal");
+
+				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
+						maxInschrijvingen, klaslokaal);
+				sessies.add(sessie);
+			}
+
+			return sessies;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+
+	} 
+	
 	
 
 }

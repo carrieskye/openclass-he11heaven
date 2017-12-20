@@ -12,6 +12,7 @@ public class OpenClassSession {
 	private LocalTime end;
 	private String header;
 	private int maxEntries;
+	private int currentEntries;
 	private ArrayList<Student> students;
 	private String classroom;
 	private int opleidingsid;
@@ -28,6 +29,7 @@ public class OpenClassSession {
 		setEnd(end);
 		setHeader(title, start, end);
 		setClassroom(classroom);
+		setCurrentEntries(0);
 		students = new ArrayList<>();
 	}
 
@@ -35,6 +37,14 @@ public class OpenClassSession {
 
 	}
 
+	public int getCurrentEntries() {
+		return currentEntries;
+	}
+
+	public void setCurrentEntries(int currentEntries) {
+		this.currentEntries = currentEntries;
+	}
+	
 	public int getMaxEntries() {
 		return maxEntries;
 	}
@@ -56,6 +66,7 @@ public class OpenClassSession {
 			throw new DomainException("Invalid student.");
 		} else if (students.size() < maxEntries) {
 			students.add(student);
+			setCurrentEntries(currentEntries++);
 		} else {
 			throw new DomainException("This session is full.");
 		}
@@ -129,9 +140,5 @@ public class OpenClassSession {
 	public String toStringHour() {
 		return this.getStart().getHour() + ":" + this.getStart().getMinute();
 	}
-
-	
-
-	
 	
 }
