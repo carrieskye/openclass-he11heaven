@@ -12,14 +12,14 @@ import java.util.Properties;
 import domain.Student;
 
 public class InschrijvingenDb {
-	
-	StudentDb studentDb; 
-	
+
+	StudentDb studentDb;
+
 	Properties properties = new Properties();
 	String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
-	
+
 	public InschrijvingenDb() {
-		
+
 		properties.setProperty("user", "hakkaton_11");
 		properties.setProperty("password", "IeS5nahweitohwaa");
 		properties.setProperty("ssl", "true");
@@ -30,28 +30,26 @@ public class InschrijvingenDb {
 		} catch (ClassNotFoundException e) {
 			throw new DbException(e.getMessage(), e);
 		}
-		
+
 	}
-	
+
 	public void add(Student student, int sessieId) {
-		if (student == null) 
+		if (student == null)
 			throw new DbException("no student given.");
-		if(sessieId == 0) 
+		if (sessieId == 0)
 			throw new DbException("no session given.");
-		String sql = "INSERT INTO inschrijving(studentid, sessieid) "
-				+ "VALUES (?,?)";
+		String sql = "INSERT INTO inschrijving(studentid, sessieid) " + "VALUES (?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				PreparedStatement statement = connection.prepareStatement(sql);
-		) {
+				PreparedStatement statement = connection.prepareStatement(sql);) {
 			statement.setInt(1, student.getId());
 			statement.setInt(2, sessieId);
 			statement.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
-	
-	public ArrayList<Student> get(int sessieId){
+
+	public ArrayList<Student> get(int sessieId) {
 		if (sessieId < 0) {
 			throw new DbException("no sessionId given.");
 		}
@@ -63,6 +61,19 @@ public class InschrijvingenDb {
 				students.add(studentDb.get(result.getInt("studentid")));
 			}
 			return students;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+	}
+
+	public void remove(int studentId, int sessieId) {
+		if (studentId == 0 || sessieId == 0) {
+			throw new DbException("No student or session given.");
+		}
+		String sql = "DELETE FROM inschrijving WHERE sessieid = " + sessieId + " AND studentid = " + studentId;
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(sql);) {
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}

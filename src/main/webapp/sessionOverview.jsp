@@ -17,7 +17,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	
+
 
 	<div class="container">
 		<%@include file="fragments/header.jspf"%>
@@ -29,7 +29,7 @@
 				<div class="row">
 					<c:forEach var="session" items="${sessionRow}">
 						<div class="col-sm-3">
-							<div class="panel panel-primary">
+							<div class="panel panel-danger">
 								<div class="panel-heading">${session.header}</div>
 								<div class="panel-body">${session.description}</div>
 								<div class="panel-footer">

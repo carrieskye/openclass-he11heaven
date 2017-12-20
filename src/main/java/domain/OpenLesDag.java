@@ -2,13 +2,11 @@ package domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class OpenLesDag {
 	private int id;
-	private Date datum;
 	private LocalDateTime begin;
 	private LocalDateTime einde;
 	private String titel;
