@@ -124,4 +124,8 @@ public class OpenClassSession {
 		return this.getStart().getHour() + ":" + this.getStart().getMinute();
 	}
 	
+	public int getTotaalAantalInschrijvingen() {
+		return students.size();
+	}
+	
 }
