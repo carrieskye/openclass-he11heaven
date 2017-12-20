@@ -21,7 +21,6 @@ public class OpenLesDag {
 		this(id, titel, locatie, datum);
 		setBegin(begin);
 		setEinde(einde);
-		sessies = new ArrayList<>();
 	}
 
 	public OpenLesDag(int id, String titel, String locatie, LocalDate datum) {
@@ -29,10 +28,11 @@ public class OpenLesDag {
 		setTitel(titel);
 		setLocatie(locatie);
 		setDatum(datum);
+		sessies = new ArrayList<>();
 	}
 
 	public String getTitel() {
-		return titel;
+		return titel.toUpperCase();
 	}
 
 	public void setTitel(String titel) {
@@ -81,6 +81,7 @@ public class OpenLesDag {
 
 	public void setDatum(LocalDate datum) {
 		this.datum = datum;
+		this.datumString = generateDatumString();
 	}
 
 	public int getId() {
@@ -99,13 +100,13 @@ public class OpenLesDag {
 		DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMM");
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("uuuu");
 
-		return begin.format(dayFormatter) + "<br>" + begin.format(monthFormatter) + "<br>"
-				+ begin.format(yearFormatter);
+		return datum.format(dayFormatter) + "<br>" + datum.format(monthFormatter) + "<br>"
+				+ datum.format(yearFormatter);
 	}
 
 	public String generateTijdstipString() {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-		return begin.format(timeFormatter) + " - " + einde.format(timeFormatter);
+		return "(" + begin.format(timeFormatter) + " - " + einde.format(timeFormatter) + ")";
 	}
 
 	public List<OpenClassSession> getSessies() {
@@ -136,7 +137,6 @@ public class OpenLesDag {
 
 		sessies.add(sessie);
 
-		this.datumString = generateDatumString();
 		this.tijdstipString = generateTijdstipString();
 	}
 

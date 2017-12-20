@@ -38,7 +38,7 @@ public class SimpleMail {
         Transport transport = mailSession.getTransport();
 
         MimeMessage message = new MimeMessage(mailSession);
-        message.setContent("Beste " + student.getFirstName() + "\n\nU heeft zich ingeschreven voor de sessie: " + sessie.getTitle() + ". \nWe verwachten u op " + sessie.toStringDate() + " om " + sessie.toStringHour() + ". \nZorg dat je optijd bent! \n\nIndien u toch niet meer kan komen kan u altijd de inschrijving aanpassen of verwijderen op de site.\n\nMet vriendelijke groet \nHet UCLL-team", "text/plain");
+        message.setContent("Beste " + student.getFirstName() + "\n\nU heeft zich ingeschreven voor de sessie: " + sessie.getTitle() + ". \nWe verwachten u om " + sessie.toStringHour() + ". \nZorg dat je optijd bent! \n\nIndien u toch niet meer kan komen kan u altijd de inschrijving aanpassen of verwijderen op de site.\n\nMet vriendelijke groet \nHet UCLL-team", "text/plain");
         message.setFrom(new InternetAddress("me@myhost.org"));
         message.setSubject("Inschrijving Openlesdag UCLL");
         message.addRecipient(Message.RecipientType.TO,

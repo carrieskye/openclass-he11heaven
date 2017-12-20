@@ -29,7 +29,6 @@ public class OpenClassSession {
 		setHeader(title, start, end);
 		setClassroom(classroom);
 		students = new ArrayList<>();
-
 	}
 
 	public OpenClassSession() {
@@ -63,16 +62,10 @@ public class OpenClassSession {
 	}
 
 	public void setStart(LocalTime start) {
-		if (start.isBefore(LocalTime.now())) {
-			throw new DomainException("Start date must be in the future.");
-		}
 		this.start = start;
 	}
 
 	public void setEnd(LocalTime end) {
-		if (end.isBefore(LocalTime.now())) {
-			throw new DomainException("End date must be in the future.");
-		}
 		this.end = end;
 	}
 
@@ -136,9 +129,9 @@ public class OpenClassSession {
 	public String toStringHour() {
 		return this.getStart().getHour() + ":" + this.getStart().getMinute();
 	}
+
 	
-	public int getTotaalAantalInschrijvingen() {
-		return students.size();
-	}
+
+	
 	
 }

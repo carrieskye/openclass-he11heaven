@@ -200,6 +200,7 @@ public class Controller extends HttpServlet {
 
 		ArrayList<OpenClassSession> sessions = sessieDb.getAll();
 
+		
 		ArrayList<ArrayList<OpenClassSession>> dividedSessions = new ArrayList<>();
 		for (int i = 0; i < sessions.size(); i += columns) {
 			ArrayList<OpenClassSession> rowSessions = new ArrayList<>();
