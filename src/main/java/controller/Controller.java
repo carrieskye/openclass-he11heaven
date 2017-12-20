@@ -212,19 +212,12 @@ public class Controller extends HttpServlet {
 	}
 	
 	private String toonVoegSessieToe(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<String> result = new ArrayList<String>();
 		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
-		if (!result.isEmpty()) {
-			request.setAttribute("errormessage", result);
-			return "registration.jsp";
-		} else {
-			// studentDb.add(student);
-			return "voegSessieToe.jsp";
-		}
+		return "voegSessieToe.jsp";
 	}
 	
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		List<String> errors = new ArrayList<String>();
 		return null;
 	}
 
