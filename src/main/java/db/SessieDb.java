@@ -58,7 +58,7 @@ public class SessieDb {
 			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen,klaslokaal);
+					maxInschrijvingen,klaslokaal, controller.telAantalInschrijvingen(sessionId));
 			return sessie;
 
 		} catch (SQLException e) {
@@ -155,7 +155,7 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal);
+						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
 				sessies.add(sessie);
 			}
 
