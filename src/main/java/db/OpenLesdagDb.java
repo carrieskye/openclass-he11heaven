@@ -89,7 +89,7 @@ public class OpenLesdagDb {
 				int max_inschrijvingen = result.getInt("max_inschrijvingen");
 				String klaslokaal = result.getString("klaslokaal");
 				
-				OpenClassSession sessie = new OpenClassSession(sessieid, naam, beschrijving, begin, einde, max_inschrijvingen);
+				OpenClassSession sessie = new OpenClassSession(sessieid, naam, beschrijving, begin, einde, max_inschrijvingen, klaslokaal);
 				sessies.add(sessie);
 			}
 			
