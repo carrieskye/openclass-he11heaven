@@ -13,17 +13,40 @@ public class OpenClassSession {
 	private String header;
 	private int maxEntries;
 	private ArrayList<Student> students;
+	private String classroom;
 
 	public OpenClassSession(int id, String title, String description, LocalDateTime start, LocalDateTime end,
-			int maxEntries) {
+			int maxEntries, String classroom) {
 		this.id = id;
-		this.setTitle(title);
-		this.description = description;
+		setTitle(title);
+		setDescription(description);
+		setMaxEntries(maxEntries);
 		setStart(start);
 		setEnd(end);
 		setHeader(title, start, end);
-		this.maxEntries = maxEntries;
+		setClassroom(classroom);
 		students = new ArrayList<>();
+
+	}
+
+	public OpenClassSession() {
+
+	}
+
+	public int getMaxEntries() {
+		return maxEntries;
+	}
+
+	public void setMaxEntries(int maxEntries) {
+		if(maxEntries < 1){throw new DomainException("Maximum amount of entries is unvalid.");}
+		this.maxEntries = maxEntries;
+	}
+
+	public void setDescription(String description) {
+		if(description == null || description.trim().isEmpty()){
+			throw new DomainException("Description can't be empty.");
+		}
+		this.description = description;
 	}
 
 	public void register(Student student) throws DomainException {
@@ -36,27 +59,37 @@ public class OpenClassSession {
 		}
 	}
 
-	private void setStart(LocalDateTime start) {
+	public void setStart(LocalDateTime start) {
 		if (start.isBefore(LocalDateTime.now())) {
 			throw new DomainException("Start date must be in the future.");
 		}
 		this.start = start;
 	}
 
-	private void setEnd(LocalDateTime end) {
+	public void setEnd(LocalDateTime end) {
 		if (end.isBefore(LocalDateTime.now())) {
 			throw new DomainException("End date must be in the future.");
 		}
 		this.end = end;
 	}
 
-	private void setHeader(String title, LocalDateTime start, LocalDateTime end) {
+	public void setHeader(String title, LocalDateTime start, LocalDateTime end) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 		this.header = title + " (" + start.format(formatter) + " - " + end.format(formatter) + ")";
 	}
 
 	public void setTitle(String title) {
+		if(title == null || title.trim().isEmpty()){
+			throw new DomainException("Title can't be empty");
+		}
 		this.title = title;
+	}
+
+	public void setClassroom(String a) {
+		if (a == null || a.trim().isEmpty()) {
+			throw new DomainException("classroom must not be empty");
+		}
+		this.classroom = a;
 	}
 
 	public int getId() {
@@ -81,5 +114,9 @@ public class OpenClassSession {
 
 	public LocalDateTime getEnd() {
 		return this.end;
+	}
+
+	public String getClassroom() {
+		return this.classroom;
 	}
 }

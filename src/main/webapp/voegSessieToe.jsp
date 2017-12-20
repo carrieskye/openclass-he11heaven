@@ -60,6 +60,11 @@
 					value="${contentPreviousValue}">
 			</div>
 			<div class="form-group">
+				<label for="maxaantal">Maximum aantal inschrijvingen:</label> <input type="text" name="maxaantal"
+					class="form-control" id="maxaantal" placeholder="maximum aantal inschrijvingen" required
+					value="${maxaantalPreviousValue}">
+			</div>
+			<div class="form-group">
 				<label for="date">Datum</label> <input type="date" name="date"
 					class="form-control" id="date" required
 					value="${datePreviousValue}">
@@ -67,11 +72,12 @@
 			<div class="form-group">
 				<select name="opleiding">
 					<c:forEach var="afdeling" items="${afdelingen}">
-						<optgroup><c:out value="${afdeling.naam}" /></optgroup>
+						<optgroup label = "${afdeling.naam}"><c:out value="${afdeling.naam}" />
 						
 						<c:forEach var="opleiding" items="${afdeling.opleidingen}">
 								<option><c:out value="${opleiding.naam}" /></option>
 						</c:forEach>
+						</optgroup>
 					</c:forEach>
 				</select>
 			</div>
