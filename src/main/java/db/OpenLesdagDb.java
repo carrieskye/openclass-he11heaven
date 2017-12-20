@@ -40,21 +40,31 @@ public class OpenLesdagDb {
 			Statement statement = connection.createStatement();
 		) {
 			ArrayList<OpenLesDag> lesdagen = new ArrayList<>();
-			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdag WHERE opleiding = '"+ opleiding +"'" );
-			// voor elke openlesdag van die opleiding
-			while (result.next()) {
-				int id = result.getInt("id");
-				int opleidingid = result.getInt("opleiding");
-				LocalDateTime begin = (LocalDateTime) result.getObject("begin");
-				LocalDateTime einde = (LocalDateTime) result.getObject("einde");
-				String titel = result.getString("titel");
-				String locatie = result.getString("locatie");
-				
-				OpenLesDag lesdag = new OpenLesDag(id, titel, locatie, begin, einde);
-				lesdag.setSessies(getSessies(id));
-				lesdagen.add(lesdag);
+			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdag WHERE opleiding = "+ opleiding +"" );
+			System.out.println("opleiding: " + opleiding);
+			// als er openlesdagen zijn voor deze opleiding:
+			if (result.isBeforeFirst()) {
+				// alle openlesdagen ophalen voor die opleiding
+				while (result.next()) {
+					System.out.println("Resultaten:");
+					int id = result.getInt("id");
+					int opleidingid = result.getInt("opleiding");
+					//LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
+					//LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
+					String titel = result.getString("titel");
+					String locatie = result.getString("locatie");
+					System.out.println(titel);
+					
+					OpenLesDag lesdag = new OpenLesDag(id, titel, locatie);
+					lesdag.addAllSessies(getSessies(id));
+					lesdagen.add(lesdag);
+				}
+				return lesdagen;
 			}
-			return lesdagen;
+			else {
+				return null;
+			}
+
 		}catch (SQLException e) {
 			throw new DomainException(e.getMessage());
 		}
@@ -74,13 +84,13 @@ public class OpenLesdagDb {
 			while (result.next()) {
 				String naam = result.getString("naam");
 				String beschrijving = result.getString("beschrijving");
-				LocalDateTime begin = (LocalDateTime) result.getObject("begin");
-				LocalDateTime einde = (LocalDateTime) result.getObject("einde");
+				LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
+				LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 				int sessieid = result.getInt("sessieid");
 				int max_inschrijvingen = result.getInt("max_inschrijvingen");
 				String klaslokaal = result.getString("klaslokaal");
 				
-				OpenClassSession sessie = new OpenClassSession(sessieid, naam, beschrijving, begin, einde, max_inschrijvingen, openlesdagid);
+				OpenClassSession sessie = new OpenClassSession(sessieid, naam, beschrijving, begin, einde, max_inschrijvingen);
 				sessies.add(sessie);
 			}
 			

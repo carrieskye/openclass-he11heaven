@@ -23,6 +23,7 @@ import db.SessieDb;
 import db.StudentDb;
 import domain.Afdeling;
 import domain.OpenClassSession;
+import domain.OpenLesDag;
 import domain.Opleiding;
 import domain.SimpleMail;
 import domain.Student;
@@ -113,7 +114,14 @@ public class Controller extends HttpServlet {
 			throws IOException, ServletException {
 		String id = request.getParameter("id");
 
-		request.setAttribute("openDays", openLesdagDb.getLesdagen(id));
+		List<OpenLesDag> lesdagen = openLesdagDb.getLesdagen(id);
+		
+		if (lesdagen == null) {
+			request.setAttribute("message", "Er zijn nog geen openlesdagen voor deze opleiding.");
+		}
+		else {
+			request.setAttribute("openDays", lesdagen);
+		}
 		
 		return "overviewOpenDays.jsp";
 	}

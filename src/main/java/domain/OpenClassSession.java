@@ -13,10 +13,9 @@ public class OpenClassSession {
 	private String header;
 	private int maxEntries;
 	private ArrayList<Student> students;
-	private int openlesdagid;
 
 	public OpenClassSession(int id, String title, String description, LocalDateTime start, LocalDateTime end,
-			int maxEntries, int openlesdagid) {
+			int maxEntries) {
 		this.id = id;
 		this.setTitle(title);
 		this.description = description;
@@ -24,7 +23,6 @@ public class OpenClassSession {
 		setEnd(end);
 		setHeader(title, start, end);
 		this.maxEntries = maxEntries;
-		this.openlesdagid = openlesdagid;
 		students = new ArrayList<>();
 	}
 
