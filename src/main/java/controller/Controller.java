@@ -121,11 +121,17 @@ public class Controller extends HttpServlet {
 		return "overviewOpenDays.jsp";
 	}
 
-	private String sendMail(HttpServletRequest request, HttpServletResponse response)
+	private String sendMail(HttpServletRequest request, HttpServletResponse response, int studentID)
 			throws ServletException, IOException {
 		try {
-			String email = request.getParameter("email");
-			mail.sendMail(email);
+			Student student = studentDb.get(studentID);
+			int sessieID = Integer.parseInt(request.getParameter("sessionId"));
+			OpenClassSession sessie = sessieDb.get(sessieID);
+					
+					
+					
+					
+			mail.sendMail(student, sessie, lesdag);
 		} catch (Exception e) {
 			throw new ServletException(e.getMessage(), e);
 		}
