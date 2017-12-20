@@ -116,9 +116,9 @@ public class OpenClassSession {
 	public String toStringHour() {
 		return this.getStart().getHour() + ":" + this.getStart().getMinute();
 	}
+
 	
-	public int getTotaalAantalInschrijvingen() {
-		return students.size();
-	}
+
+	
 	
 }
