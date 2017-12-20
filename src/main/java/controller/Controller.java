@@ -245,8 +245,6 @@ public class Controller extends HttpServlet {
 
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-
-		System.out.println(request.getParameter("opleiding"));
 		
 		List<String> errors = new ArrayList<String>();
 		OpenClassSession sessie = new OpenClassSession();
@@ -260,17 +258,12 @@ public class Controller extends HttpServlet {
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 
 		if(errors.size() == 0){
-
 			System.out.println("alles ok");
 			sessieDb.addNewSession(sessie);
 			return "index.jsp";
-		}
-
-		else {
-			for (String a : errors) {
-				System.out.println(a);
-			}
-			return toonVoegSessieToe(request, response);
+		} else {
+			request.setAttribute("errormessage", errors);
+			return "voegSessieToe.jsp";
 		}
 
 	
