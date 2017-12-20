@@ -114,17 +114,9 @@ public class Controller extends HttpServlet {
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		int id = Integer.parseInt(request.getParameter("id"));
+		String id = request.getParameter("id");
 
-		String a = request.getParameter("afdeling");
-
-		for (Afdeling afd : afdelingen) {
-			if (a.equals(afd.getNaam())) {
-				Afdeling af = afd;
-				Opleiding o = af.getOpleiding(id);
-				request.setAttribute("openDays", openLesdagDb.getLesdagen(o));
-			}
-		}
+		request.setAttribute("openDays", openLesdagDb.getLesdagen(id));
 		
 		return "overviewOpenDays.jsp";
 	}
