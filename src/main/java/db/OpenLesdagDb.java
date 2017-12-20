@@ -6,17 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
 import domain.DomainException;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
-import domain.Opleiding;
 
 public class OpenLesdagDb {
 	String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
@@ -50,8 +48,9 @@ public class OpenLesdagDb {
 					//LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 					String titel = result.getString("titel");
 					String locatie = result.getString("locatie");
+					LocalDate datum = result.getDate("datum").toLocalDate();
 					
-					OpenLesDag lesdag = new OpenLesDag(id, titel, locatie);
+					OpenLesDag lesdag = new OpenLesDag(id, titel, locatie, datum);
 					lesdag.addAllSessies(getSessies(id));
 					lesdagen.add(lesdag);
 				}
@@ -80,8 +79,8 @@ public class OpenLesdagDb {
 			while (result.next()) {
 				String naam = result.getString("naam");
 				String beschrijving = result.getString("beschrijving");
-				LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
-				LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
+				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 				int sessieid = result.getInt("sessieid");
 				int max_inschrijvingen = result.getInt("max_inschrijvingen");
 				String klaslokaal = result.getString("klaslokaal");

@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -45,8 +45,8 @@ public class SessieDb {
 			int sessionId = Integer.parseInt(result.getString("sessieid"));
 			String title = result.getString("naam");
 			String description = result.getString("beschrijving");
-			LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
-			LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
+			LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+			LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 			int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
 			String klaslokaal = result.getString("klaslokaal");
 
@@ -70,8 +70,8 @@ public class SessieDb {
 				String title = result.getString("naam");
 				String description = result.getString("beschrijving");
 				
-				LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
-				LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
+				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
 				String klaslokaal = result.getString("klaslokaal");
 
