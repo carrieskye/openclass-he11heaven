@@ -1,31 +1,34 @@
 package domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OpenLesDag {
 	private int id;
-	private LocalDateTime begin;
-	private LocalDateTime einde;
+	private LocalDate datum;
+	private LocalTime begin;
+	private LocalTime einde;
 	private String titel;
 	private String locatie;
 	private String datumString, tijdstipString;
 
 	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(int id, String titel, String locatie, LocalDateTime begin, LocalDateTime einde) {
-		sessies = new ArrayList<>();
-		setId(id);
+	public OpenLesDag(int id, String titel, String locatie, LocalDate datum, LocalTime begin, LocalTime einde) {
+		this(id, titel, locatie, datum);
 		setBegin(begin);
 		setEinde(einde);
-		setTitel(titel);
-		setLocatie(locatie);
+		sessies = new ArrayList<>();
 	}
 
-	public OpenLesDag(int id, String titel, String locatie) {
-		this(id, titel, locatie, null, null);
+	public OpenLesDag(int id, String titel, String locatie, LocalDate datum) {
+		setId(id);
+		setTitel(titel);
+		setLocatie(locatie);
+		setDatum(datum);
 	}
 
 	public String getTitel() {
@@ -50,26 +53,34 @@ public class OpenLesDag {
 		this.locatie = locatie;
 	}
 
-	public LocalDateTime getBegin() {
+	public LocalTime getBegin() {
 		return begin;
 	}
 
-	public void setBegin(LocalDateTime begin) {
+	public void setBegin(LocalTime begin) {
 		// if (begin == null) {
 		// throw new DomainException("Begindatum/uur mag niet leeg zijn");
 		// }
 		this.begin = begin;
 	}
 
-	public LocalDateTime getEinde() {
+	public LocalTime getEinde() {
 		return einde;
 	}
 
-	public void setEinde(LocalDateTime einde) {
+	public void setEinde(LocalTime einde) {
 		// if (einde == null) {
 		// throw new DomainException("Einddatum/uur mag niet leeg zijn");
 		// }
 		this.einde = einde;
+	}
+
+	public LocalDate getDatum() {
+		return datum;
+	}
+
+	public void setDatum(LocalDate datum) {
+		this.datum = datum;
 	}
 
 	public int getId() {
@@ -95,14 +106,6 @@ public class OpenLesDag {
 	public String generateTijdstipString() {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 		return begin.format(timeFormatter) + " - " + einde.format(timeFormatter);
-	}
-
-	private void setSessies(List<OpenClassSession> sessies) {
-		if (sessies == null) {
-			throw new DomainException();
-		}
-
-		this.sessies = sessies;
 	}
 
 	public List<OpenClassSession> getSessies() {
@@ -132,7 +135,7 @@ public class OpenLesDag {
 		}
 
 		sessies.add(sessie);
-		
+
 		this.datumString = generateDatumString();
 		this.tijdstipString = generateTijdstipString();
 	}

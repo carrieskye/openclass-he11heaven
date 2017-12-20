@@ -22,7 +22,7 @@
 	<div class="container">
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
-			<h1>Overzicht openlesdagen</h1>
+			<h1 style="margin-bottom: 3em">Overzicht openlesdagen</h1>
 			<c:choose>
 				<c:when test="${message != null}">
 					<p>${message}</p>
@@ -30,13 +30,11 @@
 				<c:otherwise>
 					<c:forEach var="openLesDag" items="${openDays}">
 						<div class="card"
-							style="width: 60rem; margin: 0 auto; border: 2px solid #777777; padding: 10px; background-color: #dbdbdb">
+							style="width: 60rem; margin: 0 auto; border: 2px solid #777777; padding: 10px; background-color: #dbdbdb; margin-bottom: 1em">
 							<div class="card-block">
 								<div class="row">
 									<div class="col-lg-2 tags p-b-2" style="font-size: 1.4em">
-										<p style="margin-top: 0">
-											${openLesDag.datumString}
-										</p>
+										<p style="margin-top: 0">${openLesDag.datumString}</p>
 									</div>
 									<div class="col-lg-8 offset-lg-1">
 										<h6 class="card-subtitle mb-2 text-muted"
