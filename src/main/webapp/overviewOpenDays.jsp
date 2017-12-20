@@ -24,6 +24,7 @@
 		<div class="jumbotron">
 			<h1>Overzicht openlesdagen</h1>
 			<table>
+				<caption>Overzicht openlesdagen</caption>
 				<tr>
 					<th>Datum</th>
 				</tr>
@@ -33,8 +34,20 @@
 					</tr>
 				</c:forEach>
 
-				<caption>Overzicht openlesdagen</caption>
 			</table>
+
+			<c:forEach var="openLesDag" items="${openDays}">
+				<div class="card">
+					<div class="card-block">
+						<h6 class="card-subtitle mb-2 text-muted">${openLesDag.tijdstip}</h6>
+						<h4 class="card-title">${openLesDag.titel}</h4>
+						<p class="card-text">
+							<a href="https://www.ucll.be/over-ucll/praktisch/contact">${openLesDag.locatie}</a>
+						</p>
+					</div>
+				</div>
+			</c:forEach>
+
 		</div>
 	</div>
 </body>
