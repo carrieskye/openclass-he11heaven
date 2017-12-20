@@ -12,17 +12,20 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import org.joda.time.LocalDate;
+import controller.Controller;
 
 import domain.OpenClassSession;
 import domain.Student;
 
 public class SessieDb {
 
-	Properties properties = new Properties();
-	String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
+	private Properties properties = new Properties();
+	private String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
+	private Controller controller;
 
-	public SessieDb() {
+	public SessieDb(Controller controller) {
+		this.controller = controller;
+		
 		properties.setProperty("user", "hakkaton_11");
 		properties.setProperty("password", "IeS5nahweitohwaa");
 		properties.setProperty("ssl", "true");
@@ -55,7 +58,7 @@ public class SessieDb {
 			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen,klaslokaal);
+					maxInschrijvingen,klaslokaal, controller.telAantalInschrijvingen(sessionId));
 			return sessie;
 
 		} catch (SQLException e) {
@@ -80,7 +83,8 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal );
+						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+
 				sessies.add(sessie);
 			}
 
@@ -151,7 +155,7 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal);
+						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
 				sessies.add(sessie);
 			}
 

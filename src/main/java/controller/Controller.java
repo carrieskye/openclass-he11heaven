@@ -57,7 +57,7 @@ public class Controller extends HttpServlet {
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
 		afdelingen = new ArrayList<>();
-		sessieDb = new SessieDb();
+		sessieDb = new SessieDb(this);
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		inschrijvingenDb = new InschrijvingenDb();
@@ -423,6 +423,10 @@ public class Controller extends HttpServlet {
 		request.setAttribute("session", sessieDb.get(sessionId));
 		request.setAttribute("studentId", studentId);
 		return registrationOverview(request, response);
+	}
+	
+	public int telAantalInschrijvingen(int sessieId) {
+		return inschrijvingenDb.telIngeschrevenStudenten(sessieId);
 	}
 
 }
