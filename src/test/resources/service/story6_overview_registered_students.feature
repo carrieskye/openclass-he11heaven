@@ -8,8 +8,8 @@ so that I can inform the teachers of who’s coming to their open lessons.
 Scenario: I can see the overview of registered students per session
 
 Given an administrator that is logged in
-And he is on the "Toegepaste Informatica" sessions overview page for "2018-04-20"
-When he clicks on "Overzicht Inschrijvingen" of "Bomen en Grafen"
+And he is on a session overview page
+When he clicks on overzicht inschrijvingen 
 Then an overview of registered students is shown
 
 
