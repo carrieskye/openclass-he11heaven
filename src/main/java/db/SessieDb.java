@@ -6,11 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Properties;
 
 import controller.Controller;
+
 import domain.OpenClassSession;
 import domain.Student;
 
@@ -81,6 +84,7 @@ public class SessieDb {
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
 						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+
 				sessies.add(sessie);
 			}
 
@@ -89,6 +93,32 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 
+	}
+	
+	public void addNewSession(OpenClassSession sessie){
+		
+		String sql = "INSERT into sessie (naam, beschrijving,max_inschrijvingen,klaslokaal,begin,einde) VALUES (?,?,?,?,?,?)";
+		
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+		statement.setString(1, sessie.getTitle());
+		statement.setString(2, sessie.getDescription());
+		
+		statement.setInt(3, sessie.getMaxEntries());
+		statement.setString(4, sessie.getClassroom());
+		
+		statement.setTime(5, Time.valueOf(sessie.getStart()));
+		statement.setTime(6, Time.valueOf(sessie.getEnd()));
+		
+		statement.executeUpdate();
+		connection.close();
+		
+		
+		
+		} catch (Exception e) {
+			System.out.println(sessie.getStart().toString());
+			System.out.println("werkt niet: " + e.getMessage());
+		}
 	}
 
 	public void schrijfIn(Student student, OpenClassSession sessie) {
@@ -106,6 +136,35 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
+	
+
+	public ArrayList<OpenClassSession> getSessiesOpenLesDag(int openLesDagId) {
+		ArrayList<OpenClassSession> sessies = new ArrayList<OpenClassSession>();
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				Statement statement = connection.createStatement();) {
+			ResultSet result = statement.executeQuery("SELECT * FROM sessie WHERE openlesdagid = " + openLesDagId);
+
+			while (result.next()) {
+				int sessionId = Integer.parseInt(result.getString("sessieid"));
+				String title = result.getString("naam");
+				String description = result.getString("beschrijving");
+				
+				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
+				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
+				String klaslokaal = result.getString("klaslokaal");
+
+				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
+						maxInschrijvingen, klaslokaal);
+				sessies.add(sessie);
+			}
+
+			return sessies;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+
+	} 
 	
 	
 

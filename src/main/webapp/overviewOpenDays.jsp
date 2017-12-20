@@ -31,26 +31,27 @@
 					<c:forEach var="openLesDag" items="${openDays}">
 						<div class="card"
 							style="width: 60rem; margin: 0 auto; border: 2px solid #777777; padding: 10px; background-color: #dbdbdb; margin-bottom: 1em">
-							<div class="card-block">
-								<div class="row">
-									<div class="col-lg-2 tags p-b-2" style="font-size: 1.3em">
-										<p style="margin-top: 0">${openLesDag.datumString}</p>
+							<a style="display: block; color: #000000;"
+								href="Controller?action=sessionoverview&openlesdagId=${openLesDag.id}"><div
+									class="card-block">
+									<div class="row">
+										<div class="col-lg-2 tags p-b-2" style="font-size: 1.2em">
+											<p style="margin-top: 0">${openLesDag.datumString}</p>
+										</div>
+										<div class="col-lg-8 offset-lg-1">
+											<h4 class="card-title">
+												${openLesDag.titel} <span class="text-muted">${openLesDag.tijdstipString}</span>
+											</h4>
+											<h2>${openLesDag.locatie}</h2>
+
+										</div>
 									</div>
-									<div class="col-lg-8 offset-lg-1">
-										<h4 class="card-title">${openLesDag.titel}
-											<span class="mb-2 text-muted">${openLesDag.tijdstipString}</span>
-										</h4>
-										<h3><a href="https://www.ucll.be/over-ucll/praktisch/contact">${openLesDag.locatie}</a></h3>
-										
-									</div>
-								</div>
-							</div>
+
+								</div> </a>
 						</div>
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>
-
-
 
 
 		</div>
