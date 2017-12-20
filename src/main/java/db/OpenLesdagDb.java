@@ -40,19 +40,16 @@ public class OpenLesdagDb {
 		) {
 			ArrayList<OpenLesDag> lesdagen = new ArrayList<>();
 			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdag WHERE opleiding = "+ opleiding +"" );
-			System.out.println("opleiding: " + opleiding);
 			// als er openlesdagen zijn voor deze opleiding:
 			if (result.isBeforeFirst()) {
 				// alle openlesdagen ophalen voor die opleiding
 				while (result.next()) {
-					System.out.println("Resultaten:");
 					int id = result.getInt("id");
 					int opleidingid = result.getInt("opleiding");
 					//LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
 					//LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 					String titel = result.getString("titel");
 					String locatie = result.getString("locatie");
-					System.out.println(titel);
 					
 					OpenLesDag lesdag = new OpenLesDag(id, titel, locatie);
 					lesdag.addAllSessies(getSessies(id));
