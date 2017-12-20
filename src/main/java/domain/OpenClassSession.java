@@ -119,4 +119,15 @@ public class OpenClassSession {
 	public String getClassroom() {
 		return this.classroom;
 	}
+	
+	
+	public String toStringDate() {
+		
+		return this.getStart().getDayOfMonth() + "-" + this.getStart().getMonthValue() + "-" + this.getStart().getDayOfYear();
+	}
+	
+	public String toStringHour() {
+		return this.getStart().getHour() + ":" + this.getStart().getMinute();
+	}
+	
 }
