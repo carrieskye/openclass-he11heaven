@@ -6,8 +6,8 @@ so that I can choose which session I want to apply for
 
 Scenario Outline: I can see the overview of available sessions for a department for a day
 
-Given a user that is on the "Toegepaste Informatica" open campus days page
-When he chooses the date "2018-04-20" 
+Given a user that is on an open campus days page
+When he chooses the day on "2018-02-12" 
 Then the overview of every available <session> is shown
 
 	Examples:
