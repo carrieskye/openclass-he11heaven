@@ -45,17 +45,13 @@ public class SessieDb {
 			int sessionId = Integer.parseInt(result.getString("sessieid"));
 			String title = result.getString("naam");
 			String description = result.getString("beschrijving");
-			String begintijd = result.getString("begin");
-			String eindtijd = result.getString("einde");
+			LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
+			LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 			int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
-
-			LocalDateTime begin = LocalDateTime.of(2020, 1, 1, Integer.parseInt(begintijd.substring(0, 2)),
-					Integer.parseInt(begintijd.substring(3, 5)));
-			LocalDateTime einde = LocalDateTime.of(2020, 1, 1, Integer.parseInt(eindtijd.substring(0, 2)),
-					Integer.parseInt(eindtijd.substring(3, 5)));
+			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen);
+					maxInschrijvingen,klaslokaal);
 			return sessie;
 
 		} catch (SQLException e) {
@@ -73,17 +69,14 @@ public class SessieDb {
 				int sessionId = Integer.parseInt(result.getString("sessieid"));
 				String title = result.getString("naam");
 				String description = result.getString("beschrijving");
-				String begintijd = result.getString("begin");
-				String eindtijd = result.getString("einde");
+				
+				LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
+				LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
-
-				LocalDateTime begin = LocalDateTime.of(2020, 1, 1, Integer.parseInt(begintijd.substring(0, 2)),
-						Integer.parseInt(begintijd.substring(3, 5)));
-				LocalDateTime einde = LocalDateTime.of(2020, 1, 1, Integer.parseInt(eindtijd.substring(0, 2)),
-						Integer.parseInt(eindtijd.substring(3, 5)));
+				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen);
+						maxInschrijvingen, klaslokaal);
 				sessies.add(sessie);
 			}
 

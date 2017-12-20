@@ -1,5 +1,6 @@
 Feature: overview open campus days
 
+
 As a user
 I want to be able to see the overview of the open campus days
 so that I can see which days I can register for the open campus days of my bachelor
@@ -20,4 +21,5 @@ Then the overview of <dates> with open days for that education is shown
 
 	
 
+	
 
