@@ -43,10 +43,16 @@ public class OpenLesdagDb {
 			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdag WHERE opleiding = '"+ opleiding +"'" );
 			// voor elke openlesdag van die opleiding
 			while (result.next()) {
+				int id = result.getInt("id");
+				int opleidingid = result.getInt("opleiding");
+				LocalDateTime begin = (LocalDateTime) result.getObject("begin");
+				LocalDateTime einde = (LocalDateTime) result.getObject("einde");
+				String titel = result.getString("titel");
+				String locatie = result.getString("locatie");
 				
-				
-				//OpenLesDag lesdag = new OpenLesDag(date);
-				//lesdagen.add(lesdag);
+				OpenLesDag lesdag = new OpenLesDag(id, titel, locatie, begin, einde);
+				lesdag.setSessies(getSessies(id));
+				lesdagen.add(lesdag);
 			}
 			return lesdagen;
 		}catch (SQLException e) {

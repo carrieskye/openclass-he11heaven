@@ -14,8 +14,9 @@ public class OpenLesDag {
 	private String locatie;
 	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(String titel, String locatie, LocalDateTime begin, LocalDateTime einde) {
+	public OpenLesDag(int id, String titel, String locatie, LocalDateTime begin, LocalDateTime einde) {
 		sessies = new ArrayList<>();
+		setId(id);
 		setBegin(begin);
 		setEinde(einde);
 		setTitel(titel);
@@ -48,9 +49,9 @@ public class OpenLesDag {
 	}
 
 	public void setBegin(LocalDateTime begin) {
-		if (begin == null) {
-			throw new DomainException("Begindatum/uur mag niet leeg zijn");
-		}
+//		if (begin == null) {
+//			throw new DomainException("Begindatum/uur mag niet leeg zijn");
+//		}
 		this.begin = begin;
 	}
 
@@ -59,9 +60,9 @@ public class OpenLesDag {
 	}
 
 	public void setEinde(LocalDateTime einde) {
-		if (einde == null) {
-			throw new DomainException("Einddatum/uur mag niet leeg zijn");
-		}
+//		if (einde == null) {
+//			throw new DomainException("Einddatum/uur mag niet leeg zijn");
+//		}
 		this.einde = einde;
 	}
 
