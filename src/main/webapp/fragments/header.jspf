@@ -1,24 +1,26 @@
 <header>
-		<nav class="navbar fixed-top  navbar-inverse">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="index.jsp"><img
-					src="images/ucll-logo.jpg" alt="logo" height="40"></a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li><a href="index.jsp"><i class="fa fa-home"
-						style="font-size: 25px;"></i></a></li>
-				<li><a href="Controller?action=getOpleidingenOverzicht">Opleidingen</a></li>
-				<li><a href="Controller?action=sessionoverview">Sessies</a></li>
-				<li><a href="Controller?action=toonVoegSessieToe">Voeg
-						sessie toe</a></li>
-			</ul>
+	<nav class="navbar fixed-top  navbar-default"
+		style="background-color: #E1014A">
 
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-						Sign Up</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-						Login</a></li>
-			</ul>
+		<ul class="nav navbar-nav">
+			<li><a href="index.jsp"><img src="images/ucll-logo.jpg"
+					alt="logo" height="30" style="margin-top:0;padding:0"></a></li>
+			<li><a href="index.jsp" style="color: #FFFFFF"><i
+					class="fa fa-home" style="font-size: 25px;"></i></a></li>
+			<li><a href="Controller?action=getOpleidingenOverzicht"
+				style="color: #FFFFFF">Opleidingen</a></li>
+			<li><a href="Controller?action=sessionoverview"
+				style="color: #FFFFFF">Sessies</a></li>
+			<li><a href="Controller?action=toonVoegSessieToe"
+				style="color: #FFFFFF">Voeg sessie toe</a></li>
+		</ul>
 
-		</nav>
+		<ul class="nav navbar-nav navbar-right" style="margin-right: 0.5em">
+			<li><a href="#" style="color: #FFFFFF"><span
+					class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href="#" style="color: #FFFFFF"><span
+					class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		</ul>
+
+	</nav>
 </header>
