@@ -19,21 +19,23 @@
 </head>
 
 <body>
-	<%@include file="fragments/header.jspf"%>
-	<h1>Overzicht openlesdagen</h1>
-<main>
-		<table>
-			<tr>
-				<th>Datum</th>
-			</tr>
-			<c:forEach var="openLesDag" items="${openDays}">
+	<div class="container">
+		<%@include file="fragments/header.jspf"%>
+		<div class="jumbotron">
+			<h1>Overzicht openlesdagen</h1>
+			<table>
 				<tr>
-					<td>${openLesDag.datum}</td>
+					<th>Datum</th>
 				</tr>
-			</c:forEach>
+				<c:forEach var="openLesDag" items="${openDays}">
+					<tr>
+						<td>${openLesDag.datum}</td>
+					</tr>
+				</c:forEach>
 
-			<caption>Overzicht openlesdagen</caption>
-		</table>
-		</main>
+				<caption>Overzicht openlesdagen</caption>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

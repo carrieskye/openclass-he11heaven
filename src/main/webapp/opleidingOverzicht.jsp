@@ -17,9 +17,9 @@
 </head>
 
 <body>
-	<%@include file="fragments/header.jspf"%>
-
 	<div class="container">
+		<%@include file="fragments/header.jspf"%>
+		<div class="jumbotron">
 	<h1>Opleidingen</h1>
 		<c:forEach var="afdeling" items="${afdelingen}">
 			<h2>
@@ -33,6 +33,6 @@
 				</c:forEach>
 			</ul>
 		</c:forEach>
-	</div>
+	</div></div>
 </body>
 </html>

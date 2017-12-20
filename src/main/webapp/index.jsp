@@ -16,12 +16,13 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<%@include file="fragments/header.jspf"%>
-	<div class="container-fluid">
+	<div class="container">
+		<%@include file="fragments/header.jspf"%>
+		<div class="jumbotron">
 
-		<h1>Openlesdagen UCLL</h1>
-		<p>This is some text.</p>
+			<h1>Openlesdagen UCLL</h1>
+			<p>This is some text.</p>
+		</div>
 	</div>
-
 </body>
 </html>

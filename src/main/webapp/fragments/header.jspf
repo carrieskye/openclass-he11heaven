@@ -1,16 +1,24 @@
 <header>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
+		<nav class="navbar fixed-top  navbar-inverse">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="index.jsp"><img src="images/ucll-logo.jpg" alt="logo" height="40"></a>
+				<a class="navbar-brand" href="index.jsp"><img
+					src="images/ucll-logo.jpg" alt="logo" height="40"></a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="index.jsp"><i class="fa fa-home" style="font-size:25px;"></i></a></li>
+				<li><a href="index.jsp"><i class="fa fa-home"
+						style="font-size: 25px;"></i></a></li>
 				<li><a href="Controller?action=getOpleidingenOverzicht">Opleidingen</a></li>
 				<li><a href="Controller?action=sessionoverview">Sessies</a></li>
-				<li><a href="Controller?action=toonVoegSessieToe">Voeg sessie toe</a></li>
+				<li><a href="Controller?action=toonVoegSessieToe">Voeg
+						sessie toe</a></li>
 			</ul>
-		</div>
-	</nav>
 
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+						Sign Up</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+						Login</a></li>
+			</ul>
+
+		</nav>
 </header>

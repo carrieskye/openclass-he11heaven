@@ -17,34 +17,37 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<%@include file="fragments/header.jspf"%>
-
 	<div class="container">
-		<h2>Inschrijvingen ${session.title}</h2>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Firstname</th>
-					<th>Lastname</th>
-					<th>Email</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="student" items="${students}">
-					<tr>
-						<td>${student.firstName}</td>
-						<td>${student.lastName}</td>
-						<td>${student.email}</td>
-						<td><a
-							href="Controller?action=updateSessionStudent&sessionId=${session.id}&personId=${student.id}">Wijzig gegevens</a></td>
-						<td><a
-							href="Controller?action=removeSessionStudent&sessionId=${session.id}&personId=${student.id}">Verwijder</a></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+		<%@include file="fragments/header.jspf"%>
+		<div class="jumbotron">
+			<div class="container">
+				<h2>Inschrijvingen ${session.title}</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Firstname</th>
+							<th>Lastname</th>
+							<th>Email</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="student" items="${students}">
+							<tr>
+								<td>${student.firstName}</td>
+								<td>${student.lastName}</td>
+								<td>${student.email}</td>
+								<td><a
+									href="Controller?action=updateSessionStudent&sessionId=${session.id}&personId=${student.id}">Wijzig
+										gegevens</a></td>
+								<td><a
+									href="Controller?action=removeSessionStudent&sessionId=${session.id}&personId=${student.id}">Verwijder</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
 </body>
 </html>
