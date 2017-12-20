@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -111,13 +112,13 @@ public class Controller extends HttpServlet {
 
 		case "voegSessieToe":
 			destination = voegSessieToe(request, response);
+			break;
 
 		case "updateSessionStudent":
 			destination = updateSessionStudent(request, response);
 			break;
 		case "removeSessionStudent":
 			destination = removeSessionStudent(request, response);
-
 			break;
 		default:
 			destination = "index.jsp";
@@ -228,17 +229,21 @@ public class Controller extends HttpServlet {
 	
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+		System.out.println(request.getParameter("opleiding"));
+		
 		List<String> errors = new ArrayList<String>();
 		OpenClassSession sessie = new OpenClassSession();
 		setTitel(sessie,errors,request.getParameter("sessionName"));
 		setdescription(sessie,errors,request.getParameter("content"));
-		setStartDate(sessie,errors,request.getParameter("beginTime"));
-		setEndDate(sessie,errors, request.getParameter("endTime"));
+		setStartDate(sessie,errors, request.getParameter("date"), request.getParameter("beginTime"));
+		setEndDate(sessie,errors,request.getParameter("date"), request.getParameter("endTime"));
 		setmaxEntries(sessie,errors, request.getParameter("maxaantal"));
 		setClassroom(sessie,errors, request.getParameter("classroom"));
+		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 
 		if(errors.size() == 0){
 			System.out.println("alles ok");
+			sessieDb.addNewSession(sessie);
 		}
 		
 		else{
@@ -250,6 +255,15 @@ public class Controller extends HttpServlet {
 
 		return null;
 		
+		
+	}
+
+	private void setOpleidingsid(OpenClassSession sessie, List<String> errors, String id) {
+		try {
+			sessie.setOpleidingid(Integer.parseInt(id));
+		} catch (Exception e) {
+			errors.add("Invalid education.");
+		}
 		
 	}
 
@@ -276,20 +290,23 @@ public class Controller extends HttpServlet {
 		
 	}
 
-	private void setEndDate(OpenClassSession sessie, List<String> errors, String endDate) {
+	private void setEndDate(OpenClassSession sessie, List<String> errors, String date, String endDate) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-			LocalDateTime time = LocalDateTime.parse(endDate, formatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime time = LocalDateTime.parse(date.toString() + " " + endDate.toString() + ":00", formatter);
+			System.out.println(time.toString());
+
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
 		
 	}
 
-	private void setStartDate(OpenClassSession sessie, List<String> errors, String startDate) {
+	private void setStartDate(OpenClassSession sessie, List<String> errors, String date, String startDate) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-			LocalDateTime time = LocalDateTime.parse(startDate, formatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime time = LocalDateTime.parse(date.toString() + " " + startDate.toString() + ":00", formatter);
+			sessie.setStart(time);
 		} catch (Exception e) {
 			if( e instanceof DomainException){
 				errors.add(e.getMessage());

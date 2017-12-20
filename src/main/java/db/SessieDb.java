@@ -6,9 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import org.joda.time.LocalDate;
 
 import domain.OpenClassSession;
 import domain.Student;
@@ -85,7 +89,7 @@ public class SessieDb {
 						Integer.parseInt(eindtijd.substring(3, 5)));
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal);
+						maxInschrijvingen, klaslokaal );
 				sessies.add(sessie);
 			}
 
@@ -94,6 +98,33 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 
+	}
+	
+	public void addNewSession(OpenClassSession sessie){
+		
+		String sql = "INSERT into sessie (naam, beschrijving,sessieid,maw_inschrijvingen,klaslokaal,openlesdagid,begin,einde) VALUES (?,?,?,?,?,?,?,?)";
+		
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+		statement.setString(1, sessie.getTitle());
+		statement.setString(2, sessie.getDescription());
+
+		statement.setInt(4, sessie.getMaxEntries());
+		statement.setString(5, sessie.getClassroom());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		String formatteddate = sessie.getStart().format(formatter);
+		
+		statement.setTimestamp(7, Timestamp.valueOf(formatteddate));
+		formatteddate = sessie.getEnd().format(formatter);
+		statement.setTimestamp(8, Timestamp.valueOf(formatteddate));
+		
+		
+		
+		} catch (Exception e) {
+			System.out.println(sessie.getStart().toString());
+			System.out.println("werkt niet: " + e.getMessage());
+		}
 	}
 
 	public void schrijfIn(Student student, OpenClassSession sessie) {

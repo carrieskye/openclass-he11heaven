@@ -14,9 +14,10 @@ public class OpenClassSession {
 	private int maxEntries;
 	private ArrayList<Student> students;
 	private String classroom;
+	private int opleidingsid;
 
 	public OpenClassSession(int id, String title, String description, LocalDateTime start, LocalDateTime end,
-			int maxEntries, String classroom) {
+		int maxEntries, String classroom) {
 		this.id = id;
 		setTitle(title);
 		setDescription(description);
@@ -91,6 +92,16 @@ public class OpenClassSession {
 		}
 		this.classroom = a;
 	}
+	
+	public void setOpleidingid(int a){
+		this.opleidingsid = a;
+	}
+	
+	public int getOpleidingsid(){
+		return this.opleidingsid;
+	}
+	
+	
 
 	public int getId() {
 		return this.id;
