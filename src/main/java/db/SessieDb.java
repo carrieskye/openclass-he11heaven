@@ -48,9 +48,10 @@ public class SessieDb {
 			LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
 			LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 			int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
+			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen);
+					maxInschrijvingen,klaslokaal);
 			return sessie;
 
 		} catch (SQLException e) {
@@ -72,9 +73,10 @@ public class SessieDb {
 				LocalDateTime begin = result.getTimestamp("begin").toLocalDateTime();
 				LocalDateTime einde = result.getTimestamp("einde").toLocalDateTime();
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
+				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen);
+						maxInschrijvingen, klaslokaal);
 				sessies.add(sessie);
 			}
 
