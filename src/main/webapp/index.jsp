@@ -21,7 +21,7 @@
 		<div class="jumbotron">
 
 			<h1>Openlesdagen UCLL</h1>
-			<p>This is some text.</p>
+			<p>Op dit platform krijg je een overzicht van open lesdagen per opleiding, en kan je je inschrijven voor deze.</p>
 		</div>
 	</div>
 </body>
