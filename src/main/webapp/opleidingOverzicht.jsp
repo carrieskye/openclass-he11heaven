@@ -6,34 +6,28 @@
 <html>
 <head>
 <title>Opleiding overzicht</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<%@include file="fragments/head.jspf"%>
 </head>
 
 <body>
 	<div class="container">
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
-	<h1>Opleidingen</h1>
-		<c:forEach var="afdeling" items="${afdelingen}">
-			<h2>
-				<c:out value="${afdeling.naam}" />
-			</h2>
-			<ul id = "${afdeling.naam}">
-				<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-						href="Controller?action=overviewOpendays&id=${opleiding.id }&afdeling=${afdeling.naam}"><li><c:out
-					<li><a
-						href="Controller?action=overviewOpendays&id=${opleiding.id }&afdeling=${afdeling.naam}"><c:out
-								value="${opleiding.naam}" /></a></li>
-				</c:forEach>
-			</ul>
-		</c:forEach>
-	</div></div>
+			<h1>Opleidingen</h1>
+			<c:forEach var="afdeling" items="${afdelingen}">
+				<h2>
+					<c:out value="${afdeling.naam}" />
+				</h2>
+				<ul id="${afdeling.naam}">
+					<c:forEach var="opleiding" items="${afdeling.opleidingen}">
+						<a
+							href="Controller?action=overviewOpendays&id=${opleiding.id }&afdeling=${afdeling.naam}"><li><c:out
+									value="${opleiding.naam}" /></li></a>
+					</c:forEach>
+				</ul>
+			</c:forEach>
+		</div>
+	</div>
+>>>>>>> f2c8669f32ffb889f532dd789023c2adb7fdf231
 </body>
 </html>
