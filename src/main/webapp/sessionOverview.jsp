@@ -30,7 +30,7 @@
 					<c:forEach var="session" items="${sessionRow}">
 						<div class="col-sm-3">
 							<div class="panel panel-danger">
-								<div class="panel-heading">${session.header}   \ \ \ 0/${session.maxEntries}</div>
+								<div class="panel-heading">${session.header} ${session.currentEntries}/${session.maxEntries}</div>
 								<div class="panel-body">
 									<p style="font-size: 15px">${session.description}</p>
 									<p style="font-size: 15px">
