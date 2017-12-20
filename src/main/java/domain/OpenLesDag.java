@@ -1,32 +1,27 @@
 package domain;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-public class OpenLesDag {
-	private int id;
-	private Date datum;
-	private List<OpenClassSession> sessies;
-=======
 
 import java.time.LocalDateTime;
 
 public class OpenLesDag {
 	private int id;
+	private Date datum;
 	private LocalDateTime begin;
 	private LocalDateTime einde;
 	private String titel;
 	private String locatie;
->>>>>>> cf1b194c2114ac8e4d18d0961cdba5137241821f
+	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(LocalDateTime begin, LocalDateTime einde) {
+	public OpenLesDag(Date datum,LocalDateTime begin, LocalDateTime einde) {
+		sessies = new ArrayList<>();
 		setBegin(begin);
 		setEinde(einde);
 		setTitel(titel);
 		setLocatie(locatie);
 	}
-	
+
 	public String getTitel() {
 		return titel;
 	}
@@ -37,16 +32,9 @@ public class OpenLesDag {
 		}
 		this.titel = titel;
 	}
-
-<<<<<<< HEAD
-	public OpenLesDag(Date datum) {
-		setDatum(datum);
-		sessies = new ArrayList<>();
-=======
 	public String getLocatie() {
 		return locatie;
 	}
->>>>>>> cf1b194c2114ac8e4d18d0961cdba5137241821f
 
 	public void setLocatie(String locatie) {
 		if (locatie == null || locatie.trim().isEmpty()) {
