@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -49,15 +49,10 @@ public class SessieDb {
 			int sessionId = Integer.parseInt(result.getString("sessieid"));
 			String title = result.getString("naam");
 			String description = result.getString("beschrijving");
-			String begintijd = result.getString("begin");
-			String eindtijd = result.getString("einde");
+			LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+			LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 			int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
 			String klaslokaal = result.getString("klaslokaal");
-
-			LocalDateTime begin = LocalDateTime.of(2020, 1, 1, Integer.parseInt(begintijd.substring(0, 2)),
-					Integer.parseInt(begintijd.substring(3, 5)));
-			LocalDateTime einde = LocalDateTime.of(2020, 1, 1, Integer.parseInt(eindtijd.substring(0, 2)),
-					Integer.parseInt(eindtijd.substring(3, 5)));
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
 					maxInschrijvingen,klaslokaal);
@@ -78,15 +73,11 @@ public class SessieDb {
 				int sessionId = Integer.parseInt(result.getString("sessieid"));
 				String title = result.getString("naam");
 				String description = result.getString("beschrijving");
-				String begintijd = result.getString("begin");
-				String eindtijd = result.getString("einde");
+				
+				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
+				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
 				String klaslokaal = result.getString("klaslokaal");
-
-				LocalDateTime begin = LocalDateTime.of(2020, 1, 1, Integer.parseInt(begintijd.substring(0, 2)),
-						Integer.parseInt(begintijd.substring(3, 5)));
-				LocalDateTime einde = LocalDateTime.of(2020, 1, 1, Integer.parseInt(eindtijd.substring(0, 2)),
-						Integer.parseInt(eindtijd.substring(3, 5)));
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
 						maxInschrijvingen, klaslokaal );
@@ -112,12 +103,7 @@ public class SessieDb {
 		statement.setInt(4, sessie.getMaxEntries());
 		statement.setString(5, sessie.getClassroom());
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		String formatteddate = sessie.getStart().format(formatter);
-		
-		statement.setTimestamp(7, Timestamp.valueOf(formatteddate));
-		formatteddate = sessie.getEnd().format(formatter);
-		statement.setTimestamp(8, Timestamp.valueOf(formatteddate));
+
 		
 		
 		

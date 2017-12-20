@@ -1,6 +1,6 @@
 package domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -8,16 +8,18 @@ public class OpenClassSession {
 	private int id;
 	private String title;
 	private String description;
-	private LocalDateTime start;
-	private LocalDateTime end;
+	private LocalTime start;
+	private LocalTime end;
 	private String header;
 	private int maxEntries;
 	private ArrayList<Student> students;
 	private String classroom;
 	private int opleidingsid;
 
-	public OpenClassSession(int id, String title, String description, LocalDateTime start, LocalDateTime end,
-		int maxEntries, String classroom) {
+
+	public OpenClassSession(int id, String title, String description, LocalTime start, LocalTime end,
+			int maxEntries, String classroom) {
+
 		this.id = id;
 		setTitle(title);
 		setDescription(description);
@@ -60,21 +62,21 @@ public class OpenClassSession {
 		}
 	}
 
-	public void setStart(LocalDateTime start) {
-		if (start.isBefore(LocalDateTime.now())) {
+	public void setStart(LocalTime start) {
+		if (start.isBefore(LocalTime.now())) {
 			throw new DomainException("Start date must be in the future.");
 		}
 		this.start = start;
 	}
 
-	public void setEnd(LocalDateTime end) {
-		if (end.isBefore(LocalDateTime.now())) {
+	public void setEnd(LocalTime end) {
+		if (end.isBefore(LocalTime.now())) {
 			throw new DomainException("End date must be in the future.");
 		}
 		this.end = end;
 	}
 
-	public void setHeader(String title, LocalDateTime start, LocalDateTime end) {
+	public void setHeader(String title, LocalTime start, LocalTime end) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 		this.header = title + " (" + start.format(formatter) + " - " + end.format(formatter) + ")";
 	}
@@ -119,15 +121,24 @@ public class OpenClassSession {
 		return this.description;
 	}
 
-	public LocalDateTime getStart() {
+	public LocalTime getStart() {
 		return this.start;
 	}
 
-	public LocalDateTime getEnd() {
+	public LocalTime getEnd() {
 		return this.end;
 	}
 
 	public String getClassroom() {
 		return this.classroom;
 	}
+	
+	public String toStringHour() {
+		return this.getStart().getHour() + ":" + this.getStart().getMinute();
+	}
+	
+	public int getTotaalAantalInschrijvingen() {
+		return students.size();
+	}
+	
 }

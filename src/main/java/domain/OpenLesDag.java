@@ -1,24 +1,34 @@
 package domain;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenLesDag {
 	private int id;
-	private LocalDateTime begin;
-	private LocalDateTime einde;
+	private LocalDate datum;
+	private LocalTime begin;
+	private LocalTime einde;
 	private String titel;
 	private String locatie;
+	private String datumString, tijdstipString;
+
 	private List<OpenClassSession> sessies;
 
-	public OpenLesDag(Date datum,LocalDateTime begin, LocalDateTime einde) {
-		sessies = new ArrayList<>();
+	public OpenLesDag(int id, String titel, String locatie, LocalDate datum, LocalTime begin, LocalTime einde) {
+		this(id, titel, locatie, datum);
 		setBegin(begin);
 		setEinde(einde);
+		sessies = new ArrayList<>();
+	}
+
+	public OpenLesDag(int id, String titel, String locatie, LocalDate datum) {
+		setId(id);
 		setTitel(titel);
 		setLocatie(locatie);
+		setDatum(datum);
 	}
 
 	public String getTitel() {
@@ -31,6 +41,7 @@ public class OpenLesDag {
 		}
 		this.titel = titel;
 	}
+
 	public String getLocatie() {
 		return locatie;
 	}
@@ -42,26 +53,34 @@ public class OpenLesDag {
 		this.locatie = locatie;
 	}
 
-	public LocalDateTime getBegin() {
+	public LocalTime getBegin() {
 		return begin;
 	}
 
-	public void setBegin(LocalDateTime begin) {
-		if (begin == null) {
-			throw new DomainException("Begindatum/uur mag niet leeg zijn");
-		}
+	public void setBegin(LocalTime begin) {
+		// if (begin == null) {
+		// throw new DomainException("Begindatum/uur mag niet leeg zijn");
+		// }
 		this.begin = begin;
 	}
 
-	public LocalDateTime getEinde() {
+	public LocalTime getEinde() {
 		return einde;
 	}
 
-	public void setEinde(LocalDateTime einde) {
-		if (einde == null) {
-			throw new DomainException("Einddatum/uur mag niet leeg zijn");
-		}
+	public void setEinde(LocalTime einde) {
+		// if (einde == null) {
+		// throw new DomainException("Einddatum/uur mag niet leeg zijn");
+		// }
 		this.einde = einde;
+	}
+
+	public LocalDate getDatum() {
+		return datum;
+	}
+
+	public void setDatum(LocalDate datum) {
+		this.datum = datum;
 	}
 
 	public int getId() {
@@ -75,36 +94,64 @@ public class OpenLesDag {
 		this.id = id;
 	}
 
-	public String getDatumString() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE dd/MM/uuuu");
-		return begin.format(dateFormatter);
+	public String generateDatumString() {
+		DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd");
+		DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMM");
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("uuuu");
+
+		return begin.format(dayFormatter) + "<br>" + begin.format(monthFormatter) + "<br>"
+				+ begin.format(yearFormatter);
 	}
 
-	public String getTijdstipString() {
+	public String generateTijdstipString() {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 		return begin.format(timeFormatter) + " - " + einde.format(timeFormatter);
-		}
-	
-	
-	public void setSessies(List<OpenClassSession> sessies) {
-		if(sessies == null) {
-			throw new DomainException();
-		}
-		
-		this.sessies = sessies;
 	}
-	
+
 	public List<OpenClassSession> getSessies() {
 		return this.sessies;
 	}
+
 	public OpenClassSession getSessies(int id) {
 		return sessies.get(id);
 	}
-	
-	public void addSessie(OpenClassSession o) {
-		if(o == null) {
+
+	public void addSessie(OpenClassSession sessie) {
+		if (sessie == null) {
 			throw new DomainException();
 		}
-		sessies.add(o);
+		// als er nog geen begin en einde is, die van sessie overnemen
+		if (begin == null && einde == null) {
+			setBegin(sessie.getStart());
+			setEinde(sessie.getEnd());
+		}
+		// bepalen of toegevoegde sessie vroeger begint of later eindigt dan
+		// huidige begin/eind
+		if (sessie.getStart().isBefore(begin)) {
+			setBegin(sessie.getStart());
+		}
+		if (sessie.getEnd().isAfter(einde)) {
+			setEinde(sessie.getEnd());
+		}
+
+		sessies.add(sessie);
+
+		this.datumString = generateDatumString();
+		this.tijdstipString = generateTijdstipString();
 	}
+
+	public void addAllSessies(List<OpenClassSession> sessies) {
+		for (OpenClassSession sessie : sessies) {
+			addSessie(sessie);
+		}
+	}
+
+	public String getDatumString() {
+		return datumString;
+	}
+
+	public String getTijdstipString() {
+		return tijdstipString;
+	}
+
 }

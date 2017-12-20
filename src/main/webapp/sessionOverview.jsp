@@ -30,15 +30,15 @@
 					<c:forEach var="session" items="${sessionRow}">
 						<div class="col-sm-3">
 							<div class="panel panel-danger">
-								<div class="panel-heading">${session.header}</div>
-								<div class="panel-body">${session.description}</div>
-								<div class="panel-footer">
-									<p>
+								<div class="panel-heading">${session.header}    ${session.totaalAantalInschrijvingen}/${session.maxEntries}</div>
+								<div class="panel-body">
+									<p style="font-size: 15px">${session.description}</p>
+									<p style="font-size: 15px">
 										<a
 											href="Controller?action=registerForm&sessionId=${session.id}">Schrijf
 											in</a>
 									</p>
-									<p>
+									<p style="font-size: 15px">
 										<a
 											href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht
 											inschrijvingen</a>

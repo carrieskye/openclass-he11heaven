@@ -31,6 +31,7 @@ import db.StudentDb;
 import domain.Afdeling;
 import domain.DomainException;
 import domain.OpenClassSession;
+import domain.OpenLesDag;
 import domain.Opleiding;
 import domain.SimpleMail;
 import domain.Student;
@@ -132,8 +133,14 @@ public class Controller extends HttpServlet {
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String id = request.getParameter("id");
-
-		request.setAttribute("openDays", openLesdagDb.getLesdagen(id));
+		List<OpenLesDag> lesdagen = openLesdagDb.getLesdagen(id);
+		
+		if (lesdagen == null) {
+			request.setAttribute("message", "Er zijn nog geen openlesdagen voor deze opleiding.");
+		}
+		else {
+			request.setAttribute("openDays", lesdagen);
+		}
 
 		return "overviewOpenDays.jsp";
 	}
@@ -400,7 +407,7 @@ public class Controller extends HttpServlet {
 	}
 
 	private String updateSessionStudent(HttpServletRequest request, HttpServletResponse response) {
-		int studentId = Integer.valueOf(request.getParameter("personId"));
+		int studentId = Integer.valueOf(request.getParameter("studentId"));
 		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
 		request.setAttribute("session", sessieDb.get(sessionId));
 		request.setAttribute("firstNamePreviousValue", studentDb.get(studentId).getFirstName());
@@ -410,11 +417,12 @@ public class Controller extends HttpServlet {
 	}
 
 	private String removeSessionStudent(HttpServletRequest request, HttpServletResponse response) {
-		int studentId = Integer.valueOf(request.getParameter("personId"));
+		int studentId = Integer.valueOf(request.getParameter("studentId"));
 		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
 		inschrijvingenDb.remove(studentId, sessionId);
 		request.setAttribute("session", sessieDb.get(sessionId));
-		return "registrationOverview.jsp";
+		request.setAttribute("studentId", studentId);
+		return registrationOverview(request, response);
 	}
 
 }
