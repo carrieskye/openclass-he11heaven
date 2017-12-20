@@ -1,9 +1,14 @@
 Feature: show education
 
+Als een leerling
+Kan ik een overzicht van de afdelingen en hun opleidingen zien 
+Zodat ik een opleiding kan kiezen om een openlesdag te volgen
+
 Scenario Outline: i can see the overview where all the departments and there educations are shown
+
 Given a link to the overview page
 When i click the link
-Then all the <departments> with there <educations> are displayed
+Then all the <departments> with their <educations> are displayed
 
 	Examples:
 	|departments				|educations						|
