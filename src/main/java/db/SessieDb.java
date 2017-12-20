@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.sql.Time;
 import java.time.LocalTime;
 
 import java.util.ArrayList;
@@ -93,17 +93,21 @@ public class SessieDb {
 	
 	public void addNewSession(OpenClassSession sessie){
 		
-		String sql = "INSERT into sessie (naam, beschrijving,sessieid,maw_inschrijvingen,klaslokaal,openlesdagid,begin,einde) VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT into sessie (naam, beschrijving,max_inschrijvingen,klaslokaal,begin,einde) VALUES (?,?,?,?,?,?)";
 		
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 		statement.setString(1, sessie.getTitle());
 		statement.setString(2, sessie.getDescription());
-
-		statement.setInt(4, sessie.getMaxEntries());
-		statement.setString(5, sessie.getClassroom());
 		
-
+		statement.setInt(3, sessie.getMaxEntries());
+		statement.setString(4, sessie.getClassroom());
+		
+		statement.setTime(5, Time.valueOf(sessie.getStart()));
+		statement.setTime(6, Time.valueOf(sessie.getEnd()));
+		
+		statement.executeUpdate();
+		connection.close();
 		
 		
 		

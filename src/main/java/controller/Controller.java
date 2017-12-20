@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import java.time.*;
 
 import org.apache.xalan.xsltc.dom.LoadDocument;
 import org.joda.time.LocalDate;
@@ -300,10 +301,8 @@ public class Controller extends HttpServlet {
 
 	private void setEndDate(OpenClassSession sessie, List<String> errors, String date, String endDate) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			LocalDateTime time = LocalDateTime.parse(date.toString() + " " + endDate.toString() + ":00", formatter);
-			System.out.println(time.toString());
-
+			LocalTime time = LocalTime.parse(endDate);
+			sessie.setEnd(time);
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
@@ -312,8 +311,7 @@ public class Controller extends HttpServlet {
 
 	private void setStartDate(OpenClassSession sessie, List<String> errors, String date, String startDate) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			LocalDateTime time = LocalDateTime.parse(date.toString() + " " + startDate.toString() + ":00", formatter);
+			LocalTime time = LocalTime.parse(startDate);
 			sessie.setStart(time);
 		} catch (Exception e) {
 			if( e instanceof DomainException){
