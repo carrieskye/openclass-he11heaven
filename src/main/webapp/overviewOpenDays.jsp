@@ -22,7 +22,7 @@
 	<div class="container">
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
-			<h1 style="margin-bottom: 3em">Overzicht openlesdagen</h1>
+			<h1 style="margin-bottom: 1em">Overzicht openlesdagen</h1>
 			<c:choose>
 				<c:when test="${message != null}">
 					<p>${message}</p>
@@ -33,16 +33,15 @@
 							style="width: 60rem; margin: 0 auto; border: 2px solid #777777; padding: 10px; background-color: #dbdbdb; margin-bottom: 1em">
 							<div class="card-block">
 								<div class="row">
-									<div class="col-lg-2 tags p-b-2" style="font-size: 1.4em">
+									<div class="col-lg-2 tags p-b-2" style="font-size: 1.3em">
 										<p style="margin-top: 0">${openLesDag.datumString}</p>
 									</div>
 									<div class="col-lg-8 offset-lg-1">
-										<h6 class="card-subtitle mb-2 text-muted"
-											style="margin-top: 0">${openLesDag.tijdstipString}</h6>
-										<h4 class="card-title">${openLesDag.titel}</h4>
-										<p class="card-text">
-											<a href="https://www.ucll.be/over-ucll/praktisch/contact">${openLesDag.locatie}</a>
-										</p>
+										<h4 class="card-title">${openLesDag.titel}
+											<span class="mb-2 text-muted">${openLesDag.tijdstipString}</span>
+										</h4>
+										<h3><a href="https://www.ucll.be/over-ucll/praktisch/contact">${openLesDag.locatie}</a></h3>
+										
 									</div>
 								</div>
 							</div>
