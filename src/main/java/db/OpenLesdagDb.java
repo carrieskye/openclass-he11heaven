@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-
 import domain.DomainException;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
