@@ -40,8 +40,8 @@ public class OpenLesdagDb {
 			while (result.next()) {
 				Date date = result.getDate("datum");
 				
-				OpenLesDag lesdag = new OpenLesDag(date);
-				lesdagen.add(lesdag);
+				//OpenLesDag lesdag = new OpenLesDag(date);
+				//lesdagen.add(lesdag);
 			}
 			return lesdagen;
 		}catch (SQLException e) {

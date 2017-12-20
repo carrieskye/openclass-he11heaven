@@ -1,6 +1,7 @@
 package domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class OpenLesDag {
 	private int id;
@@ -15,7 +16,7 @@ public class OpenLesDag {
 		setTitel(titel);
 		setLocatie(locatie);
 	}
-	
+
 	public String getTitel() {
 		return titel;
 	}
@@ -69,5 +70,15 @@ public class OpenLesDag {
 			throw new DomainException("ID mag niet leeg zijn");
 		}
 		this.id = id;
+	}
+
+	public String getDatumString() {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE dd/MM/uuuu");
+		return begin.format(dateFormatter);
+	}
+
+	public String getTijdstipString() {
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+		return begin.format(timeFormatter) + " - " + einde.format(timeFormatter);
 	}
 }
