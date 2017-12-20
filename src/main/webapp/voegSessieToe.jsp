@@ -75,7 +75,7 @@
 						<optgroup label = "${afdeling.naam}"><c:out value="${afdeling.naam}" />
 						
 						<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-								<option><c:out value="${opleiding.naam}" /></option>
+								<option value = "${opleiding.id}"><c:out value="${opleiding.naam}"/></option>
 							</c:forEach>
 						</optgroup>
 						</c:forEach>

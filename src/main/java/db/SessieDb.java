@@ -6,9 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Properties;
+
+import org.joda.time.LocalDate;
 
 import domain.OpenClassSession;
 import domain.Student;
@@ -76,7 +80,7 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal);
+						maxInschrijvingen, klaslokaal );
 				sessies.add(sessie);
 			}
 
@@ -85,6 +89,32 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 
+	}
+	
+	public void addNewSession(OpenClassSession sessie){
+		
+		String sql = "INSERT into sessie (naam, beschrijving,max_inschrijvingen,klaslokaal,begin,einde) VALUES (?,?,?,?,?,?)";
+		
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+		statement.setString(1, sessie.getTitle());
+		statement.setString(2, sessie.getDescription());
+		
+		statement.setInt(3, sessie.getMaxEntries());
+		statement.setString(4, sessie.getClassroom());
+		
+		statement.setTime(5, Time.valueOf(sessie.getStart()));
+		statement.setTime(6, Time.valueOf(sessie.getEnd()));
+		
+		statement.executeUpdate();
+		connection.close();
+		
+		
+		
+		} catch (Exception e) {
+			System.out.println(sessie.getStart().toString());
+			System.out.println("werkt niet: " + e.getMessage());
+		}
 	}
 
 	public void schrijfIn(Student student, OpenClassSession sessie) {
