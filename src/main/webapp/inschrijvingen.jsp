@@ -24,20 +24,32 @@
 					<c:forEach var="afdeling" items="${afdelingen}">
 						<optgroup label="${afdeling.naam}">
 							<c:out value="${afdeling.naam}" />
-
 							<c:forEach var="opleiding" items="${afdeling.opleidingen}">
 								<option
-									value="Controller?action=toonInschrijvingenOpenlesdagen&openlesdagId=${opleiding.id}">${opleiding.naam}
-
+									value="Controller?action=toonInschrijvingenOpenlesdagen&opleidingId=${opleiding.id}">${opleiding.naam}
 								</option>
 							</c:forEach>
 						</optgroup>
 					</c:forEach>
-
 				</select>
 			</div>
+
+			<div class="form-group">
+				<select name="openlesdag"
+					onchange="window.location.href=this.value;">
+					<option
+						value="Controller?action=toonInschrijvingenOpenlesdagen&openlesdag=alleopleidingen">Alle
+						open lesdagen</option>
+					<c:forEach var="openlesdag" items="${openlesdagen}">
+						<option
+							value="Controller?action=toonInschrijvingenSessies&openlesdagId=${openlesdag.id}">${openlesdag.datumString}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
+
 			<c:forEach var="inschrijving" items="${inschrijvingen}">
-				<h4>Inschrijvingen ${inschrijving.key.title}</h4>
+				<h2 style="margin-top: 2em; margin-bottom: 0.5em">${inschrijving.key.title}</h2>
 				<table class="table table-striped">
 					<thead>
 						<tr>
