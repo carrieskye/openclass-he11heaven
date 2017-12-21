@@ -16,21 +16,21 @@ public class Student {
 	}
 
 	public void setFirstName(String firstName) {
-		if (firstName == null || firstName.isEmpty()) {
+		if (firstName == null || firstName.trim().isEmpty()) {
 			throw new DomainException("Voornaam mag niet leeg zijn.");
 		}
 		this.firstName = firstName;
 	}
 
 	public void setLastName(String lastName) {
-		if (lastName == null || lastName.isEmpty()) {
+		if (lastName == null || lastName.trim().isEmpty()) {
 			throw new DomainException("Achternaam mag niet leeg zijn.");
 		}
 		this.lastName = lastName;
 	}
 
 	public void setEmail(String email) {
-		if (email == null || email.isEmpty()) {
+		if (email == null || email.trim().isEmpty()) {
 			throw new DomainException("Email mag niet leeg zijn.");
 		}
 		this.email = email;

@@ -182,7 +182,7 @@ public class Controller extends HttpServlet {
 			sessieDb.addNewSession(sessie);
 			return sessionOverview(request, response);
 		}else {
-			request.setAttribute("errorMessage", errors);
+			request.setAttribute("errormessage", errors);
 			return "addOpenDaySession.jsp";
 		}
 		
@@ -329,7 +329,7 @@ public class Controller extends HttpServlet {
 			openLesdagDb.addOpenDay(openDay);
 			return "index.jsp";
 		} else {
-			request.setAttribute("errorMessage", errors);
+			request.setAttribute("errormessage", errors);
 			return "addOpenDay.jsp";
 		}
 	}
@@ -500,9 +500,9 @@ public class Controller extends HttpServlet {
 		else {
 			List<String> result = new ArrayList<String>();
 			Student student = new Student();
-			result = getFirstName(student, request, result);
-			result = getLastName(student, request, result);
-			result = getEmail(student, request, result);
+			getFirstName(student, request, result);
+			getLastName(student, request, result);
+			getEmail(student, request, result);
 			if (!result.isEmpty()) {
 				request.setAttribute("errormessage", result);
 				return "registration.jsp";
@@ -516,7 +516,7 @@ public class Controller extends HttpServlet {
 		return sessionOverview(request, response);
 	}
 
-	private List<String> getFirstName(Student student, HttpServletRequest request, List<String> result) {
+	private void getFirstName(Student student, HttpServletRequest request, List<String> result) {
 		String firstName = request.getParameter("firstName");
 		try {
 			student.setFirstName(firstName);
@@ -526,10 +526,9 @@ public class Controller extends HttpServlet {
 			request.setAttribute("firstNameClass", "has-error");
 			result.add(exc.getMessage());
 		}
-		return result;
 	}
 
-	private List<String> getLastName(Student student, HttpServletRequest request, List<String> result) {
+	private void getLastName(Student student, HttpServletRequest request, List<String> result) {
 		String lastName = request.getParameter("lastName");
 		try {
 			student.setLastName(lastName);
@@ -539,10 +538,9 @@ public class Controller extends HttpServlet {
 			request.setAttribute("lastNameClass", "has-error");
 			result.add(exc.getMessage());
 		}
-		return result;
 	}
 
-	private List<String> getEmail(Student student, HttpServletRequest request, List<String> result) {
+	private void getEmail(Student student, HttpServletRequest request, List<String> result) {
 		String email = request.getParameter("email");
 		try {
 			student.setEmail(email);
@@ -552,7 +550,6 @@ public class Controller extends HttpServlet {
 			request.setAttribute("emailClass", "has-error");
 			result.add(exc.getMessage());
 		}
-		return result;
 	}
 
 	private String registrationOverview(HttpServletRequest request, HttpServletResponse response) {
@@ -587,9 +584,9 @@ public class Controller extends HttpServlet {
 		
 		Student student = new Student();
 		student.setId(studentId);
-		result = getFirstName(student, request, result);
-		result = getLastName(student, request, result);
-		result = getEmail(student, request, result);
+		getFirstName(student, request, result);
+		getLastName(student, request, result);
+		getEmail(student, request, result);
 		
 		if (!result.isEmpty()) {
 			request.setAttribute("errormessage", result);
