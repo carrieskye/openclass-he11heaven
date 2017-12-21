@@ -9,28 +9,28 @@ public class Student {
 	}
 
 	public Student(int id, String firstName, String lastName, String email) {
-		this.id = id;
+		setId(id);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setEmail(email);
 	}
 
 	public void setFirstName(String firstName) {
-		if (firstName == null || firstName.isEmpty()) {
+		if (firstName == null || firstName.trim().isEmpty()) {
 			throw new DomainException("Voornaam mag niet leeg zijn.");
 		}
 		this.firstName = firstName;
 	}
 
 	public void setLastName(String lastName) {
-		if (lastName == null || lastName.isEmpty()) {
+		if (lastName == null || lastName.trim().isEmpty()) {
 			throw new DomainException("Achternaam mag niet leeg zijn.");
 		}
 		this.lastName = lastName;
 	}
 
 	public void setEmail(String email) {
-		if (email == null || email.isEmpty()) {
+		if (email == null || email.trim().isEmpty()) {
 			throw new DomainException("Email mag niet leeg zijn.");
 		}
 		this.email = email;
@@ -53,5 +53,9 @@ public class Student {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public void setId(int studentId) {
+		this.id = studentId;
 	}
 }

@@ -112,7 +112,7 @@ public class SessieDb {
 			statement.setTime(5, Time.valueOf(sessie.getStart()));
 			statement.setTime(6, Time.valueOf(sessie.getEnd()));
 			
-			statement.setInt(7, sessie.getId());
+			statement.setInt(7, sessie.getOpenlesdagid());
 
 			statement.executeUpdate();
 			connection.close();

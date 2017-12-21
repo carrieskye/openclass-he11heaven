@@ -102,7 +102,7 @@ public class OpenLesdagDb {
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setDate(1, Date.valueOf((openDay.getDatum())));
-			statement.setInt(2, openDay.getId());
+			statement.setInt(2, openDay.getOpleidingID());
 
 			statement.setString(3, openDay.getTitel());
 			statement.setString(4, openDay.getLocatie());
@@ -116,7 +116,7 @@ public class OpenLesdagDb {
 	}
 
 	public int getOpenlesdagID(String date, int opleidingID) {
-		int id = 0;
+		int id = -1;
 
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				Statement statement = connection.createStatement();) {
@@ -124,7 +124,7 @@ public class OpenLesdagDb {
 					"SELECT COUNT (*) FROM openlesdag WHERE opleiding =" + opleidingID + "AND datum = '" + date + "'");
 			boolean checkaantal = false;
 			if (aantal.next()) {
-				if (aantal.getInt(1) == 1) {
+				if (aantal.getInt(1) >0) {
 					checkaantal = true;
 				}
 			}
