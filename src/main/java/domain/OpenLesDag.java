@@ -105,7 +105,6 @@ public class OpenLesDag {
 	
 	public String generateDatumString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM uuuu");
-		System.out.println(datum.format(formatter));
 		return datum.format(formatter);
 	}
 
