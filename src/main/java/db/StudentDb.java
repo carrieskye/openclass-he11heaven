@@ -34,7 +34,7 @@ public class StudentDb {
 		if (student == null) {
 			throw new DbException("No student given");
 		}
-		String sql = "INSERT INTO student(voornaam, naam, email) " + "VALUES (?,?,?)";
+		String sql = "INSERT INTO student(voornaam, naam, email) VALUES (?,?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 			statement.setString(1, student.getFirstName());

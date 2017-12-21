@@ -13,6 +13,8 @@
 				style="color: #FFFFFF;font-size: 20px;line-height:5em">Inschrijvingen</a></li>
 			<li><a href="Controller?action=toonVoegSessieToe"
 				style="color: #FFFFFF;font-size: 20px;line-height:5em">Voeg sessie toe</a></li>
+				<li><a href="Controller?action=showAddOpenDay"
+				style="color: #FFFFFF;font-size: 20px;line-height:5em">Voeg openlesdag toe</a></li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right" style="margin-right: 0.5em">

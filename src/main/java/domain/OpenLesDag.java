@@ -14,14 +14,9 @@ public class OpenLesDag {
 	private String titel;
 	private String locatie;
 	private String datumString, tijdstipString;
+	private int opleidingID;
 
 	private List<OpenClassSession> sessies;
-
-	public OpenLesDag(int id, String titel, String locatie, LocalDate datum, LocalTime begin, LocalTime einde) {
-		this(id, titel, locatie, datum);
-		setBegin(begin);
-		setEinde(einde);
-	}
 
 	public OpenLesDag(int id, String titel, String locatie, LocalDate datum) {
 		setId(id);
@@ -29,6 +24,9 @@ public class OpenLesDag {
 		setLocatie(locatie);
 		setDatum(datum);
 		sessies = new ArrayList<>();
+	}
+
+	public OpenLesDag() {
 	}
 
 	public String getTitel() {
@@ -103,6 +101,11 @@ public class OpenLesDag {
 		return datum.format(dayFormatter) + "<br>" + datum.format(monthFormatter) + "<br>"
 				+ datum.format(yearFormatter);
 	}
+	
+	public String datumToStringFormatted() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM uuuu");
+		return datum.format(formatter);
+	}
 
 	public String generateTijdstipString() {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -152,6 +155,14 @@ public class OpenLesDag {
 
 	public String getTijdstipString() {
 		return tijdstipString;
+	}
+
+	public int getOpleidingID() {
+		return opleidingID;
+	}
+
+	public void setOpleidingID(int opleidingID) {
+		this.opleidingID = opleidingID;
 	}
 
 }

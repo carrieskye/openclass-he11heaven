@@ -50,8 +50,9 @@ public class AfdelingDb {
 				PreparedStatement statement = connection.prepareStatement(query);
 			) {
 				statement.setString(1, afdeling);
-				ArrayList<Opleiding> opleidingen = new ArrayList<>();
 				ResultSet result = statement.executeQuery();
+				
+				ArrayList<Opleiding> opleidingen = new ArrayList<>();
 				while (result.next()) {
 					String naam = result.getString("naam");
 					int id = result.getInt("id");
