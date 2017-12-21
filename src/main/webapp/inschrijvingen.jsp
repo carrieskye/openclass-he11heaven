@@ -19,35 +19,86 @@
 			<div class="form-group">
 				<select name="opleiding" onchange="window.location.href=this.value;">
 					<option
-						value="Controller?action=toonInschrijvingenOpenlesdagen&openlesdag=alleopleidingen">Alle
+						value="Controller?action=toonInschrijvingenOpenlesdagen&opleidingId=alleopleidingen">Alle
 						opleidingen</option>
 					<c:forEach var="afdeling" items="${afdelingen}">
 						<optgroup label="${afdeling.naam}">
 							<c:out value="${afdeling.naam}" />
 							<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-								<option
-									value="Controller?action=toonInschrijvingenOpenlesdagen&opleidingId=${opleiding.id}">${opleiding.naam}
-								</option>
+								<c:choose>
+									<c:when
+										test="${opleidingId != null && Integer.parseInt(opleidingId) == opleiding.id}">
+										<option selected="selected"
+											value="Controller?action=toonInschrijvingenOpenlesdagen&opleidingId=${opleiding.id}">${opleiding.naam}
+										</option>
+									</c:when>
+									<c:otherwise>
+										<option
+											value="Controller?action=toonInschrijvingenOpenlesdagen&opleidingId=${opleiding.id}">${opleiding.naam}
+										</option>
+									</c:otherwise>
+								</c:choose>
+
 							</c:forEach>
 						</optgroup>
 					</c:forEach>
 				</select>
 			</div>
+			<c:choose>
+				<c:when test="${opleidingId != null}">
+					<div class="form-group">
+						<select name="openlesdag"
+							onchange="window.location.href=this.value;">
+							<option
+								value="Controller?action=toonInschrijvingenSessies&opleidingId=${opleidingId}&openlesdagId=alleopenlesdagen">Alle
+								open lesdagen</option>
+							<c:forEach var="openlesdag" items="${openlesdagen}">
+								<c:choose>
+									<c:when
+										test="${openlesdagId != null && Integer.parseInt(openlesdagId) == openlesdag.id}">
+										<option selected="selected"
+											value="Controller?action=toonInschrijvingenSessies&opleidingId=${opleidingId}&openlesdagId=${openlesdag.id}">${openlesdag.datumString}
+										</option>
+									</c:when>
+									<c:otherwise>
+										<option
+											value="Controller?action=toonInschrijvingenSessies&opleidingId=${opleidingId}&openlesdagId=${openlesdag.id}">${openlesdag.datumString}
+										</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</select>
+					</div>
+					<c:choose>
+						<c:when test="${opleidingId != null && openlesdagId != null}">
+							<div class="form-group">
+								<select name="openlesdag"
+									onchange="window.location.href=this.value;">
+									<option
+										value="Controller?action=toonInschrijvingen&sessieId=allesessies">Alle
+										sessies</option>
+									<c:forEach var="sessie" items="${sessies}">
+										<c:choose>
+											<c:when
+												test="${sessieId != null && Integer.parseInt(sessieId) == sessie.id}">
+												<option selected="selected"
+													value="Controller?action=toonInschrijvingen&opleidingId=${opleidingId}&openlesdagId=${openlesdagId}&sessieId=${sessie.id}">${sessie.title}
+												</option>
+											</c:when>
+											<c:otherwise>
+												<option
+													value="Controller?action=toonInschrijvingen&opleidingId=${opleidingId}&openlesdagId=${openlesdagId}&sessieId=${sessie.id}">${sessie.title}
+												</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</div>
+						</c:when>
+					</c:choose>
+				</c:when>
 
-			<div class="form-group">
-				<select name="openlesdag"
-					onchange="window.location.href=this.value;">
-					<option
-						value="Controller?action=toonInschrijvingenOpenlesdagen&openlesdag=alleopleidingen">Alle
-						open lesdagen</option>
-					<c:forEach var="openlesdag" items="${openlesdagen}">
-						<option
-							value="Controller?action=toonInschrijvingenSessies&openlesdagId=${openlesdag.id}">${openlesdag.datumString}
-						</option>
-					</c:forEach>
-				</select>
-			</div>
-
+			</c:choose>
 			<c:forEach var="inschrijving" items="${inschrijvingen}">
 				<h2 style="margin-top: 2em; margin-bottom: 0.5em">${inschrijving.key.title}</h2>
 				<table class="table table-striped">
