@@ -55,6 +55,25 @@ public class StudentDb {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
+	
+	public void updateStudent(Student student) {
+		if (student == null)
+			throw new DbException("no student given.");
+		
+		String query = "UPDATE student SET voornaam = ?, naam = ?, email = ? WHERE studentid = ?";
+		
+		try (Connection connection = DriverManager.getConnection(url, properties);
+			PreparedStatement statement = connection.prepareStatement(query);) 
+		{
+			statement.setString(1, student.getFirstName());
+			statement.setString(2, student.getLastName());
+			statement.setString(3, student.getEmail());
+			statement.setInt(4, student.getId());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+	}
 
 	public Student get(int studentId) {
 		if (studentId < 0) {

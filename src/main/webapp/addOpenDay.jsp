@@ -45,22 +45,22 @@
 						class="form-control" id="date" required
 						value="${datePreviousValue}">
 				</div>
+						<div class="form-group">
+							<select name="opleiding">
+								<c:forEach var="afdeling" items="${afdelingen}">
+									<optgroup label="${afdeling.naam}">
+										<c:out value="${afdeling.naam}" />
 
-				<div class="form-group">
-					<select name="opleiding">
-						<c:forEach var="afdeling" items="${afdelingen}">
-							<optgroup label="${afdeling.naam}">
-								<c:out value="${afdeling.naam}" />
-
-								<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-									<option value="${opleiding.id}"><c:out
-											value="${opleiding.naam}" /></option>
+										<c:forEach var="opleiding" items="${afdeling.opleidingen}">
+											<option value="${opleiding.id}" ><c:out
+													value="${opleiding.naam}" /></option>
+										</c:forEach>
+									</optgroup>
 								</c:forEach>
-							</optgroup>
-						</c:forEach>
-					</select>
-				</div>
+							</select>
+						</div>
 
-				<button type="submit" class="btn btn-primary">Voeg openlesdag toe</button>
+				<button type="submit" class="btn btn-primary">Voeg
+					openlesdag toe</button>
 </body>
 </html>

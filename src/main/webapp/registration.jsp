@@ -13,20 +13,26 @@
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
 			<h1>Registratie ${session.title}</h1>
+			<c:if test="${errormessage != null}">
+				<div class="alert-danger">
+					<ul>
+						<c:forEach var="string" items="${errormessage}">
+							<li>${string}</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</c:if>
 			<c:choose>
-				<c:when test="${errormessage != null}">
-					<div class="alert-danger">
-						<ul>
-							<c:forEach var="string" items="${errormessage}">
-								<li>${string}</li>
-							</c:forEach>
-						</ul>
-					</div>
+				<c:when test="${wijzigen}">
+					<form method="post" action="Controller?action=updateStudent">
+						<input type="hidden" name="id" value="${studentid}" />
+						<input type="hidden" name="sessionId" value="${sessionId}" />
 				</c:when>
+				<c:otherwise>
+					<form method="post" action="Controller?action=registerStudent&sessionId=${session.id}">	
+				</c:otherwise>
 			</c:choose>
-
-			<form method="post"
-				action="Controller?action=registerStudent&sessionId=${session.id}">
+				
 				<div class="form-group">
 					<label for="firstName">Voornaam</label> <input type="text"
 						name="firstName" class="form-control" id="firstName"
@@ -42,7 +48,15 @@
 						class="form-control" id="email" placeholder="E-mail" required
 						value="${emailPreviousValue}">
 				</div>
-				<button type="submit" class="btn btn-primary">Schrijf in</button>
+				<c:choose>
+				<c:when test="${wijzigen}">
+					<button type="submit" class="btn btn-primary">Wijzig</button>
+				</c:when>
+				<c:otherwise>
+					<button type="submit" class="btn btn-primary">Schrijf in</button>	
+				</c:otherwise>
+			</c:choose>
+				
 			</form>
 		</div>
 	</div>

@@ -16,7 +16,7 @@
 
 			<h1>Sessies</h1>
 			<c:if test="${infoMessage != null}">
-				<p><c:out value="${infoMessage}"/></p> 
+				<p style="color:red;"><c:out value="${infoMessage}"/></p> 
 			</c:if>
 			<c:choose>
 				<c:when test="${noSessionsMessage != null}">
