@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Opleiding {
 	
@@ -11,6 +12,7 @@ public class Opleiding {
 	public Opleiding(String naam, int id) {
 		this.setNaam(naam);
 		this.setId(id);
+		openLesDagen = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -37,6 +39,14 @@ public class Opleiding {
 
 	public ArrayList<OpenLesDag> getOpenLesDagen() {
 		return this.openLesDagen;
+	}
+	
+	public void setOpenLesDagen(ArrayList<OpenLesDag> openLesDagen) {
+		if(openLesDagen == null) {
+			throw new DomainException();
+		}
+		
+		this.openLesDagen = openLesDagen;
 	}
 	
 	public void addOpenLesDag(OpenLesDag o) {

@@ -33,13 +33,13 @@ public class OpenLesdagDb {
 		this.properties = properties;
 	}
 
-	public List<OpenLesDag> getLesdagen(String opleiding){
+	public List<OpenLesDag> getLesdagen(int opleiding){
 		String query = "SELECT * FROM openlesdag WHERE opleiding = ?";
 		try(
 			Connection connection = DriverManager.getConnection(url, properties);	
 			PreparedStatement statement = connection.prepareStatement(query);
 		) {
-			statement.setString(1, opleiding);
+			statement.setInt(1, opleiding);
 			ArrayList<OpenLesDag> lesdagen = new ArrayList<>();
 			ResultSet result = statement.executeQuery();
 

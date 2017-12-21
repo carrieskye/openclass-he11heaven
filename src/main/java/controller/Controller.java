@@ -4,11 +4,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,14 +20,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.time.*;
-
-import org.apache.xalan.xsltc.dom.LoadDocument;
 
 import db.AfdelingDb;
 import db.ImageDb;
 import db.InschrijvingenDb;
 import db.OpenLesdagDb;
+import db.OpleidingDb;
 import db.SessieDb;
 import db.StudentDb;
 import domain.Afdeling;
@@ -33,20 +33,16 @@ import domain.DomainException;
 import domain.OpenClassService;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
-import domain.Opleiding;
-import domain.SimpleMail;
 import domain.Student;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 @WebServlet("/Controller")
 @MultipartConfig
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
 	private OpenClassService service;
-	
 	private ImageDb imageDb;
 	private AfdelingDb afdelingDb;
+	private OpleidingDb opleidingDb;
 	ArrayList<Afdeling> afdelingen;
 	private SessieDb sessieDb;
 	private OpenLesdagDb openLesdagDb;
@@ -57,6 +53,7 @@ public class Controller extends HttpServlet {
 		super();
 		imageDb = new ImageDb();
 		afdelingDb = new AfdelingDb();
+		opleidingDb = new OpleidingDb();
 		afdelingen = new ArrayList<>();
 		sessieDb = new SessieDb(this);
 		openLesdagDb = new OpenLesdagDb();
@@ -126,6 +123,15 @@ public class Controller extends HttpServlet {
 		case "removeSessionStudent":
 			destination = removeSessionStudent(request, response);
 			break;
+		case "toonAlleInschrijvingen":
+			destination = toonAlleInschrijvingen(request, response);
+			break;
+		case "toonInschrijvingenOpenlesdagen":
+			destination = toonInschrijvingenOpenlesdagen(request, response);
+			break;
+		case "inschrijvingen":
+			destination = inschrijvingen(request, response);
+			break;
 		case "showAddOpenDay":
 			destination = showAddOpenDay(request, response);
 			break;
@@ -145,7 +151,7 @@ public class Controller extends HttpServlet {
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		String id = request.getParameter("id");
+		int id = Integer.parseInt(request.getParameter("id"));
 		List<OpenLesDag> lesdagen = openLesdagDb.getLesdagen(id);
 
 		if (lesdagen == null) {
@@ -325,7 +331,7 @@ public class Controller extends HttpServlet {
 
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		
+
 		List<String> errors = new ArrayList<String>();
 		OpenClassSession sessie = new OpenClassSession();
 
@@ -363,7 +369,7 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add("Invalid education.");
 		}
-		
+
 	}
 
 	private void setClassroom(OpenClassSession sessie, List<String> errors, String klaslokaal) {
@@ -550,9 +556,37 @@ public class Controller extends HttpServlet {
 		request.setAttribute("studentId", studentId);
 		return registrationOverview(request, response);
 	}
-	
+
 	public int telAantalInschrijvingen(int sessieId) {
 		return inschrijvingenDb.telIngeschrevenStudenten(sessieId);
+	}
+
+	private String toonAlleInschrijvingen(HttpServletRequest request, HttpServletResponse response) {
+		Map<OpenClassSession, ArrayList<Student>> inschrijvingen = new HashMap<>();
+		
+		for (OpenClassSession sessie : sessieDb.getAll()) {
+			inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
+		}
+		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
+		request.setAttribute("opleidingen", opleidingDb.getOpleidingen());
+		request.setAttribute("inschrijvingen", inschrijvingen);
+		return "inschrijvingen.jsp";
+
+	}
+
+	private String toonInschrijvingenOpenlesdagen(HttpServletRequest request, HttpServletResponse response) {
+		int opleidingId = Integer.parseInt(request.getParameter("opleidingId"));
+		request.setAttribute("openlesdagen", openLesdagDb.getLesdagen(opleidingId));
+		return "inschrijvingen.jsp";
+	}
+
+	private String toonInschrijvingenSessies(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("sessies", null);
+		return "inschrijvingen.jsp";
+	}
+
+	private String inschrijvingen(HttpServletRequest request, HttpServletResponse response) {
+		return null;
 	}
 
 }

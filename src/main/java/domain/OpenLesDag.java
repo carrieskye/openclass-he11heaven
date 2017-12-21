@@ -13,7 +13,7 @@ public class OpenLesDag {
 	private LocalTime einde;
 	private String titel;
 	private String locatie;
-	private String datumString, tijdstipString;
+	private String datumString, datumSplitString, tijdstipString;
 	private int opleidingID;
 
 	private List<OpenClassSession> sessies;
@@ -80,6 +80,7 @@ public class OpenLesDag {
 	public void setDatum(LocalDate datum) {
 		this.datum = datum;
 		this.datumString = generateDatumString();
+		this.datumSplitString = generateDatumSplitString();
 	}
 
 	public int getId() {
@@ -93,7 +94,7 @@ public class OpenLesDag {
 		this.id = id;
 	}
 
-	public String generateDatumString() {
+	public String generateDatumSplitString() {
 		DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd");
 		DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMM");
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("uuuu");
@@ -102,8 +103,9 @@ public class OpenLesDag {
 				+ datum.format(yearFormatter);
 	}
 	
-	public String datumToStringFormatted() {
+	public String generateDatumString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM uuuu");
+		System.out.println(datum.format(formatter));
 		return datum.format(formatter);
 	}
 
@@ -149,7 +151,11 @@ public class OpenLesDag {
 		}
 	}
 
-	public String getDatumString() {
+	public String getDatumSplitString() {
+		return datumSplitString;
+	}
+	
+	public String getDatumString(){
 		return datumString;
 	}
 
