@@ -12,7 +12,8 @@
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
 			<h1>Voeg een sessie toe</h1>
-			<p>Geef alle informatie om een sessie toe te voegen aan een openlesdag van een opleiding.</p>
+			<p>Geef alle informatie om een sessie toe te voegen aan een
+				openlesdag van een opleiding.</p>
 
 			<c:choose>
 				<c:when test="${errormessage != null}">
@@ -64,13 +65,14 @@
 						value="${datePreviousValue}">
 				</div>
 				<div class="form-group">
-					<select name="opleiding">
+					<label for="opleiding"> Opleiding</label> <select name="opleiding">
 						<c:forEach var="afdeling" items="${afdelingen}">
 							<optgroup label="${afdeling.naam}">
 								<c:out value="${afdeling.naam}" />
 
 								<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-									<option value="${opleiding.id}"><c:out value="${opleiding.naam}" /></option>
+									<option value="${opleiding.id}"><c:out
+											value="${opleiding.naam}" /></option>
 								</c:forEach>
 							</optgroup>
 						</c:forEach>

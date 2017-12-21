@@ -81,8 +81,7 @@ public class OpenClassService {
 	}
 
 	public int telAantalInschrijvingen(int sessionId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return inschrijvingenDb.telIngeschrevenStudenten(sessionId);
 	}
 
 	public void addInschrijving(Student student, int sessieId) {
@@ -98,6 +97,7 @@ public class OpenClassService {
 	}
 
 	public int telIngeschrevenStudenten(int sessieId) {
+		System.out.println(inschrijvingenDb.telIngeschrevenStudenten(sessieId));
 		return inschrijvingenDb.telIngeschrevenStudenten(sessieId);
 	}
 
@@ -127,6 +127,10 @@ public class OpenClassService {
 
 	public List<Opleiding> getOpleidingen() {
 		return opleidingDb.getOpleidingen();
+	}
+
+	public Student getStudent(String firstName, String lastName, String email) {
+		return studentDb.get(firstName, lastName, email);
 	}
 	
 }
