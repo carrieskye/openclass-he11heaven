@@ -37,9 +37,20 @@
 				</div>
 
 				<div class="form-group">
-					<label for="location">Locatie</label> <input type="text"
-						name="location" class="form-control" id="location"
-						placeholder="Campus x" required value="${locationPreviousValue}">
+					<label for="location">Locatie</label> 
+					<select name="location">
+						<option value="Campus Clenardus">Campus Clenardus</option>
+						<option value="Campus Diepenbeek">Campus Diepenbeek</option>
+						<option value="Campus Gasthuisberg">Campus Gasthuisberg</option>
+						<option value="Campus Hemelrijk">Campus Hemelrijk</option>
+						<option value="Campus Hertogstraat">Campus Hertogstraat</option>
+						<option value="Campus LiZa">Campus LiZa</option>
+						<option value="Campus Oude Luikerbaan">Campus Oude
+							Luikerbaan</option>
+						<option value="Campus Proximus">Campus Proximus</option>
+						<option value="Campus Sociale School">Campus Sociale
+							School</option>
+					</select>
 				</div>
 
 				<div class="form-group">
@@ -48,6 +59,7 @@
 						value="${datePreviousValue}">
 				</div>
 				<div class="form-group">
+					<label for="opleiding"> Opleiding</label> 
 					<select name="id">
 						<c:forEach var="afdeling" items="${afdelingen}">
 							<optgroup label="${afdeling.naam}">

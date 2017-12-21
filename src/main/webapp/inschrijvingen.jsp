@@ -15,7 +15,15 @@
 		<div class="jumbotron">
 
 			<h1>Inschrijvingen</h1>
+
 			<p><a href = "Controller?action=generateExcelFile"><button>download excel</button></a></p>
+
+			
+			<c:if test="${infoMessage != null}">
+				<p style="color:red;"><c:out value="${infoMessage}"/></p> 
+			</c:if>
+
+
 			<div class="form-group">
 				<select name="opleiding" onchange="window.location.href=this.value;">
 					<option
@@ -121,10 +129,10 @@
 								<td>${student.lastName}</td>
 								<td>${student.email}</td>
 								<td><a
-									href="Controller?action=updateSessionStudent&sessionId=${sessie.id}&studentId=${student.id}">Wijzig
+									href="Controller?action=updateSessionStudent&opleidingId=${opleidingId}&openlesdagId=${openlesdagId}&sessionId=${inschrijving.key.id}&studentId=${student.id}">Wijzig
 										gegevens</a></td>
 								<td><a
-									href="Controller?action=removeSessionStudent&sessionId=${sessie.id}&studentId=${student.id}">Verwijder</a></td>
+									href="Controller?action=removeSessionStudent&opleidingId=${opleidingId}&openlesdagId=${openlesdagId}&sessionId=${inschrijving.key.id}&studentId=${student.id}">Verwijder</a></td>
 							</tr>
 
 						</c:forEach>
