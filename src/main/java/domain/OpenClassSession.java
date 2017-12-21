@@ -13,6 +13,7 @@ public class OpenClassSession {
 	private String header;
 	private int maxEntries;
 	private int currentEntries;
+	private boolean volzet;
 	private ArrayList<Student> students;
 	private String classroom;
 	private int opleidingsid;

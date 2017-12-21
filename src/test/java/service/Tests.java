@@ -7,7 +7,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import java.awt.List;
+import java.util.List;
 import java.util.ArrayList;
 
 
@@ -21,6 +21,17 @@ public class Tests {
 
 	private WebDriver driver;
 	String url;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String sessionName;
+	private String startTime;
+	private String endTime;
+	private String date;
+	private int maxPeople;
+	private String description;
+	private String location;
+	private String category;
 	
 	@Before
 	public void setup(){
@@ -29,12 +40,24 @@ public class Tests {
 		// windows: gebruik dubbele \\ om pad aan te geven
 		// hint: zoek een werkende test op van web 2 ...
 	driver = new ChromeDriver();
+	firstName = "";
+	lastName = "";
+	email = "";
+	sessionName = "";
+	startTime = "";
+	endTime = "";
+	date = "";
+	maxPeople = 0;
+	description = "";
+	location = "";
+	category = "";
 	System.out.println("ok");
 	}
 	
 	@After
 	public void quit(){
-		//driver.quit();
+
+		driver.quit();
 	}
 
 	@Given("^a link to the overview page$")
@@ -69,63 +92,80 @@ public class Tests {
 
 	@Given("^a user that is on the education overview page$")
 	public void a_user_that_is_on_the_education_overview_page() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    driver.get("http://localhost:8080/OpenClass-11/Controller?action=getOpleidingenOverzicht");
+
 	}
 
 	@When("^he chooses a the education \"([^\"]*)\"$")
-	public void he_chooses_a_the_education(String arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	public void he_chooses_a_the_education(String education) throws Throwable {
+	    WebElement el = driver.findElement(By.linkText("Toegepaste Informatica"));
+	    el.click();
 	}
 
 	@Then("^the overview of \"([^\"]*)\" with open days for that education is shown$")
 	public void the_overview_of_with_open_days_for_that_education_is_shown(String arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    WebElement h1 = driver.findElement(By.cssSelector("h1"));
+	    assertEquals(h1.getText(), "Overzicht Openlesdagen");
 	}
 
-	@Given("^a user that is on the \"([^\"]*)\" open campus days page$")
+	@Given("^a user that is on an open campus days page$")
 	public void a_user_that_is_on_the_open_campus_days_page(String arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    driver.get("http://localhost:8080/OpenClass-11/Controller?action=overviewOpendays&id=1&afdeling=Lerarenopleiding");
 	}
 
-	@When("^he chooses the date \"([^\"]*)\"$")
-	public void he_chooses_the_date(String arg1) throws Throwable {
+	@When("^he chooses the day on \"([^\"]*)\"$")
+	public void he_chooses_the_day_on(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
 	@Then("^the overview of every available \"([^\"]*)\" is shown$")
 	public void the_overview_of_every_available_is_shown(String arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    List<WebElement> el = driver.findElements(By.className("panel-heading"));
+	    
+	    boolean correct = false;
+	    for( WebElement e : el) {
+	    		if(e.getText().contains(arg1))
+	    			correct = true;
+	    }
+	    assertTrue(correct);
 	}
 
 	@Given("^a user with first name \"([^\"]*)\", last name \"([^\"]*)\" and an email address \"([^\"]*)\"$")
 	public void a_user_with_first_name_last_name_and_an_email_address(String arg1, String arg2, String arg3) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    
+	    
+	    firstName = arg1;
+	    lastName = arg2;
+	    email = arg3;
+	    
+	    
+	    
 	}
 
 	
-	@When("^applies for a session$")
-	public void applies_for_a_session() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@When("^he applies for a session$")
+	public void he_applies_for_a_session() throws Throwable {
+		
+		WebElement registerButton = driver.findElement(By.linkText("Schrijf in"));
+		
+		registerButton.click();
+		
+		WebElement firstNameField = driver.findElement(By.cssSelector("input[name=\"firstName\"]"));
+	    WebElement lastNameField = driver.findElement(By.cssSelector("input[name=\"lastName\"]"));
+	    WebElement emailField = driver.findElement(By.cssSelector("input[name=\"email\"]"));
+	    
+	    firstNameField.sendKeys(firstName);
+	    lastNameField.sendKeys(lastName);
+	    emailField.sendKeys(email);
+	    
+	    WebElement submit = driver.findElement(By.cssSelector("button[type=\"submit\"]"));
+	    submit.click();
 	}
 
 	@Then("^He is registered for that session$")
 	public void he_is_registered_for_that_session() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-	
-	@When("^he applies for a session$")
-	public void he_applies_for_a_session() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    
 	}
 
 	@Given("^an administrator that is logged in$")
@@ -136,20 +176,26 @@ public class Tests {
 
 	@Given("^a session with name \"([^\"]*)\" starting at \"([^\"]*)\" and ending at \"([^\"]*)\" on \"([^\"]*)\"$")
 	public void a_session_with_name_starting_at_and_ending_at_on(String arg1, String arg2, String arg3, String arg4) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    sessionName = arg1;
+	    startTime = arg2;
+	    endTime = arg3;
+	    date = arg4;
+	    
 	}
 
-	@Given("^with a description \"([^\"]*)\" and location \"([^\"]*)\" and category \"([^\"]*)\"$")
-	public void with_a_description_and_location_and_category(String arg1, String arg2, String arg3) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@Given("^with a description \"([^\"]*)\" and location \"([^\"]*)\" and category \"([^\"]*)\" and max inschrijvingen (\\d+)$")
+	public void with_a_description_and_location_and_category_and_max_inschrijvingen(String arg1, String arg2, String arg3, int arg4) throws Throwable {
+	   description = arg1;
+	   location = arg2;
+	   category = arg3;
+	   maxPeople = arg4;
 	}
+	
 
-	@When("^he submits this session on the add a session page$")
+	@When("^he submits this session$")
 	public void he_submits_this_session_on_the_add_a_session_page() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement submit = driver.findElement(By.cssSelector("button[type=\"submit\"]"));
+	    submit.click();
 	}
 
 	@Then("^the session is added$")
@@ -164,16 +210,16 @@ public class Tests {
 	    throw new PendingException();
 	}
 
-	@When("^he clicks on \"([^\"]*)\" of \"([^\"]*)\"$")
-	public void he_clicks_on_of(String arg1, String arg2) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@When("^he clicks on Overzicht inschrijvingen$")
+	public void he_clicks_on() throws Throwable {
+	    WebElement overzicht = driver.findElement(By.linkText("Overzicht inschrijvingen"));
+	    overzicht.click();
 	}
 
 	@Then("^an overview of registered students is shown$")
 	public void an_overview_of_registered_students_is_shown() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    WebElement header = driver.findElement(By.cssSelector("h2"));
+	    assertTrue(header.getText().contains("Inschrijvingen"));
 	}
 
 	@Then("^he receives a confirmation email$")
@@ -206,10 +252,9 @@ public class Tests {
 	    throw new PendingException();
 	}
 	
-	@Given("^he is on the \"([^\"]*)\" sessions overview page for \"([^\"]*)\"$")
-	public void he_is_on_the_sessions_overview_page_for(String arg1, String arg2) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@Given("^he is on a sessions overview page$")
+	public void he_is_on_a_sessions_overview_page() throws Throwable {
+	    driver.get("http://localhost:8080/OpenClass-11/Controller?action=sessionoverview");
 	}
 
 

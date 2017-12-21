@@ -28,5 +28,6 @@
 			</c:forEach>
 		</div>
 	</div>
+>>>>>>> f2c8669f32ffb889f532dd789023c2adb7fdf231
 </body>
 </html>

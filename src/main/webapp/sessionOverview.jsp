@@ -23,19 +23,34 @@
 					<c:forEach var="sessionRow" items="${sessions}">
 						<div class="row">
 							<c:forEach var="session" items="${sessionRow}">
+								<c:set var="isVolzet" value="${session.currentEntries >= session.maxEntries}" />
 								<div class="col-sm-3">
-									<div class="panel panel-danger">
+									<c:choose>
+										<c:when test="${isVolzet eq true}">
+											<div class="panel panel-danger">
+										</c:when>
+										<c:otherwise>
+											<div class="panel panel-info">
+										</c:otherwise>
+									</c:choose>
+									
 										<div class="panel-heading">${session.header}</div>
 										<div class="panel-body">
 											<p style="font-size: 15px">${session.description}</p>
 											<p style="font-size: 15px">
-												<a href="Controller?action=registerForm&sessionId=${session.id}">Schrijf in</a>
+											<c:choose>
+												<c:when test="${isVolzet eq true}">
+													Sessie volzet.
+												</c:when>
+												<c:otherwise>
+													<a href="Controller?action=registerForm&sessionId=${session.id}">Schrijf in</a>
+												</c:otherwise>
+											</c:choose>
 											</p>
+											
 											<p style="font-size: 15px; color: gray;">Ingeschreven: ${session.currentEntries}/${session.maxEntries}</p>
 											<p style="font-size: 15px">
-												<a
-													href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht
-													inschrijvingen</a>
+												<a href="Controller?action=registrationOverview&sessionId=${session.id}">Overzicht inschrijvingen</a>
 											</p>
 										</div>
 									</div>
