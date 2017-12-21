@@ -47,7 +47,6 @@ public class InschrijvingenDb {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
-		
 	}
 
 	public ArrayList<Student> get(int sessieId) {

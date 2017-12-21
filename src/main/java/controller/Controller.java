@@ -120,6 +120,9 @@ public class Controller extends HttpServlet {
 		case "updateSessionStudent":
 			destination = updateSessionStudent(request, response);
 			break;
+		case "updateStudent":
+			destination = updateStudent(request, response);
+			break;
 		case "removeSessionStudent":
 			destination = removeSessionStudent(request, response);
 			break;
@@ -137,6 +140,8 @@ public class Controller extends HttpServlet {
 			rd.forward(request, response);
 		}
 	}
+
+
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -500,10 +505,41 @@ public class Controller extends HttpServlet {
 		int studentId = Integer.valueOf(request.getParameter("studentId"));
 		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
 		request.setAttribute("session", sessieDb.get(sessionId));
-		request.setAttribute("firstNamePreviousValue", studentDb.get(studentId).getFirstName());
-		request.setAttribute("lastNamePreviousValue", studentDb.get(studentId).getLastName());
-		request.setAttribute("emailPreviousValue", studentDb.get(studentId).getEmail());
+		request.setAttribute("sessionId", sessionId);
+		
+		Student student = studentDb.get(studentId);
+		request.setAttribute("studentid", studentId);
+		request.setAttribute("firstNamePreviousValue", student.getFirstName());
+		request.setAttribute("lastNamePreviousValue", student.getLastName());
+		request.setAttribute("emailPreviousValue", student.getEmail());
+		
+		request.setAttribute("wijzigen", true);
+		
 		return "registration.jsp";
+	}
+	
+	private String updateStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		int studentId = Integer.parseInt(request.getParameter("id"));
+		int sessionId = Integer.parseInt(request.getParameter("sessionId"));
+		List<String> result = new ArrayList<>();
+		
+		Student student = new Student();
+		result = getFirstName(student, request, result);
+		result = getLastName(student, request, result);
+		result = getEmail(student, request, result);
+		
+		if (!result.isEmpty()) {
+			request.setAttribute("errormessage", result);
+			request.setAttribute("wijzigen", true);
+			request.setAttribute("sessionId", sessionId);
+			
+			return "registration.jsp";
+		} else {
+			service.updateStudent(student, sessionId);
+			// inschrijvingenDb.add(studentDb.get(studentId), Integer.valueOf(request.getParameter("sessionId")));
+			request.setAttribute("infoMessage", "Inschrijving voor " + student.getFirstName() + " " + student.getLastName() + " aangepast.");
+		}		
+		return sessionOverview(request, response);
 	}
 
 	private String removeSessionStudent(HttpServletRequest request, HttpServletResponse response) {
