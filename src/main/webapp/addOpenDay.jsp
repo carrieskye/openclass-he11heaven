@@ -52,7 +52,7 @@
 										<c:out value="${afdeling.naam}" />
 
 										<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-											<option value="${opleiding.id}" <c:if test="${opleiding.id == opleidingId }"> selected="selected"</c:if>><c:out
+											<option value="${opleiding.id}" ><c:out
 													value="${opleiding.naam}" /></option>
 										</c:forEach>
 									</optgroup>

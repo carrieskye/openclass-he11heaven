@@ -48,7 +48,6 @@ public class Controller extends HttpServlet {
 	private OpenLesdagDb openLesdagDb;
 	private StudentDb studentDb;
 	private InschrijvingenDb inschrijvingenDb;
-	private OpleidingDb opleidingDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
@@ -60,12 +59,9 @@ public class Controller extends HttpServlet {
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		inschrijvingenDb = new InschrijvingenDb();
-<<<<<<< HEAD
 		opleidingDb = new OpleidingDb();
-=======
 		
 		service = new OpenClassService();
->>>>>>> c668f911b39e6bdf62d99f42dfd3463ed4b4b12d
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -146,6 +142,9 @@ public class Controller extends HttpServlet {
 		case "addOpenDay":
 			destination = addOpenDay(request, response);
 			break;
+		case "addOpenDaySession":
+			destination = addOpenDaySession(request, response);
+			break;
 		default:
 			destination = "index.jsp";
 		}
@@ -156,6 +155,40 @@ public class Controller extends HttpServlet {
 	}
 
 
+
+	private String addOpenDaySession(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		List<String> errors = new ArrayList<String>();
+		OpenLesDag openDay = new OpenLesDag();
+		setTitel(openDay, errors, request.getParameter("title"));
+		setLocation(openDay, errors, request.getParameter("location"));
+		setDatum(openDay, errors, request.getParameter("date"));
+		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("opleiding"));
+		
+		if(errors.isEmpty()) {
+			openLesdagDb.addOpenDay(openDay);
+		}
+		
+		OpenClassSession sessie = new OpenClassSession();
+
+		setTitel(sessie, errors, request.getParameter("sessionName"));
+		setDescription(sessie, errors, request.getParameter("content"));
+		setStartTime(sessie, errors,  request.getParameter("beginTime"));
+		setEndTime(sessie, errors,  request.getParameter("endTime"));
+		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
+		setClassroom(sessie, errors, request.getParameter("classroom"));
+		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
+		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
+		
+		if(errors.isEmpty()) {
+			sessieDb.addNewSession(sessie);
+			return sessionOverview(request, response);
+		}else {
+			request.setAttribute("errorMessage", errors);
+			return "addOpenDaySession.jsp";
+		}
+		
+		
+	}
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -345,24 +378,29 @@ public class Controller extends HttpServlet {
 
 		setTitel(sessie, errors, request.getParameter("sessionName"));
 		setDescription(sessie, errors, request.getParameter("content"));
-		setStartDate(sessie, errors, request.getParameter("date"), request.getParameter("beginTime"));
-		setEndDate(sessie, errors, request.getParameter("date"), request.getParameter("endTime"));
+		setStartTime(sessie, errors, request.getParameter("beginTime"));
+		setEndTime(sessie, errors,  request.getParameter("endTime"));
 		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
 		setClassroom(sessie, errors, request.getParameter("classroom"));
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
+		
+		/*request.setAttribute("classroomPreviousValue", request.getParameter("classroom"));
+		request.setAttribute("sessionNamePreviousValue", request.getParameter("sessionName"));
+		request.setAttribute("beginTimePreviousValue", request.getParameter("beginTime"));*/
 
+		
 		 if (sessie.getOpenlesdagid() < 1) {
 			request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
 			request.setAttribute("sessie", sessie);
 			request.setAttribute("datePreviousValue", request.getParameter("date"));
 			request.setAttribute("opleidingId", Integer.parseInt(request.getParameter("opleiding")));
 			request.setAttribute("opleidingPreviousValue", opleidingDb.getOpleiding(Integer.parseInt(request.getParameter("opleiding"))));
-			System.out.println(request.getAttribute("opleidingPreviousValue"));
-			return "addOpenDay.jsp";
+			
+			return "addOpenDaySession.jsp";
 		} else if (errors.size() == 0) {
 			sessieDb.addNewSession(sessie);
-			return "index.jsp";
+			return sessionOverview(request, response);
 		} else {
 
 			request.setAttribute("errormessage", errors);
@@ -412,7 +450,7 @@ public class Controller extends HttpServlet {
 		}
 	}
 
-	private void setEndDate(OpenClassSession sessie, List<String> errors, String date, String endDate) {
+	private void setEndTime(OpenClassSession sessie, List<String> errors, String endDate) {
 		try {
 			LocalTime time = LocalTime.parse(endDate);
 			sessie.setEnd(time);
@@ -421,7 +459,7 @@ public class Controller extends HttpServlet {
 		}
 	}
 
-	private void setStartDate(OpenClassSession sessie, List<String> errors, String date, String startDate) {
+	private void setStartTime(OpenClassSession sessie, List<String> errors, String startDate) {
 		try {
 			LocalTime time = LocalTime.parse(startDate);
 			sessie.setStart(time);
