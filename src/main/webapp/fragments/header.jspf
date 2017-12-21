@@ -4,23 +4,23 @@
 
 		<ul class="nav navbar-nav">
 			<li><a href="index.jsp"><img src="images/ucll-logo.png"
-					alt="logo" height="100"></a></li>
+					alt="logo" height="60"></a></li>
 			<li><a href="index.jsp" style="color: #FFFFFF"><i
-					class="fa fa-home" style="font-size: 32px;line-height:3.1em"></i></a></li>
+					class="fa fa-home" style="font-size: 28px;line-height:2em"></i></a></li>
 			<li><a href="Controller?action=getOpleidingenOverzicht"
-				style="color: #FFFFFF;font-size:20px;line-height:5em">Opleidingen</a></li>
+				style="color: #FFFFFF;font-size:15px;line-height:4em">Opleidingen</a></li>
 			<li><a href="Controller?action=toonAlleInschrijvingen"
-				style="color: #FFFFFF;font-size: 20px;line-height:5em">Inschrijvingen</a></li>
+				style="color: #FFFFFF;font-size: 15px;line-height:4em">Inschrijvingen</a></li>
 			<li><a href="Controller?action=toonVoegSessieToe"
-				style="color: #FFFFFF;font-size: 20px;line-height:5em">Voeg sessie toe</a></li>
+				style="color: #FFFFFF;font-size: 15px;line-height:4em">Voeg sessie toe</a></li>
 				<li><a href="Controller?action=showAddOpenDay"
-				style="color: #FFFFFF;font-size: 20px;line-height:5em">Voeg openlesdag toe</a></li>
+				style="color: #FFFFFF;font-size: 15px;line-height:4em">Voeg openlesdag toe</a></li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right" style="margin-right: 0.5em">
-			<li><a href="#" style="color: #FFFFFF;font-size: 20px;line-height:5em"><span
+			<li><a href="#" style="color: #FFFFFF;font-size: 15px;line-height:4em"><span
 					class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-			<li><a href="#" style="color: #FFFFFF;font-size: 20px;line-height:5em"><span
+			<li><a href="#" style="color: #FFFFFF;font-size: 15px;line-height:4em"><span
 					class="glyphicon glyphicon-log-in"></span> Login</a></li>
 		</ul>
 
