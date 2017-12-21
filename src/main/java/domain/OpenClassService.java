@@ -3,6 +3,8 @@ package domain;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+
 import db.AfdelingDb;
 import db.DbException;
 import db.InschrijvingenDb;
@@ -131,6 +133,11 @@ public class OpenClassService {
 
 	public Student getStudent(String firstName, String lastName, String email) {
 		return studentDb.get(firstName, lastName, email);
+	}
+
+	public void getAlleDataVoorExcel(ServletOutputStream outputStream) {
+		openlesdagDb.getAlleDataVoorExcel(outputStream);
+		
 	}
 	
 }

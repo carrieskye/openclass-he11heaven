@@ -15,10 +15,14 @@
 		<div class="jumbotron">
 
 			<h1>Inschrijvingen</h1>
+
+			<p><a href = "Controller?action=generateExcelFile"><button>download excel</button></a></p>
+
 			
 			<c:if test="${infoMessage != null}">
 				<p style="color:red;"><c:out value="${infoMessage}"/></p> 
 			</c:if>
+
 
 			<div class="form-group">
 				<select name="opleiding" onchange="window.location.href=this.value;">

@@ -12,6 +12,7 @@
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
 			<div class="container">
+
 				<h2>Inschrijvingen ${session.title}</h2>
 				<table class="table table-striped">
 					<thead>

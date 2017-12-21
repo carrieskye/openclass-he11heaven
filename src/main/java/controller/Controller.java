@@ -129,6 +129,9 @@ public class Controller extends HttpServlet {
 		case "addOpenDaySession":
 			destination = addOpenDaySession(request, response);
 			break;
+		case "generateExcelFile":
+			destination = generateExcelFile(request, response);
+			break;
 		default:
 			destination = "index.jsp";
 		}
@@ -136,6 +139,19 @@ public class Controller extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
+	}
+
+	private String generateExcelFile(HttpServletRequest request, HttpServletResponse response) {
+	
+			try {
+				response.setHeader("Content-Disposition", "attachment; filename=\"download.xlsx\"");
+				service.getAlleDataVoorExcel(response.getOutputStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		
+		} 
+		return "";
 	}
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
@@ -596,10 +612,8 @@ public class Controller extends HttpServlet {
 			// Integer.valueOf(request.getParameter("sessionId")));
 			request.setAttribute("infoMessage",
 					"Inschrijving voor " + student.getFirstName() + " " + student.getLastName() + " aangepast.");
-			request.setAttribute("opleidingId", request.getParameter("opleidingId"));
-			request.setAttribute("openlesdagId", request.getParameter("openlesdagId"));
 		}
-		return toonAlleInschrijvingen(request, response);
+		return sessionOverview(request, response);
 	}
 
 	private String removeSessionStudent(HttpServletRequest request, HttpServletResponse response) {

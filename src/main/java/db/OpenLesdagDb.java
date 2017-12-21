@@ -1,5 +1,6 @@
 package db;
 
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -12,6 +13,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import domain.DomainException;
 import domain.OpenClassSession;
@@ -184,6 +190,58 @@ public class OpenLesdagDb {
 			}
 			return lesdag;
 		}
+		
 
+	}
+	
+	public void getAlleDataVoorExcel(OutputStream ouputstream){
+		ResultSet result;
+		String query = "select opleiding.afdeling, opleiding.naam as richting, sessie.naam as sessie, student.voornaam, student.naam, student.email from opleiding inner join openlesdag on(opleiding.id = openlesdag.opleiding) inner join sessie on(sessie.openlesdagid = openlesdag.id) inner join inschrijving using(sessieid)inner join student using(studentid) order by opleiding.naam, opleiding.naam, sessie.naam";
+		try(
+				Connection connection = DriverManager.getConnection(url, properties);	
+				PreparedStatement statement = connection.prepareStatement(query);
+			){
+			ResultSet resultset = statement.executeQuery();
+			
+			
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet("alle inschrijvingen");
+			
+			Row header = sheet.createRow(0);
+			
+			header.createCell(0).setCellValue("Afdeling");
+			header.createCell(1).setCellValue("Opleiding");
+			header.createCell(2).setCellValue("Sessie");
+			header.createCell(3).setCellValue("Voornaam");
+			header.createCell(4).setCellValue("Achternaam");
+			header.createCell(5).setCellValue("email");
+			
+			int counter = 1;
+			while(resultset.next()){
+				Row row = sheet.createRow(counter);
+				row.createCell(0).setCellValue(resultset.getString("afdeling"));
+				row.createCell(1).setCellValue(resultset.getString("richting"));
+				row.createCell(2).setCellValue(resultset.getString("sessie"));
+				row.createCell(3).setCellValue(resultset.getString("voornaam"));
+				row.createCell(4).setCellValue(resultset.getString("naam"));
+				row.createCell(5).setCellValue(resultset.getString("email"));
+				counter++;
+			}
+			
+			resultset.close();
+					
+			try {
+				workbook.write(ouputstream);
+				workbook.close();
+			} catch (Exception e) {
+				throw new DomainException("fout bij schrijven naar excel file");
+			}
+			
+			
+			
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }
