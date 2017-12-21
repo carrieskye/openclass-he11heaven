@@ -116,7 +116,7 @@ public class OpenLesdagDb {
 	}
 
 	public int getOpenlesdagID(String date, int opleidingID) {
-		int id = 0;
+		int id = -1;
 
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				Statement statement = connection.createStatement();) {
