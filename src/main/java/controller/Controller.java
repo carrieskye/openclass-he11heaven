@@ -589,8 +589,10 @@ public class Controller extends HttpServlet {
 			// Integer.valueOf(request.getParameter("sessionId")));
 			request.setAttribute("infoMessage",
 					"Inschrijving voor " + student.getFirstName() + " " + student.getLastName() + " aangepast.");
+			request.setAttribute("opleidingId", request.getParameter("opleidingId"));
+			request.setAttribute("openlesdagId", request.getParameter("openlesdagId"));
 		}
-		return sessionOverview(request, response);
+		return toonAlleInschrijvingen(request, response);
 	}
 
 	private String removeSessionStudent(HttpServletRequest request, HttpServletResponse response) {

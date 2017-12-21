@@ -27,7 +27,7 @@
 								<div class="card-block">
 									<div class="row">
 										<div class="col-lg-2 tags p-b-2" style="font-size: 1.2em">
-											<p style="margin-top: 0">${openLesDag.datumString}</p>
+											<p style="margin-top: 0">${openLesDag.datumSplitString}</p>
 										</div>
 										<div class="col-lg-8 offset-lg-1">
 											<h4 class="card-title">
