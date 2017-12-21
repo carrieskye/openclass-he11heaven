@@ -109,4 +109,32 @@ public class OpenLesdagDb {
 			System.out.println("werkt niet: " + e.getMessage());
 		}
 	}
+
+	public int getOpenlesdagID(String date, int opleidingID) {
+		int id = 0;
+
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				Statement statement = connection.createStatement();) {
+			ResultSet aantal = statement.executeQuery(
+					"SELECT COUNT (*) FROM openlesdag WHERE opleiding =" + opleidingID + "AND datum = '" + date + "'");
+			boolean checkaantal = false;
+			if (aantal.next()) {
+				if (aantal.getInt(1) == 1) {
+					checkaantal = true;
+				}
+			}
+			ResultSet result = statement.executeQuery(
+					"SELECT * FROM openlesdag WHERE opleiding =" + opleidingID + "AND datum = '" + date + "'");
+			if (checkaantal) {
+				if (result.next()) {
+					id = result.getInt(3);
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("getopenlesdagid werkt niet: " + e.getMessage());
+		}
+
+		return id;
+	}
 }
