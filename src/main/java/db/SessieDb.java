@@ -86,7 +86,8 @@ public class SessieDb {
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
 						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
-
+				int openLesDagId = result.getInt("openlesdagid");
+				sessie.setOpenlesdagid(openLesDagId);
 				sessies.add(sessie);
 			}
 

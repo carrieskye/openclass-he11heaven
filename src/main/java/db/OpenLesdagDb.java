@@ -177,9 +177,9 @@ public class OpenLesdagDb {
 				String titel = result.getString("titel");
 				String locatie = result.getString("locatie");
 				LocalDate datum = result.getDate("datum").toLocalDate();
-				
+				int opleidingId = result.getInt("opleiding");
 				lesdag = new OpenLesDag(id, titel, locatie, datum);
-				
+				lesdag.setOpleidingID(opleidingId);
 			}
 			return lesdag;
 		}

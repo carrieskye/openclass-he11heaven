@@ -418,6 +418,7 @@ public class Controller extends HttpServlet {
 				return "voegSessieToe.jsp";
 			}
 		}
+		return null;
 	}
 
 	private void setOpenlesdagid(OpenClassSession sessie, List<String> errors, String date, String opleiding) {
@@ -685,41 +686,46 @@ public class Controller extends HttpServlet {
 			int openlesdagId, int sessieId) {
 		Map<OpenClassSession, ArrayList<Student>> inschrijvingen = new HashMap<>();
 
-		if (request.getAttribute("inschrijvingen") == null) {
-			if (opleidingId < 0) {
-				for (OpenClassSession sessie : sessieDb.getAll()) {
-					inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
-				}
-			} else {
-				System.out.println("Er is een opleidingsId");
-				request.setAttribute("opleidingId", opleidingId);
-				if (openlesdagId < 0) {
+		try {
+			if (request.getAttribute("inschrijvingen") == null) {
+				if (opleidingId < 0) {
 					for (OpenClassSession sessie : sessieDb.getAll()) {
-						if (sessie.getOpleidingsid() == opleidingId) {
-							inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
-						}
+						inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
 					}
 				} else {
-					request.setAttribute("openlesdagId", openlesdagId);
-					if (sessieId < 0) {
+					request.setAttribute("opleidingId", opleidingId);
+					if (openlesdagId < 0) {
 						for (OpenClassSession sessie : sessieDb.getAll()) {
-							if (sessie.getOpleidingsid() == opleidingId && sessie.getOpenlesdagid() == openlesdagId) {
+							if (openLesdagDb.getOpenlesdagVanSessie(sessie.getId()).getOpleidingID() == opleidingId) {
 								inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
 							}
 						}
 					} else {
-						request.setAttribute("sessieId", sessieId);
-						for (OpenClassSession sessie : sessieDb.getAll()) {
-							if (sessie.getOpleidingsid() == opleidingId && sessie.getOpenlesdagid() == openlesdagId
-									&& sessie.getId() == sessieId) {
-								inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
+						request.setAttribute("openlesdagId", openlesdagId);
+						if (sessieId < 0) {
+							for (OpenClassSession sessie : sessieDb.getAll()) {
+								if (openLesdagDb.getOpenlesdagVanSessie(sessie.getId()).getOpleidingID() == opleidingId
+										&& sessie.getOpenlesdagid() == openlesdagId) {
+									inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
+								}
+							}
+						} else {
+							request.setAttribute("sessieId", sessieId);
+							for (OpenClassSession sessie : sessieDb.getAll()) {
+								if (openLesdagDb.getOpenlesdagVanSessie(sessie.getId()).getOpleidingID() == opleidingId && sessie.getOpenlesdagid() == openlesdagId
+										&& sessie.getId() == sessieId) {
+									inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
+								}
 							}
 						}
 					}
 				}
-			}
 
-			request.setAttribute("inschrijvingen", inschrijvingen);
+				request.setAttribute("inschrijvingen", inschrijvingen);
+			}
+		} catch (
+
+		Exception e) {
 		}
 	}
 
