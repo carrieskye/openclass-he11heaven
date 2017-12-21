@@ -68,7 +68,6 @@ public class StudentDb {
 			statement.setString(1, student.getFirstName());
 			statement.setString(2, student.getLastName());
 			statement.setString(3, student.getEmail());
-			System.out.println(student.getId());
 			statement.setInt(4, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {

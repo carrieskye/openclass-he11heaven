@@ -533,6 +533,7 @@ public class Controller extends HttpServlet {
 		List<String> result = new ArrayList<>();
 		
 		Student student = new Student();
+		student.setId(studentId);
 		result = getFirstName(student, request, result);
 		result = getLastName(student, request, result);
 		result = getEmail(student, request, result);
