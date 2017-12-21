@@ -15,7 +15,7 @@
 		<div class="jumbotron">
 
 			<h1>Inschrijvingen</h1>
-
+			<p><a href = "Controller?action=generateExcelFile"><button>download excel</button></a></p>
 			<div class="form-group">
 				<select name="opleiding" onchange="window.location.href=this.value;">
 					<option

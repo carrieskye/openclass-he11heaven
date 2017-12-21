@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.OutputStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,20 +20,14 @@ import db.SessieDb;
 
 public class ExcelWriter{
 	
-	private AfdelingDb afdelingdb;
-	private OpleidingDb opleidingdb;
-	private InschrijvingenDb inschrijvingenDb;
-	private SessieDb sessieDb;
+	private ResultSet resultset;
 	
 	
-	public ExcelWriter(SessieDb sessiedb) throws ClassNotFoundException, SQLException{
-		afdelingdb = new AfdelingDb();
-		opleidingdb = new OpleidingDb();
-		inschrijvingenDb = new InschrijvingenDb();
-		sessieDb = sessiedb;
+	public ExcelWriter(ResultSet result) throws ClassNotFoundException, SQLException{
+		this.resultset = result;
 	}
 	
-	public void getAlleInschrijving(OutputStream ouputstream){
+	public void getAlleInschrijving(OutputStream ouputstream) throws SQLException{
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet("alle inschrijvingen");
 		
@@ -40,10 +35,24 @@ public class ExcelWriter{
 		
 		header.createCell(0).setCellValue("Afdeling");
 		header.createCell(1).setCellValue("Opleiding");
-		header.createCell(0).setCellValue("Sessie");
-		header.createCell(0).setCellValue("Voornaam");
-		header.createCell(0).setCellValue("Achternaam");
-		header.createCell(0).setCellValue("email");
+		header.createCell(2).setCellValue("Sessie");
+		header.createCell(3).setCellValue("Voornaam");
+		header.createCell(4).setCellValue("Achternaam");
+		header.createCell(5).setCellValue("email");
+		
+		int counter = 1;
+		while(resultset.next()){
+			Row row = sheet.createRow(counter);
+			row.createCell(0).setCellValue(resultset.getString("afdeling"));
+			row.createCell(1).setCellValue(resultset.getString("naam"));
+			row.createCell(2).setCellValue(resultset.getString("naam"));
+			row.createCell(3).setCellValue(resultset.getString("voornaam"));
+			row.createCell(4).setCellValue(resultset.getString("naam"));
+			row.createCell(5).setCellValue(resultset.getString("email"));
+			counter++;
+		}
+		
+		resultset.close();
 				
 		try {
 			workbook.write(ouputstream);
@@ -51,7 +60,6 @@ public class ExcelWriter{
 		} catch (Exception e) {
 			throw new DomainException("fout bij schrijven naar excel file");
 		}
-		
 	}
 	
 	

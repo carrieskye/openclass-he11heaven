@@ -183,6 +183,19 @@ public class OpenLesdagDb {
 			}
 			return lesdag;
 		}
+		
 
+	}
+	
+	public ResultSet getAlleDataVoorExcel() throws SQLException{
+		ResultSet result;
+		String query = "select opleiding.afdeling, opleiding.naam, sessie.naam, student.voornaam, student.naam, student.email from opleiding inner join openlesdag on(opleiding.id = openlesdag.opleiding) inner join sessie on(sessie.openlesdagid = openlesdag.id) inner join inschrijving using(sessieid)inner join student using(studentid) order by opleiding.naam, opleiding.naam, sessie.naam";
+		try(
+				Connection connection = DriverManager.getConnection(url, properties);	
+				PreparedStatement statement = connection.prepareStatement(query);
+			){
+			result = statement.executeQuery();
+		}
+		return result;
 	}
 }

@@ -30,6 +30,7 @@ import db.SessieDb;
 import db.StudentDb;
 import domain.Afdeling;
 import domain.DomainException;
+import domain.ExcelWriter;
 import domain.OpenClassService;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
@@ -144,6 +145,9 @@ public class Controller extends HttpServlet {
 		case "addOpenDaySession":
 			destination = addOpenDaySession(request, response);
 			break;
+		case "generateExcelFile":
+			destination = generateExcelFile(request, response);
+			break;
 		default:
 			destination = "index.jsp";
 		}
@@ -154,6 +158,28 @@ public class Controller extends HttpServlet {
 	}
 
 
+
+	private String generateExcelFile(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			ExcelWriter excelwriter = new ExcelWriter(openLesdagDb.getAlleDataVoorExcel());
+			try {
+				excelwriter.getAlleInschrijving(response.getOutputStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			response.setHeader("Content-Disposition", "attachment; filename=\"download.xlsx\"");
+
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return toonAlleInschrijvingen(request, response);
+	}
 
 	private String addOpenDaySession(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		List<String> errors = new ArrayList<String>();
