@@ -503,11 +503,17 @@ public class Controller extends HttpServlet {
 			getFirstName(student, request, result);
 			getLastName(student, request, result);
 			getEmail(student, request, result);
+			Student stud = studentDb.get(student.getFirstName(), student.getLastName(), student.getEmail());
 			if (!result.isEmpty()) {
 				request.setAttribute("errormessage", result);
 				return "registration.jsp";
 			} else {
-				int studentId = studentDb.add(student);
+				int studentId = -1;
+				if(stud == null) {
+					studentId = studentDb.add(student);
+				}else {
+					studentId = stud.getId();
+				}
 				inschrijvingenDb.add(studentDb.get(studentId), Integer.valueOf(request.getParameter("sessionId")));
 				sendMail(request, response, studentId);
 				request.setAttribute("infoMessage",
