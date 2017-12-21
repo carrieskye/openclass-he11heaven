@@ -13,6 +13,11 @@
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
 			<h1>Voeg een openlesdag toe</h1>
+			<p>
+			Oeps, het lijkt erop dat er nog geen openlesdag bestond voor de sessie die je wilde aanmaken.
+			Hier kan je een openlesdag aanmaken. Hieraan wordt onmiddellijk de sessie toegevoegd.
+			Het is ook nog mogelijk om de informatie van de sessie nog te wijzigen.
+			</p>
 
 			<c:choose>
 				<c:when test="${errormessage != null}">

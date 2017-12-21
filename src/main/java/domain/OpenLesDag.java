@@ -30,7 +30,7 @@ public class OpenLesDag {
 	}
 
 	public String getTitel() {
-		return titel.toUpperCase();
+		return titel;
 	}
 
 	public void setTitel(String titel) {

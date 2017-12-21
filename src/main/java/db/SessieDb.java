@@ -1,7 +1,6 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,19 +13,18 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import controller.Controller;
-
+import domain.OpenClassService;
 import domain.OpenClassSession;
-import domain.OpenLesDag;
 import domain.Student;
 
 public class SessieDb {
 
+	private OpenClassService service;
 	private Properties properties = new Properties();
 	private String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
-	private Controller controller;
 
-	public SessieDb(Controller controller) {
-		this.controller = controller;
+	public SessieDb(OpenClassService service) {
+		this.service = service;
 
 		properties.setProperty("user", "hakkaton_11");
 		properties.setProperty("password", "IeS5nahweitohwaa");
@@ -60,7 +58,7 @@ public class SessieDb {
 			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+					maxInschrijvingen, klaslokaal, service.telAantalInschrijvingen(sessionId));
 			return sessie;
 
 		} catch (SQLException e) {
@@ -85,9 +83,10 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+						maxInschrijvingen, klaslokaal, service.telAantalInschrijvingen(sessionId));
 				int openLesDagId = result.getInt("openlesdagid");
 				sessie.setOpenlesdagid(openLesDagId);
+
 				sessies.add(sessie);
 			}
 
@@ -112,7 +111,7 @@ public class SessieDb {
 
 			statement.setTime(5, Time.valueOf(sessie.getStart()));
 			statement.setTime(6, Time.valueOf(sessie.getEnd()));
-			
+
 			statement.setInt(7, sessie.getOpenlesdagid());
 
 			statement.executeUpdate();
@@ -123,8 +122,6 @@ public class SessieDb {
 			System.out.println("werkt niet: " + e.getMessage());
 		}
 	}
-
-	
 
 	public void schrijfIn(Student student, OpenClassSession sessie) {
 		if (student == null)
@@ -144,11 +141,10 @@ public class SessieDb {
 
 	public ArrayList<OpenClassSession> getSessiesOpenLesDag(int openLesDagId) {
 		String query = "SELECT * FROM sessie WHERE openlesdagid = ?";
-		
+
 		ArrayList<OpenClassSession> sessies = new ArrayList<OpenClassSession>();
 		try (Connection connection = DriverManager.getConnection(url, properties);
-			PreparedStatement statement = connection.prepareStatement(query);)
-		{
+				PreparedStatement statement = connection.prepareStatement(query);) {
 			statement.setInt(1, openLesDagId);
 			ResultSet result = statement.executeQuery();
 
@@ -163,7 +159,7 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+						maxInschrijvingen, klaslokaal, service.telAantalInschrijvingen(sessionId));
 				sessies.add(sessie);
 			}
 

@@ -109,7 +109,8 @@ public class Tests {
 
 	@Then("^the overview of \"([^\"]*)\" with open days for that education is shown$")
 	public void the_overview_of_with_open_days_for_that_education_is_shown(String datum) throws Throwable {
-	    WebElement el = driver.findElement(By.className("row"));
+	    assertEquals("Overzicht Openlesdagen", driver.getTitle());
+		WebElement el = driver.findElement(By.className("row"));
 	    String date = "";
 	    BufferedReader bufReader = new BufferedReader(new StringReader(el.getText()));
 	    for(int i = 0; i < 3; i++){
@@ -147,15 +148,10 @@ public class Tests {
 	}
 
 	@Given("^a user with first name \"([^\"]*)\", last name \"([^\"]*)\" and an email address \"([^\"]*)\"$")
-	public void a_user_with_first_name_last_name_and_an_email_address(String arg1, String arg2, String arg3) throws Throwable {
-	    
-	    
+	public void a_user_with_first_name_last_name_and_an_email_address(String arg1, String arg2, String arg3) throws Throwable {  
 	    firstName = arg1;
 	    lastName = arg2;
-	    email = arg3;
-	    
-	    
-	    
+	    email = arg3;    
 	}
 
 	
