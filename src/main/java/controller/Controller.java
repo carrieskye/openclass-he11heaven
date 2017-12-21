@@ -606,9 +606,12 @@ public class Controller extends HttpServlet {
 		int studentId = Integer.valueOf(request.getParameter("studentId"));
 		int sessionId = Integer.valueOf(request.getParameter("sessionId"));
 		service.removeInschrijving(studentId, sessionId);
+		
+		request.setAttribute("infoMessage",
+				"Inschrijving voor " + service.getStudent(studentId).getFirstName() + " " + service.getStudent(studentId).getLastName() + " verwijderd.");
 		request.setAttribute("session", service.getSessie(sessionId));
 		request.setAttribute("studentId", studentId);
-		return registrationOverview(request, response);
+		return  toonAlleInschrijvingen(request, response);
 	}
 
 	public int telAantalInschrijvingen(int sessieId) {
