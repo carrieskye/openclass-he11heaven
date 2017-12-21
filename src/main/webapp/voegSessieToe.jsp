@@ -12,6 +12,7 @@
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
 			<h1>Voeg een sessie toe</h1>
+			<p>Geef alle informatie om een sessie toe te voegen aan een openlesdag van een opleiding.</p>
 
 			<c:choose>
 				<c:when test="${errormessage != null}">
