@@ -4,14 +4,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalTime;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.time.*;
-import org.apache.xalan.xsltc.dom.LoadDocument;
+
 import db.AfdelingDb;
 import db.ImageDb;
 import db.InschrijvingenDb;
@@ -35,8 +33,6 @@ import domain.DomainException;
 import domain.OpenClassService;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
-import domain.Opleiding;
-import domain.SimpleMail;
 import domain.Student;
 
 @WebServlet("/Controller")
@@ -150,7 +146,7 @@ public class Controller extends HttpServlet {
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		String id = request.getParameter("id");
+		int id = Integer.parseInt(request.getParameter("id"));
 		List<OpenLesDag> lesdagen = openLesdagDb.getLesdagen(id);
 
 		if (lesdagen == null) {
@@ -543,7 +539,8 @@ public class Controller extends HttpServlet {
 	}
 
 	private String toonInschrijvingenOpenlesdagen(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("openlesdagen", null);
+		int opleidingId = Integer.parseInt(request.getParameter("opleidingId"));
+		request.setAttribute("openlesdagen", openLesdagDb.getLesdagen(opleidingId));
 		return "inschrijvingen.jsp";
 	}
 
