@@ -12,13 +12,15 @@ public class SimpleMail {
     private static final String SMTP_HOST_NAME = "smtp.gmail.com";
     private static final String SMTP_AUTH_USER = "openclass.he11heaven@gmail.com";
     private static final String SMTP_AUTH_PWD  = "projectweek";
+    private OpenClassService service;
     
 
     /*public static void main(String[] args) throws Exception{
        new SimpleMail().test();
     }*/
     
-    public SimpleMail() {
+    public SimpleMail(OpenClassService service) {
+    	this.service = service;
     }
 
     public void sendMail(Student student, OpenClassSession sessie) throws Exception{
@@ -37,8 +39,16 @@ public class SimpleMail {
         // mailSession.setDebug(true);
         Transport transport = mailSession.getTransport();
 
+        OpenLesDag openlesdag = service.getOpenlesdagVanSessie(sessie.getId());
+        
         MimeMessage message = new MimeMessage(mailSession);
-        message.setContent("Beste " + student.getFirstName() + "\n\nU heeft zich ingeschreven voor de sessie: " + sessie.getTitle() + ". \nWe verwachten u om " + sessie.toStringHour() + ". \nZorg dat je optijd bent! \n\nIndien u toch niet meer kan komen kan u altijd de inschrijving aanpassen of verwijderen op de site.\n\nMet vriendelijke groet \nHet UCLL-team", "text/plain");
+        message.setContent("Beste " + student.getFirstName() 
+        				+ "\n\nU heeft zich ingeschreven voor de sessie: " + sessie.getTitle() + ".\n"
+        				+ "We verwachten u op " + openlesdag.generateDatumString()  +  " van " + sessie.getStart() + " tot " + sessie.getEnd() + ".\n"
+        				+ "Zorg dat je optijd bent! \n\n"
+        				+ "Indien u toch niet meer kan komen kan u altijd de inschrijving aanpassen of verwijderen op de site.\n\n"
+        				+ "Met vriendelijke groet \n"
+        				+ "Het UCLL-team", "text/plain");
         message.setFrom(new InternetAddress("me@myhost.org"));
         message.setSubject("Inschrijving Openlesdag UCLL");
         message.addRecipient(Message.RecipientType.TO,

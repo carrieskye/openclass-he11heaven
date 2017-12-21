@@ -13,7 +13,7 @@ public class OpenLesDag {
 	private LocalTime einde;
 	private String titel;
 	private String locatie;
-	private String datumString, tijdstipString;
+	private String datumString, datumSplitString, tijdstipString;
 	private int opleidingID;
 
 	private List<OpenClassSession> sessies;
@@ -82,6 +82,7 @@ public class OpenLesDag {
 			throw new DomainException("De datum moet in de toekomst zijn");
 		this.datum = datum;
 		this.datumString = generateDatumString();
+		this.datumSplitString = generateDatumSplitString();
 	}
 
 	public int getId() {
@@ -95,13 +96,18 @@ public class OpenLesDag {
 		this.id = id;
 	}
 
-	public String generateDatumString() {
+	public String generateDatumSplitString() {
 		DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd");
 		DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMM");
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("uuuu");
 
 		return datum.format(dayFormatter) + "<br>" + datum.format(monthFormatter) + "<br>"
 				+ datum.format(yearFormatter);
+	}
+	
+	public String generateDatumString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM uuuu");
+		return datum.format(formatter);
 	}
 
 	public String generateTijdstipString() {
@@ -146,7 +152,11 @@ public class OpenLesDag {
 		}
 	}
 
-	public String getDatumString() {
+	public String getDatumSplitString() {
+		return datumSplitString;
+	}
+	
+	public String getDatumString(){
 		return datumString;
 	}
 

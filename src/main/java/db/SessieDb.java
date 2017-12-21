@@ -16,6 +16,7 @@ import java.util.Properties;
 import controller.Controller;
 
 import domain.OpenClassSession;
+import domain.OpenLesDag;
 import domain.Student;
 
 public class SessieDb {
@@ -111,7 +112,7 @@ public class SessieDb {
 			statement.setTime(5, Time.valueOf(sessie.getStart()));
 			statement.setTime(6, Time.valueOf(sessie.getEnd()));
 			
-			statement.setInt(7, sessie.getOpenlesdagid());
+			statement.setInt(7, sessie.getId());
 
 			statement.executeUpdate();
 			connection.close();
@@ -129,7 +130,7 @@ public class SessieDb {
 			throw new DbException("no student given.");
 		if (sessie == null)
 			throw new DbException("no session given.");
-		String sql = "INSERT INTO inschrijving(studentid, sessieid) " + "VALUES (?,?)";
+		String sql = "INSERT INTO inschrijving(studentid, sessieid) VALUES (?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql);) {
 			statement.setInt(1, student.getId());
@@ -141,10 +142,14 @@ public class SessieDb {
 	}
 
 	public ArrayList<OpenClassSession> getSessiesOpenLesDag(int openLesDagId) {
+		String query = "SELECT * FROM sessie WHERE openlesdagid = ?";
+		
 		ArrayList<OpenClassSession> sessies = new ArrayList<OpenClassSession>();
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				Statement statement = connection.createStatement();) {
-			ResultSet result = statement.executeQuery("SELECT * FROM sessie WHERE openlesdagid = " + openLesDagId);
+			PreparedStatement statement = connection.prepareStatement(query);)
+		{
+			statement.setInt(1, openLesDagId);
+			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
 				int sessionId = Integer.parseInt(result.getString("sessieid"));
@@ -166,5 +171,4 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
-
 }

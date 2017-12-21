@@ -2,10 +2,21 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+
+import domain.Afdeling;
+import domain.DomainException;
+import domain.OpenLesDag;
+import domain.Opleiding;
 
 public class OpleidingDb {
 	
@@ -42,6 +53,47 @@ public class OpleidingDb {
 			
 		}catch(Exception e) {
 			throw new DbException("fout");
+		}
+	}
+	public List<Opleiding> getOpleidingen(){
+		try(
+			Connection connection = DriverManager.getConnection(url, properties);	
+			Statement statement = connection.createStatement();
+		) {
+			ArrayList<Opleiding> opleidingen = new ArrayList<>();
+			ResultSet result = statement.executeQuery( "SELECT * FROM opleiding" );
+			while (result.next()) {
+				String naam = result.getString("naam");
+				int id = result.getInt("id");
+				Opleiding opleiding = new Opleiding( naam, id);
+				ArrayList<OpenLesDag> openlesdagen = this.getOpenLesDagen(id);
+				opleiding.setOpenLesDagen(openlesdagen);
+				opleidingen.add(opleiding);
+			}
+			return opleidingen;
+		}catch (SQLException e) {
+			throw new DomainException(e.getMessage());
+		}
+	}
+
+	public ArrayList<OpenLesDag> getOpenLesDagen(int opleiding) {
+		String query = "SELECT * FROM openlesdag WHERE opleiding = ?";
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(query);) {
+			statement.setInt(1, opleiding);
+			ArrayList<OpenLesDag> openlesdagen = new ArrayList<>();
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				String titel = result.getString("titel");
+				String locatie = result.getString("locatie");
+				LocalDate datum = result.getTimestamp("datum").toLocalDateTime().toLocalDate();
+				int id = result.getInt("id");
+				OpenLesDag openlesdag = new OpenLesDag(id, titel, locatie, datum);
+				openlesdagen.add(openlesdag);
+			}
+			return openlesdagen;
+		} catch (SQLException e) {
+			throw new DomainException(e.getMessage());
 		}
 	}
 }

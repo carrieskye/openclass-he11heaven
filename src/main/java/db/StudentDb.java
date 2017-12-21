@@ -34,7 +34,7 @@ public class StudentDb {
 		if (student == null) {
 			throw new DbException("No student given");
 		}
-		String sql = "INSERT INTO student(voornaam, naam, email) " + "VALUES (?,?,?)";
+		String sql = "INSERT INTO student(voornaam, naam, email) VALUES (?,?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 			statement.setString(1, student.getFirstName());
@@ -51,6 +51,26 @@ public class StudentDb {
 
 			return key;
 
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+	}
+	
+	public void updateStudent(Student student) {
+		if (student == null)
+			throw new DbException("no student given.");
+		
+		String query = "UPDATE student SET voornaam = ?, naam = ?, email = ? WHERE studentid = ?";
+		
+		try (Connection connection = DriverManager.getConnection(url, properties);
+			PreparedStatement statement = connection.prepareStatement(query);) 
+		{
+			statement.setString(1, student.getFirstName());
+			statement.setString(2, student.getLastName());
+			statement.setString(3, student.getEmail());
+			System.out.println(student.getId());
+			statement.setInt(4, student.getId());
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}

@@ -40,23 +40,26 @@ public class InschrijvingenDb {
 			throw new DbException("no session given.");
 		String sql = "INSERT INTO inschrijving(studentid, sessieid) " + "VALUES (?,?)";
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				PreparedStatement statement = connection.prepareStatement(sql);) {
+			PreparedStatement statement = connection.prepareStatement(sql);) {
 			statement.setInt(1, student.getId());
 			statement.setInt(2, sessieId);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
-		
 	}
 
 	public ArrayList<Student> get(int sessieId) {
 		if (sessieId < 0) {
 			throw new DbException("no sessionId given.");
 		}
+		String query = "SELECT * FROM inschrijving WHERE sessieid = ?";
+		
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				Statement statement = connection.createStatement();) {
-			ResultSet result = statement.executeQuery("SELECT * FROM inschrijving WHERE sessieid = " + sessieId);
+			PreparedStatement statement = connection.prepareStatement(query))
+		{
+			statement.setInt(1, sessieId);
+			ResultSet result = statement.executeQuery();
 			ArrayList<Student> students = new ArrayList<Student>();
 			while (result.next()) {
 				students.add(studentDb.get(result.getInt("studentid")));
@@ -71,9 +74,13 @@ public class InschrijvingenDb {
 		if (studentId == 0 || sessieId == 0) {
 			throw new DbException("No student or session given.");
 		}
-		String sql = "DELETE FROM inschrijving WHERE sessieid = " + sessieId + " AND studentid = " + studentId;
+		String sql = "DELETE FROM inschrijving WHERE sessieid = ? AND studentid = ?";
+		
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				PreparedStatement statement = connection.prepareStatement(sql);) {
+				PreparedStatement statement = connection.prepareStatement(sql);) 
+		{
+			statement.setInt(1, sessieId);
+			statement.setInt(2, studentId);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);

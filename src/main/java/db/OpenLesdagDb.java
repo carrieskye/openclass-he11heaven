@@ -7,12 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import domain.DomainException;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
@@ -33,11 +33,16 @@ public class OpenLesdagDb {
 		this.properties = properties;
 	}
 
-	public List<OpenLesDag> getLesdagen(String opleiding) {
-		try (Connection connection = DriverManager.getConnection(url, properties);
-				Statement statement = connection.createStatement();) {
+	public List<OpenLesDag> getLesdagen(int opleiding){
+		String query = "SELECT * FROM openlesdag WHERE opleiding = ?";
+		try(
+			Connection connection = DriverManager.getConnection(url, properties);	
+			PreparedStatement statement = connection.prepareStatement(query);
+		) {
+			statement.setInt(1, opleiding);
 			ArrayList<OpenLesDag> lesdagen = new ArrayList<>();
-			ResultSet result = statement.executeQuery("SELECT * FROM openlesdag WHERE opleiding = " + opleiding + "");
+			ResultSet result = statement.executeQuery();
+
 			// als er openlesdagen zijn voor deze opleiding:
 			if (result.isBeforeFirst()) {
 				// alle openlesdagen ophalen voor die opleiding
@@ -97,7 +102,7 @@ public class OpenLesdagDb {
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setDate(1, Date.valueOf((openDay.getDatum())));
-			statement.setInt(2, openDay.getOpleidingID());
+			statement.setInt(2, openDay.getId());
 
 			statement.setString(3, openDay.getTitel());
 			statement.setString(4, openDay.getLocatie());
@@ -136,5 +141,48 @@ public class OpenLesdagDb {
 		}
 
 		return id;
+	}
+	
+	public OpenLesDag getOpenlesdagVanSessie(int sessieId) throws SQLException {
+		String query = "SELECT O.id FROM sessie S INNER JOIN openlesdag O ON (S.openlesdagid = O.id)  WHERE S.sessieid = ?";
+		
+		try(
+			Connection connection = DriverManager.getConnection(url, properties);	
+			PreparedStatement statement = connection.prepareStatement(query);
+		) {
+			statement.setInt(1, sessieId);
+			ResultSet result = statement.executeQuery();
+			
+			while (result.next()) {
+				int openlesdagId = result.getInt("id");
+				return getOpenlesdag(openlesdagId);
+			}
+			return null;
+		}
+	}
+		
+	public OpenLesDag getOpenlesdag(int openlesdagId) throws SQLException {
+		String query = "SELECT * FROM openlesdag WHERE id = ?"; 
+		
+		try(
+			Connection connection = DriverManager.getConnection(url, properties);	
+			PreparedStatement statement = connection.prepareStatement(query);
+		) {
+			statement.setInt(1, openlesdagId);
+			OpenLesDag lesdag = null;
+			ResultSet result = statement.executeQuery();
+
+			while (result.next()) {
+				int id = result.getInt("id");
+				String titel = result.getString("titel");
+				String locatie = result.getString("locatie");
+				LocalDate datum = result.getDate("datum").toLocalDate();
+				
+				lesdag = new OpenLesDag(id, titel, locatie, datum);
+				
+			}
+			return lesdag;
+		}
+
 	}
 }

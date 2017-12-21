@@ -15,15 +15,13 @@ public class OpenClassSession {
 	private String header;
 	private int maxEntries;
 	private int currentEntries;
-	private boolean volzet;
 	private ArrayList<Student> students;
 	private String classroom;
 	private int opleidingsid;
 	private int openlesdagid;
 
-
-	public OpenClassSession(int id, String title, String description, LocalTime start, LocalTime end,
-			int maxEntries, String classroom, int currentEntries) {
+	public OpenClassSession(int id, String title, String description, LocalTime start, LocalTime end, int maxEntries,
+			String classroom, int currentEntries) {
 
 		this.id = id;
 		setTitle(title);
@@ -36,9 +34,9 @@ public class OpenClassSession {
 		setCurrentEntries(currentEntries);
 		students = new ArrayList<>();
 	}
-	
-	public OpenClassSession(int id, String title, String description, LocalTime start, LocalTime end,
-			int maxEntries, String classroom) {
+
+	public OpenClassSession(int id, String title, String description, LocalTime start, LocalTime end, int maxEntries,
+			String classroom) {
 		this(id, title, description, start, end, maxEntries, classroom, 0);
 	}
 
@@ -53,18 +51,20 @@ public class OpenClassSession {
 	public void setCurrentEntries(int currentEntries) {
 		this.currentEntries = currentEntries;
 	}
-	
+
 	public int getMaxEntries() {
 		return maxEntries;
 	}
 
 	public void setMaxEntries(int maxEntries) {
-		if(maxEntries < 1){throw new DomainException("Maximum amount of entries is unvalid.");}
+		if (maxEntries < 1) {
+			throw new DomainException("Maximum amount of entries is unvalid.");
+		}
 		this.maxEntries = maxEntries;
 	}
 
 	public void setDescription(String description) {
-		if(description == null || description.trim().isEmpty()){
+		if (description == null || description.trim().isEmpty()) {
 			throw new DomainException("Description can't be empty.");
 		}
 		this.description = description;
@@ -85,7 +85,7 @@ public class OpenClassSession {
 	}
 
 	public void setEnd(LocalTime end) {
-		if(end.isBefore(start)) {
+		if (end.isBefore(start)) {
 			throw new DomainException("End date must be after start date");
 		}
 		this.end = end;
@@ -97,9 +97,9 @@ public class OpenClassSession {
 	}
 
 	public void setTitle(String title) {
-		if(title == null || title.trim().isEmpty())
+		if (title == null || title.trim().isEmpty())
 			throw new DomainException("Title can't be empty");
-		if(match(title, "^(\\d).*$"))
+		if (match(title, "^(\\d).*$"))
 			throw new DomainException("Title cannot consist of only numbers.");
 		this.title = title;
 	}
@@ -110,16 +110,14 @@ public class OpenClassSession {
 		}
 		this.classroom = a;
 	}
-	
-	public void setOpleidingid(int a){
+
+	public void setOpleidingid(int a) {
 		this.opleidingsid = a;
 	}
-	
-	public int getOpleidingsid(){
+
+	public int getOpleidingsid() {
 		return this.opleidingsid;
 	}
-	
-	
 
 	public int getId() {
 		return this.id;
@@ -148,7 +146,7 @@ public class OpenClassSession {
 	public String getClassroom() {
 		return this.classroom;
 	}
-	
+
 	public String toStringHour() {
 		return this.getStart().getHour() + ":" + this.getStart().getMinute();
 	}
@@ -160,15 +158,18 @@ public class OpenClassSession {
 	public void setOpenlesdagid(int openlesdagid) {
 		this.openlesdagid = openlesdagid;
 	}
-	
-	private boolean match(String text, String pattern) {
-		Pattern p =  Pattern.compile(pattern);
-		Matcher matcher = p.matcher(text);
-		if(matcher.find()) {
-			return true;
-		}
-		else return false;
 
+	private boolean match(String text, String pattern) {
+		Pattern p = Pattern.compile(pattern);
+		Matcher matcher = p.matcher(text);
+		if (matcher.find()) {
+			return true;
+		} else
+			return false;
 	}
-	
+
+	public boolean isVolzet() {
+		return currentEntries >= maxEntries;
+	}
+
 }
