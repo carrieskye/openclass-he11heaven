@@ -1,11 +1,13 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class OpenLesdagDb {
 	String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
 	String user = "hakkaton_11";
 	Properties properties;
+
 	public OpenLesdagDb() throws ClassNotFoundException, SQLException {
 		String p = "IeS5nahweitohwaa";
 		Properties properties = new Properties();
@@ -29,14 +32,12 @@ public class OpenLesdagDb {
 		Class.forName("org.postgresql.Driver");
 		this.properties = properties;
 	}
-	
-	public List<OpenLesDag> getLesdagen(String opleiding){
-		try(
-			Connection connection = DriverManager.getConnection(url, properties);	
-			Statement statement = connection.createStatement();
-		) {
+
+	public List<OpenLesDag> getLesdagen(String opleiding) {
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				Statement statement = connection.createStatement();) {
 			ArrayList<OpenLesDag> lesdagen = new ArrayList<>();
-			ResultSet result = statement.executeQuery( "SELECT * FROM openlesdag WHERE opleiding = "+ opleiding +"" );
+			ResultSet result = statement.executeQuery("SELECT * FROM openlesdag WHERE opleiding = " + opleiding + "");
 			// als er openlesdagen zijn voor deze opleiding:
 			if (result.isBeforeFirst()) {
 				// alle openlesdagen ophalen voor die opleiding
@@ -45,33 +46,30 @@ public class OpenLesdagDb {
 					String titel = result.getString("titel");
 					String locatie = result.getString("locatie");
 					LocalDate datum = result.getDate("datum").toLocalDate();
-					
+
 					OpenLesDag lesdag = new OpenLesDag(id, titel, locatie, datum);
 					lesdag.addAllSessies(getSessies(id));
 					lesdagen.add(lesdag);
 				}
 				return lesdagen;
-			}
-			else {
+			} else {
 				return null;
 			}
 
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DomainException(e.getMessage());
 		}
 	}
-	
+
 	private List<OpenClassSession> getSessies(int openlesdagid) {
 		List<OpenClassSession> sessies = new ArrayList<>();
 		String query = "SELECT * FROM sessie WHERE openlesdagid = ?";
-		
-		try(
-			Connection connection = DriverManager.getConnection(url, properties);	
-			PreparedStatement statement = connection.prepareStatement(query);
-		) {
+
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(query);) {
 			statement.setInt(1, openlesdagid);
 			ResultSet result = statement.executeQuery();
-			
+
 			while (result.next()) {
 				String naam = result.getString("naam");
 				String beschrijving = result.getString("beschrijving");
@@ -80,16 +78,35 @@ public class OpenLesdagDb {
 				int sessieid = result.getInt("sessieid");
 				int max_inschrijvingen = result.getInt("max_inschrijvingen");
 				String klaslokaal = result.getString("klaslokaal");
-				
-				OpenClassSession sessie = new OpenClassSession(sessieid, naam, beschrijving, begin, einde, max_inschrijvingen, klaslokaal);
+
+				OpenClassSession sessie = new OpenClassSession(sessieid, naam, beschrijving, begin, einde,
+						max_inschrijvingen, klaslokaal);
 				sessies.add(sessie);
 			}
-			
+
 			return sessies;
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException();
 		}
-		
+	}
+
+	public void addOpenDay(OpenLesDag openDay) {
+
+		String sql = "INSERT into openlesdag (datum, opleiding, titel, locatie) VALUES (?,?,?,?)";
+
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setDate(1, Date.valueOf((openDay.getDatum())));
+			statement.setInt(2, openDay.getOpleidingID());
+
+			statement.setString(3, openDay.getTitel());
+			statement.setString(4, openDay.getLocatie());
+
+			statement.executeUpdate();
+			connection.close();
+
+		} catch (Exception e) {
+			System.out.println("werkt niet: " + e.getMessage());
+		}
 	}
 }

@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ import javax.servlet.http.Part;
 import java.time.*;
 
 import org.apache.xalan.xsltc.dom.LoadDocument;
-import org.joda.time.LocalDate;
 
 import db.AfdelingDb;
 import db.ImageDb;
@@ -119,6 +118,12 @@ public class Controller extends HttpServlet {
 			break;
 		case "removeSessionStudent":
 			destination = removeSessionStudent(request, response);
+			break;
+		case "showAddOpenDay":
+			destination = showAddOpenDay(request, response);
+			break;
+		case "addOpenDay":
+			destination = addOpenDay(request, response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -243,6 +248,65 @@ public class Controller extends HttpServlet {
 		return "voegSessieToe.jsp";
 	}
 
+	private String showAddOpenDay(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
+		return "addOpenDay.jsp";
+	}
+
+	private String addOpenDay(HttpServletRequest request, HttpServletResponse response) {
+
+		List<String> errors = new ArrayList<String>();
+		OpenLesDag openDay = new OpenLesDag();
+		
+		setTitel(openDay, errors, request.getParameter("title"));
+		setLocation(openDay, errors, request.getParameter("location"));
+		setDatum(openDay, errors, request.getParameter("date"));
+		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("opleiding"));
+		
+		if(errors.size() == 0) {
+			openLesdagDb.addOpenDay(openDay);
+			return "index.jsp";
+		}else {
+			request.setAttribute("errorMessage", errors);
+			return "addOpenDay.jsp";
+		}
+	}
+
+	private void setOpenlesdagOpleidingID(OpenLesDag openDay, List<String> errors, String opleiding) {
+		try {
+			openDay.setOpleidingID(Integer.parseInt(opleiding));
+		} catch (Exception e) {
+			errors.add(e.getMessage());
+		}
+		
+	}
+
+	private void setDatum(OpenLesDag openDay, List<String> errors, String date) {
+		try {
+			LocalDate localDate = LocalDate.parse(date);
+			openDay.setDatum(localDate);
+		} catch (Exception e) {
+			errors.add(e.getMessage());
+		}
+	}
+
+	private void setLocation(OpenLesDag openDay, List<String> errors, String location) {
+		try {
+			openDay.setLocatie(location);
+		} catch (Exception e) {
+			errors.add(e.getMessage());
+		}
+	}
+
+	private void setTitel(OpenLesDag openDay, List<String> errors, String title) {
+		try {
+			openDay.setTitel(title);
+		} catch (Exception e) {
+			errors.add(e.getMessage());
+		}
+		
+	}
+
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		
@@ -250,7 +314,7 @@ public class Controller extends HttpServlet {
 		OpenClassSession sessie = new OpenClassSession();
 
 		setTitel(sessie,errors,request.getParameter("sessionName"));
-		setdescription(sessie,errors,request.getParameter("content"));
+		setDescription(sessie,errors,request.getParameter("content"));
 		setStartDate(sessie,errors, request.getParameter("date"), request.getParameter("beginTime"));
 		setEndDate(sessie,errors,request.getParameter("date"), request.getParameter("endTime"));
 		setmaxEntries(sessie,errors, request.getParameter("maxaantal"));
@@ -258,16 +322,12 @@ public class Controller extends HttpServlet {
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 
 		if(errors.size() == 0){
-			System.out.println("alles ok");
 			sessieDb.addNewSession(sessie);
 			return "index.jsp";
 		} else {
 			request.setAttribute("errormessage", errors);
 			return "voegSessieToe.jsp";
 		}
-
-	
-
 	}
 
 	private void setOpleidingsid(OpenClassSession sessie, List<String> errors, String id) {
@@ -298,7 +358,6 @@ public class Controller extends HttpServlet {
 				errors.add("Max entries is not correct!");
 			}
 		}
-
 	}
 
 	private void setEndDate(OpenClassSession sessie, List<String> errors, String date, String endDate) {
@@ -308,7 +367,6 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
-
 	}
 
 	private void setStartDate(OpenClassSession sessie, List<String> errors, String date, String startDate) {
@@ -324,7 +382,7 @@ public class Controller extends HttpServlet {
 		}
 	}
 
-	private void setdescription(OpenClassSession sessie, List<String> errors, String inhoud) {
+	private void setDescription(OpenClassSession sessie, List<String> errors, String inhoud) {
 		try {
 			sessie.setDescription(inhoud);
 		} catch (Exception e) {
