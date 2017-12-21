@@ -42,7 +42,6 @@ public class Controller extends HttpServlet {
 	private OpenClassService service;
 	private ImageDb imageDb;
 	private AfdelingDb afdelingDb;
-	private OpleidingDb opleidingDb;
 	ArrayList<Afdeling> afdelingen;
 	private SessieDb sessieDb;
 	private OpenLesdagDb openLesdagDb;
@@ -60,12 +59,8 @@ public class Controller extends HttpServlet {
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		inschrijvingenDb = new InschrijvingenDb();
-<<<<<<< HEAD
-		opleidingDb = new OpleidingDb();
-=======
 		
 		service = new OpenClassService();
->>>>>>> c668f911b39e6bdf62d99f42dfd3463ed4b4b12d
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
