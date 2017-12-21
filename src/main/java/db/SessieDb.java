@@ -14,19 +14,19 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import controller.Controller;
-
+import domain.OpenClassService;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
 import domain.Student;
 
 public class SessieDb {
 
+	private OpenClassService service;
 	private Properties properties = new Properties();
 	private String url = "jdbc:postgresql://databanken.ucll.be:51718/hakkaton?currentSchema=he11heaven";
-	private Controller controller;
 
-	public SessieDb(Controller controller) {
-		this.controller = controller;
+	public SessieDb(OpenClassService service) {
+		this.service = service;
 
 		properties.setProperty("user", "hakkaton_11");
 		properties.setProperty("password", "IeS5nahweitohwaa");
@@ -60,7 +60,7 @@ public class SessieDb {
 			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+					maxInschrijvingen, klaslokaal, service.telAantalInschrijvingen(sessionId));
 			return sessie;
 
 		} catch (SQLException e) {
@@ -85,7 +85,7 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+						maxInschrijvingen, klaslokaal, service.telAantalInschrijvingen(sessionId));
 
 				sessies.add(sessie);
 			}
@@ -162,7 +162,7 @@ public class SessieDb {
 				String klaslokaal = result.getString("klaslokaal");
 
 				OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-						maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
+						maxInschrijvingen, klaslokaal, service.telAantalInschrijvingen(sessionId));
 				sessies.add(sessie);
 			}
 

@@ -47,9 +47,7 @@ public class OpleidingDb {
 				return rs.getString("naam");
 			}else {
 				throw new DbException("opleiding not found");
-			}
-			
-			
+			}		
 			
 		}catch(Exception e) {
 			throw new DbException("fout");

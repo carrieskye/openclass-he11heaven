@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import domain.Student;
@@ -49,7 +50,7 @@ public class InschrijvingenDb {
 		}
 	}
 
-	public ArrayList<Student> get(int sessieId) {
+	public List<Student> get(int sessieId) {
 		if (sessieId < 0) {
 			throw new DbException("no sessionId given.");
 		}
@@ -60,7 +61,7 @@ public class InschrijvingenDb {
 		{
 			statement.setInt(1, sessieId);
 			ResultSet result = statement.executeQuery();
-			ArrayList<Student> students = new ArrayList<Student>();
+			List<Student> students = new ArrayList<Student>();
 			while (result.next()) {
 				students.add(studentDb.get(result.getInt("studentid")));
 			}

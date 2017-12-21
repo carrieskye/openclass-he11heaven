@@ -119,7 +119,8 @@ public class OpenLesdagDb {
 		int id = -1;
 
 		try (Connection connection = DriverManager.getConnection(url, properties);
-				Statement statement = connection.createStatement();) {
+			Statement statement = connection.createStatement();) 
+		{
 			ResultSet aantal = statement.executeQuery(
 					"SELECT COUNT (*) FROM openlesdag WHERE opleiding =" + opleidingID + "AND datum = '" + date + "'");
 			boolean checkaantal = false;
