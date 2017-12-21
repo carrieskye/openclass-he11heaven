@@ -1,7 +1,6 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +15,6 @@ import java.util.Properties;
 import controller.Controller;
 import domain.OpenClassService;
 import domain.OpenClassSession;
-import domain.OpenLesDag;
 import domain.Student;
 
 public class SessieDb {

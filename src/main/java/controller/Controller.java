@@ -33,6 +33,7 @@ import domain.DomainException;
 import domain.OpenClassService;
 import domain.OpenClassSession;
 import domain.OpenLesDag;
+import domain.Opleiding;
 import domain.Student;
 
 @WebServlet("/Controller")
@@ -114,10 +115,10 @@ public class Controller extends HttpServlet {
 			destination = toonInschrijvingenOpenlesdagen(request, response);
 			break;
 		case "toonInschrijvingenSessies":
-			destination = toonInschrijvingenSessies(request,response);
+			destination = toonInschrijvingenSessies(request, response);
 			break;
-		case "inschrijvingen":
-			destination = inschrijvingen(request, response);
+		case "toonInschrijvingen":
+			destination = toonInschrijvingen(request, response);
 			break;
 		case "showAddOpenDay":
 			destination = showAddOpenDay(request, response);
@@ -135,40 +136,6 @@ public class Controller extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(destination);
 			rd.forward(request, response);
 		}
-	}
-
-
-
-	private String addOpenDaySession(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<String> errors = new ArrayList<String>();
-		OpenLesDag openDay = new OpenLesDag();
-		setTitel(openDay, errors, request.getParameter("title"));
-		setLocation(openDay, errors, request.getParameter("location"));
-		setDatum(openDay, errors, request.getParameter("date"));
-		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("opleiding"));
-		
-		if(errors.isEmpty()) {
-			service.addOpenDay(openDay);
-		}
-		
-		OpenClassSession sessie = new OpenClassSession();
-
-		setTitel(sessie, errors, request.getParameter("sessionName"));
-		setDescription(sessie, errors, request.getParameter("content"));
-		setStartTime(sessie, errors,  request.getParameter("beginTime"));
-		setEndTime(sessie, errors,  request.getParameter("endTime"));
-		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
-		setClassroom(sessie, errors, request.getParameter("classroom"));
-		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
-		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
-		
-		if(errors.isEmpty()) {
-			service.addNewSession(sessie);
-			return sessionOverview(request, response);
-		}else {
-			request.setAttribute("errormessage", errors);
-			return "addOpenDaySession.jsp";
-		}	
 	}
 
 	private String openDayOverview(HttpServletRequest request, HttpServletResponse response)
@@ -272,17 +239,20 @@ public class Controller extends HttpServlet {
 		return "opleidingOverzicht.jsp";
 	}
 
-	private String registerForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private String registerForm(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		String id = request.getParameter("sessionId");
 		int sessionId = Integer.valueOf(id);
 		OpenClassSession sessie = service.getSessie(sessionId);
 		
 		if (sessie.isVolzet()) {
-			request.setAttribute("infoMessage", "De sessie waarvoor je probeerde in te schrijven is volzet. Je kan hiervoor niet meer inschrijven.");
+			request.setAttribute("infoMessage",
+					"De sessie waarvoor je probeerde in te schrijven is volzet. Je kan hiervoor niet meer inschrijven.");
 			return sessionOverview(request, response);
 		}
 		
 		request.setAttribute("session", service.getSessie(sessionId));
+
 		return "registration.jsp";
 	}
 
@@ -297,7 +267,8 @@ public class Controller extends HttpServlet {
 		return "addOpenDay.jsp";
 	}
 
-	private String addOpenDay(HttpServletRequest request, HttpServletResponse response) {
+	private String addOpenDay(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 
 		List<String> errors = new ArrayList<String>();
 		OpenLesDag openDay = new OpenLesDag();
@@ -305,12 +276,14 @@ public class Controller extends HttpServlet {
 		setTitel(openDay, errors, request.getParameter("title"));
 		setLocation(openDay, errors, request.getParameter("location"));
 		setDatum(openDay, errors, request.getParameter("date"));
-		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("opleiding"));
+		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("id"));
 
 		if (errors.size() == 0) {
 			service.addOpenDay(openDay);
-			return "index.jsp";
+
+			return openDayOverview(request, response);
 		} else {
+			request.setAttribute("errorMessage", errors);
 			request.setAttribute("errormessage", errors);
 			return "addOpenDay.jsp";
 		}
@@ -360,16 +333,11 @@ public class Controller extends HttpServlet {
 		setTitel(sessie, errors, request.getParameter("sessionName"));
 		setDescription(sessie, errors, request.getParameter("content"));
 		setStartTime(sessie, errors, request.getParameter("beginTime"));
-		setEndTime(sessie, errors,  request.getParameter("endTime"));
+		setEndTime(sessie, errors, request.getParameter("endTime"));
 		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
 		setClassroom(sessie, errors, request.getParameter("classroom"));
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
-		
-		/*request.setAttribute("classroomPreviousValue", request.getParameter("classroom"));
-		request.setAttribute("sessionNamePreviousValue", request.getParameter("sessionName"));
-		request.setAttribute("beginTimePreviousValue", request.getParameter("beginTime"));*/
-
 		
 		 if (sessie.getOpenlesdagid() < 1) {
 			request.setAttribute("afdelingen", service.getAfdelingen());
@@ -383,7 +351,6 @@ public class Controller extends HttpServlet {
 			service.addNewSession(sessie);
 			return sessionOverview(request, response);
 		} else {
-
 			request.setAttribute("errormessage", errors);
 			request.setAttribute("afdelingen", service.getAfdelingen());
 
@@ -470,16 +437,53 @@ public class Controller extends HttpServlet {
 
 	}
 
+	private String addOpenDaySession(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		List<String> errors = new ArrayList<String>();
+		OpenLesDag openDay = new OpenLesDag();
+		setTitel(openDay, errors, request.getParameter("title"));
+		setLocation(openDay, errors, request.getParameter("location"));
+		setDatum(openDay, errors, request.getParameter("date"));
+		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("opleiding"));
+
+		if (errors.isEmpty()) {
+			service.addOpenDay(openDay);; 
+		} else {
+			request.setAttribute("errormessage", errors);
+			return "addOpenDaySession.jsp";
+		}
+
+		OpenClassSession sessie = new OpenClassSession();
+
+		setTitel(sessie, errors, request.getParameter("sessionName"));
+		setDescription(sessie, errors, request.getParameter("content"));
+		setStartTime(sessie, errors, request.getParameter("beginTime"));
+		setEndTime(sessie, errors, request.getParameter("endTime"));
+		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
+		setClassroom(sessie, errors, request.getParameter("classroom"));
+		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
+		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
+
+		if (errors.isEmpty()) {
+			service.addNewSession(sessie);
+			return sessionOverview(request, response);
+		} else {
+			request.setAttribute("errormessage", errors);
+			return "addOpenDaySession.jsp";
+		}
+
+	}
+
 	private String registerStudent(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		// als de sessie volzet is, niet meer inschrijven
 		int sessieId = Integer.valueOf(request.getParameter("sessionId"));
 		OpenClassSession sessie = service.getSessie(sessieId);
-		
+
 		if (sessie.isVolzet()) {
-			request.setAttribute("infoMessage", "De sessie waarvoor je probeerde in te schrijven is volzet. Je kan hiervoor niet meer inschrijven.");
-		}
-		else {
+			request.setAttribute("infoMessage",
+					"De sessie waarvoor je probeerde in te schrijven is volzet. Je kan hiervoor niet meer inschrijven.");
+		} else {
 			List<String> result = new ArrayList<String>();
 			Student student = new Student();
 			getFirstName(student, request, result);
@@ -492,7 +496,9 @@ public class Controller extends HttpServlet {
 				int studentId = service.addStudent(student);
 				service.addInschrijving(service.getStudent(studentId), Integer.valueOf(request.getParameter("sessionId")));
 				sendMail(request, response, studentId);
-				request.setAttribute("infoMessage", String.format("Je bent ingeschreven voor de volgende sessie: %s (%s - %s)", sessie.getTitle(), sessie.getStart(), sessie.getEnd()));
+				request.setAttribute("infoMessage",
+						String.format("Je bent ingeschreven voor de volgende sessie: %s (%s - %s)", sessie.getTitle(),
+								sessie.getStart(), sessie.getEnd()));
 			}
 		}
 		return sessionOverview(request, response);
@@ -553,34 +559,37 @@ public class Controller extends HttpServlet {
 		request.setAttribute("firstNamePreviousValue", student.getFirstName());
 		request.setAttribute("lastNamePreviousValue", student.getLastName());
 		request.setAttribute("emailPreviousValue", student.getEmail());
-		
+
 		request.setAttribute("wijzigen", true);
-		
+
 		return "registration.jsp";
 	}
-	
-	private String updateStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+	private String updateStudent(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		int studentId = Integer.parseInt(request.getParameter("id"));
 		int sessionId = Integer.parseInt(request.getParameter("sessionId"));
 		List<String> result = new ArrayList<>();
-		
+
 		Student student = new Student();
 		student.setId(studentId);
 		getFirstName(student, request, result);
 		getLastName(student, request, result);
 		getEmail(student, request, result);
-		
+
 		if (!result.isEmpty()) {
 			request.setAttribute("errormessage", result);
 			request.setAttribute("wijzigen", true);
 			request.setAttribute("sessionId", sessionId);
-			
+
 			return "registration.jsp";
 		} else {
 			service.updateStudent(student, sessionId);
-			// inschrijvingenDb.add(studentDb.get(studentId), Integer.valueOf(request.getParameter("sessionId")));
-			request.setAttribute("infoMessage", "Inschrijving voor " + student.getFirstName() + " " + student.getLastName() + " aangepast.");
-		}		
+			// inschrijvingenDb.add(studentDb.get(studentId),
+			// Integer.valueOf(request.getParameter("sessionId")));
+			request.setAttribute("infoMessage",
+					"Inschrijving voor " + student.getFirstName() + " " + student.getLastName() + " aangepast.");
+		}
 		return sessionOverview(request, response);
 	}
 
@@ -598,6 +607,7 @@ public class Controller extends HttpServlet {
 	}
 
 	private String toonAlleInschrijvingen(HttpServletRequest request, HttpServletResponse response) {
+
 		Map<OpenClassSession, List<Student>> inschrijvingen = new HashMap<>();
 		
 		for (OpenClassSession sessie : service.getAllSessions()) {
@@ -605,24 +615,97 @@ public class Controller extends HttpServlet {
 		}
 		request.setAttribute("afdelingen", service.getAfdelingen());
 		request.setAttribute("opleidingen", service.getOpleidingen());
-		request.setAttribute("inschrijvingen", inschrijvingen);
+
+		maakInschrijvingen(request, response, -1, -1, -1);
+
 		return "inschrijvingen.jsp";
 
 	}
 
 	private String toonInschrijvingenOpenlesdagen(HttpServletRequest request, HttpServletResponse response) {
-		int opleidingId = Integer.parseInt(request.getParameter("opleidingId"));
-		request.setAttribute("openlesdagen", service.getOpenlesdagen(opleidingId));
-		return "inschrijvingen.jsp";
+
+		if (request.getParameter("opleidingId").equals("alleopleidingen")) {
+			ArrayList<OpenLesDag> openlesdagen = new ArrayList<>();
+			for (Opleiding opleiding : service.getOpleidingen()) { 
+				openlesdagen.addAll(opleiding.getOpenLesDagen());
+			}
+			request.setAttribute("openlesdagen", openlesdagen);
+			maakInschrijvingen(request, response, -1, -1, -1);
+		} else {
+			int opleidingId = Integer.parseInt(request.getParameter("opleidingId"));
+			maakInschrijvingen(request, response, opleidingId, -1, -1);
+			request.setAttribute("openlesdagen", service.getOpenlesdagen(opleidingId)); 
+		}
+		return toonAlleInschrijvingen(request, response);
+
 	}
 
 	private String toonInschrijvingenSessies(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("sessies", null);
-		return "inschrijvingen.jsp";
+		int opleidingId = Integer.parseInt(request.getParameter("opleidingId"));
+		if (request.getParameter("openlesdagId").equals("alleopenlesdagen")) {
+			ArrayList<OpenClassSession> sessies = new ArrayList<>();
+			request.setAttribute("sessies", sessies);
+			maakInschrijvingen(request, response, opleidingId, -1, -1);
+		} else {
+			int openLesDagId = Integer.parseInt(request.getParameter("openlesdagId"));
+			maakInschrijvingen(request, response, opleidingId, openLesDagId, -1);
+			request.setAttribute("sessies", service.getSessiesVanOpenLesDag(openLesDagId)); 
+		}
+		return toonInschrijvingenOpenlesdagen(request, response);
 	}
 
-	private String inschrijvingen(HttpServletRequest request, HttpServletResponse response) {
-		return null;
+	private String toonInschrijvingen(HttpServletRequest request, HttpServletResponse response) {
+		int opleidingId = Integer.parseInt(request.getParameter("opleidingId"));
+		int openlesdagId = Integer.parseInt(request.getParameter("openlesdagId"));
+		if (request.getParameter("sessieId").equals("allesessies")) {
+			maakInschrijvingen(request, response, opleidingId, openlesdagId, -1);
+		} else {
+			int sessieId = Integer.parseInt(request.getParameter("sessieId"));
+			maakInschrijvingen(request, response, opleidingId, openlesdagId, sessieId);
+		}
+		return toonInschrijvingenSessies(request, response);
+	}
+
+	private void maakInschrijvingen(HttpServletRequest request, HttpServletResponse response, int opleidingId,
+			int openlesdagId, int sessieId) {
+		Map<OpenClassSession, List<Student>> inschrijvingen = new HashMap<>();
+
+		if (request.getAttribute("inschrijvingen") == null) {
+			if (opleidingId < 0) {
+				for (OpenClassSession sessie : service.getAllSessions()) {
+					inschrijvingen.put(sessie, service.getAllStudents(sessie.getId())); 
+				}
+			} else {
+				System.out.println("Er is een opleidingsId");
+				request.setAttribute("opleidingId", opleidingId);
+				if (openlesdagId < 0) {
+					for (OpenClassSession sessie : service.getAllSessions()) {
+						if (sessie.getOpleidingsid() == opleidingId) {
+							inschrijvingen.put(sessie, service.getAllStudents(sessie.getId()));
+						}
+					}
+				} else {
+					request.setAttribute("openlesdagId", openlesdagId);
+					if (sessieId < 0) {
+						for (OpenClassSession sessie : service.getAllSessions()) {
+							if (sessie.getOpleidingsid() == opleidingId && sessie.getOpenlesdagid() == openlesdagId) {
+								inschrijvingen.put(sessie, service.getAllStudents(sessie.getId()));
+							}
+						}
+					} else {
+						request.setAttribute("sessieId", sessieId);
+						for (OpenClassSession sessie : service.getAllSessions()) {
+							if (sessie.getOpleidingsid() == opleidingId && sessie.getOpenlesdagid() == openlesdagId
+									&& sessie.getId() == sessieId) {
+								inschrijvingen.put(sessie, service.getAllStudents(sessie.getId()));
+							}
+						}
+					}
+				}
+			}
+
+			request.setAttribute("inschrijvingen", inschrijvingen);
+		}
 	}
 
 }

@@ -14,6 +14,8 @@
 		<div class="jumbotron">
 			<h1>Voeg een openlesdag toe</h1>
 
+			<p>Geef alle informatie van een openlesdag die je wilt toevoegen.</p>
+
 			<c:choose>
 				<c:when test="${errormessage != null}">
 					<div class="alert-danger">
@@ -45,22 +47,23 @@
 						class="form-control" id="date" required
 						value="${datePreviousValue}">
 				</div>
-						<div class="form-group">
-							<select name="opleiding">
-								<c:forEach var="afdeling" items="${afdelingen}">
-									<optgroup label="${afdeling.naam}">
-										<c:out value="${afdeling.naam}" />
+				<div class="form-group">
+					<select name="id">
+						<c:forEach var="afdeling" items="${afdelingen}">
+							<optgroup label="${afdeling.naam}">
+								<c:out value="${afdeling.naam}" />
 
-										<c:forEach var="opleiding" items="${afdeling.opleidingen}">
-											<option value="${opleiding.id}" ><c:out
-													value="${opleiding.naam}" /></option>
-										</c:forEach>
-									</optgroup>
+								<c:forEach var="opleiding" items="${afdeling.opleidingen}">
+									<option value="${opleiding.id}"><c:out
+											value="${opleiding.naam}" /></option>
 								</c:forEach>
-							</select>
-						</div>
+							</optgroup>
+						</c:forEach>
+					</select>
+				</div>
 
 				<button type="submit" class="btn btn-primary">Voeg
 					openlesdag toe</button>
+			</form>
 </body>
 </html>

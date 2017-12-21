@@ -133,7 +133,7 @@ public class OpenLesdagDb {
 					"SELECT * FROM openlesdag WHERE opleiding =" + opleidingID + "AND datum = '" + date + "'");
 			if (checkaantal) {
 				if (result.next()) {
-					id = result.getInt(3);
+					id = result.getInt("id");
 				}
 			}
 
