@@ -25,30 +25,27 @@
 					</div>
 				</c:when>
 			</c:choose>
-			
+
 			<form method="post" action="Controller?action=addOpenDay">
 				<div class="form-group">
-					<label for="openDayName">Titel openlesdag</label> 
-					<input type="text"
-						name="openDayName" class="form-control" id="openDayName"
-						placeholder="Titel" required
+					<label for="title">Titel evenement</label> <input type="text"
+						name="title" class="form-control" id="title"
+						placeholder="Bvb. openlesdag, openlesweek, ..." required
 						value="${openDayNamePreviousValue}">
 				</div>
-				
+
 				<div class="form-group">
-					<label for="location">Locatie</label> 
-					<input type="text"
+					<label for="location">Locatie</label> <input type="text"
 						name="location" class="form-control" id="location"
-						placeholder="Campus x" required
-						value="${locationPreviousValue}">
+						placeholder="Campus x" required value="${locationPreviousValue}">
 				</div>
-				
+
 				<div class="form-group">
 					<label for="date">Datum</label> <input type="date" name="date"
 						class="form-control" id="date" required
 						value="${datePreviousValue}">
 				</div>
-				
+
 				<div class="form-group">
 					<select name="opleiding">
 						<c:forEach var="afdeling" items="${afdelingen}">
@@ -63,5 +60,7 @@
 						</c:forEach>
 					</select>
 				</div>
+
+				<button type="submit" class="btn btn-primary">Voeg openlesdag toe</button>
 </body>
 </html>

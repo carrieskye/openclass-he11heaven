@@ -8,6 +8,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 
@@ -16,6 +18,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class Tests {
 
@@ -36,10 +39,12 @@ public class Tests {
 	@Before
 	public void setup(){
 		
-		System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver");
+		System.setProperty("webdriver.chrome.driver", "C://Users//Tom Stockmans//Documents//web3//chromedriver.exe");
 		// windows: gebruik dubbele \\ om pad aan te geven
 		// hint: zoek een werkende test op van web 2 ...
-	driver = new ChromeDriver();
+
+	driver = new HtmlUnitDriver();
+
 	firstName = "";
 	lastName = "";
 	email = "";
@@ -51,12 +56,12 @@ public class Tests {
 	description = "";
 	location = "";
 	category = "";
+
 	System.out.println("ok");
 	}
 	
 	@After
 	public void quit(){
-
 		driver.quit();
 	}
 
@@ -98,14 +103,24 @@ public class Tests {
 
 	@When("^he chooses a the education \"([^\"]*)\"$")
 	public void he_chooses_a_the_education(String education) throws Throwable {
-	    WebElement el = driver.findElement(By.linkText("Toegepaste Informatica"));
+	    WebElement el = driver.findElement(By.linkText(education));
 	    el.click();
 	}
 
 	@Then("^the overview of \"([^\"]*)\" with open days for that education is shown$")
-	public void the_overview_of_with_open_days_for_that_education_is_shown(String arg1) throws Throwable {
-	    WebElement h1 = driver.findElement(By.cssSelector("h1"));
-	    assertEquals(h1.getText(), "Overzicht Openlesdagen");
+	public void the_overview_of_with_open_days_for_that_education_is_shown(String datum) throws Throwable {
+	    WebElement el = driver.findElement(By.className("row"));
+	    String date = "";
+	    BufferedReader bufReader = new BufferedReader(new StringReader(el.getText()));
+	    for(int i = 0; i < 3; i++){
+	    	date += bufReader.readLine().trim() + " ";
+	    }
+	    date = date.trim();
+	    System.out.println(date + "1");
+	    assertEquals(datum, date);
+
+
+	    //assertEquals(h1.getText(), "Overzicht Openlesdagen");
 	}
 
 	@Given("^a user that is on an open campus days page$")
@@ -151,15 +166,15 @@ public class Tests {
 		
 		registerButton.click();
 		
-		WebElement firstNameField = driver.findElement(By.cssSelector("input[name='firstName']"));
-	    WebElement lastNameField = driver.findElement(By.cssSelector("input[name='lastName']"));
-	    WebElement emailField = driver.findElement(By.cssSelector("input[name='email']"));
+		WebElement firstNameField = driver.findElement(By.cssSelector("input[name=\"firstName\"]"));
+	    WebElement lastNameField = driver.findElement(By.cssSelector("input[name=\"lastName\"]"));
+	    WebElement emailField = driver.findElement(By.cssSelector("input[name=\"email\"]"));
 	    
 	    firstNameField.sendKeys(firstName);
 	    lastNameField.sendKeys(lastName);
 	    emailField.sendKeys(email);
 	    
-	    WebElement submit = driver.findElement(By.cssSelector("input[type='submit']"));
+	    WebElement submit = driver.findElement(By.cssSelector("button[type=\"submit\"]"));
 	    submit.click();
 	}
 
@@ -194,7 +209,7 @@ public class Tests {
 
 	@When("^he submits this session$")
 	public void he_submits_this_session_on_the_add_a_session_page() throws Throwable {
-		WebElement submit = driver.findElement(By.cssSelector("input[type='submit']"));
+		WebElement submit = driver.findElement(By.cssSelector("button[type=\"submit\"]"));
 	    submit.click();
 	}
 

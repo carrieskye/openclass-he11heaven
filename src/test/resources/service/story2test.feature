@@ -8,15 +8,15 @@ so that I can see which days I can register for the open campus days of my bache
 Scenario Outline: i can see the overview of the open campus days
 
 Given a user that is on the education overview page
-When he chooses a the education "Toegepaste Informatica"
+When he chooses a the education <education>
 Then the overview of <dates> with open days for that education is shown
 
 	Examples:
 	
-	|dates|
-	|"2018-04-20"|
-	|"2018-04-24"|
-	|"2018-05-10"|
+|education								|dates						|
+|"Toegepaste Informatica"	|"18 apr 2018"		|
+|"Chemie"									|"20 mei 2018"		|
+|"Vroedkunde"							|"13 feb 2018"		|
 
 
 	

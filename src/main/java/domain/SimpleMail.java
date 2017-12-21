@@ -44,7 +44,7 @@ public class SimpleMail {
         MimeMessage message = new MimeMessage(mailSession);
         message.setContent("Beste " + student.getFirstName() 
         				+ "\n\nU heeft zich ingeschreven voor de sessie: " + sessie.getTitle() + ".\n"
-        				+ "We verwachten u op " + openlesdag.datumToStringFormatted() +  " van " + sessie.getStart() + " tot " + sessie.getEnd() + ".\n"
+        				+ "We verwachten u op " + openlesdag.datumToStringFormatted()  +  " van " + sessie.getStart() + " tot " + sessie.getEnd() + ".\n"
         				+ "Zorg dat je optijd bent! \n\n"
         				+ "Indien u toch niet meer kan komen kan u altijd de inschrijving aanpassen of verwijderen op de site.\n\n"
         				+ "Met vriendelijke groet \n"
