@@ -97,6 +97,33 @@ public class StudentDb {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
+	
+	public Student get(String voornaam, String naam, String email) {
+		if (voornaam == null || naam == null || email == null) {
+			throw new DbException("invalid student information");
+		}
+		String sql = "SELECT studentid from student WHERE voornaam = ? and naam = ? and email = ? ";
+		try (Connection connection = DriverManager.getConnection(url, properties);
+				PreparedStatement statement = connection.prepareStatement(sql);) {
+			statement.setString(1, voornaam);
+			statement.setString(2, naam);
+			statement.setString(3, email);
+			ResultSet result = statement.executeQuery();
+			int id = -1;
+			if(result.next())
+				 id = Integer.parseInt(result.getString(1));
+			
+			try {
+			Student student = get(id);
+				return student;
+			}catch(Exception e) {
+				return null;
+			}
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage(), e);
+		}
+	}
 
 	public ArrayList<Student> getAll() {
 		ArrayList<Student> studenten = new ArrayList<Student>();

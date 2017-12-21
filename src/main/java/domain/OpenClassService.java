@@ -128,5 +128,9 @@ public class OpenClassService {
 	public List<Opleiding> getOpleidingen() {
 		return opleidingDb.getOpleidingen();
 	}
+
+	public Student getStudent(String firstName, String lastName, String email) {
+		return studentDb.get(firstName, lastName, email);
+	}
 	
 }
