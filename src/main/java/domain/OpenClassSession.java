@@ -13,7 +13,6 @@ public class OpenClassSession {
 	private String header;
 	private int maxEntries;
 	private int currentEntries;
-	private boolean volzet;
 	private ArrayList<Student> students;
 	private String classroom;
 	private int opleidingsid;
@@ -144,6 +143,10 @@ public class OpenClassSession {
 	
 	public String toStringHour() {
 		return this.getStart().getHour() + ":" + this.getStart().getMinute();
+	}
+	
+	public boolean isVolzet() {
+		return currentEntries >= maxEntries;
 	}
 	
 }

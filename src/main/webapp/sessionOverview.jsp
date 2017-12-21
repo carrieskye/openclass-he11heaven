@@ -15,9 +15,12 @@
 		<div class="jumbotron">
 
 			<h1>Sessies</h1>
+			<c:if test="${infoMessage != null}">
+				<p><c:out value="${infoMessage}"/></p> 
+			</c:if>
 			<c:choose>
-				<c:when test="${message != null}">
-					<p>${message}</p>
+				<c:when test="${noSessionsMessage != null}">
+					<p>${noSessionsMessage}</p>
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="sessionRow" items="${sessions}">

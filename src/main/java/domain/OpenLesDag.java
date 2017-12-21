@@ -103,6 +103,11 @@ public class OpenLesDag {
 		return datum.format(dayFormatter) + "<br>" + datum.format(monthFormatter) + "<br>"
 				+ datum.format(yearFormatter);
 	}
+	
+	public String datumToStringFormatted() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM uuuu");
+		return datum.format(formatter);
+	}
 
 	public String generateTijdstipString() {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
