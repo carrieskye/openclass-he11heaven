@@ -151,15 +151,15 @@ public class Tests {
 		
 		registerButton.click();
 		
-		WebElement firstNameField = driver.findElement(By.cssSelector("input[name='firstName']"));
-	    WebElement lastNameField = driver.findElement(By.cssSelector("input[name='lastName']"));
-	    WebElement emailField = driver.findElement(By.cssSelector("input[name='email']"));
+		WebElement firstNameField = driver.findElement(By.cssSelector("input[name=\"firstName\"]"));
+	    WebElement lastNameField = driver.findElement(By.cssSelector("input[name=\"lastName\"]"));
+	    WebElement emailField = driver.findElement(By.cssSelector("input[name=\"email\"]"));
 	    
 	    firstNameField.sendKeys(firstName);
 	    lastNameField.sendKeys(lastName);
 	    emailField.sendKeys(email);
 	    
-	    WebElement submit = driver.findElement(By.cssSelector("input[type='submit']"));
+	    WebElement submit = driver.findElement(By.cssSelector("button[type=\"submit\"]"));
 	    submit.click();
 	}
 
@@ -194,7 +194,7 @@ public class Tests {
 
 	@When("^he submits this session$")
 	public void he_submits_this_session_on_the_add_a_session_page() throws Throwable {
-		WebElement submit = driver.findElement(By.cssSelector("input[type='submit']"));
+		WebElement submit = driver.findElement(By.cssSelector("button[type=\"submit\"]"));
 	    submit.click();
 	}
 
