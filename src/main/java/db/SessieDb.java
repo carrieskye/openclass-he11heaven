@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class SessieDb {
 
 	public SessieDb(Controller controller) {
 		this.controller = controller;
-		
+
 		properties.setProperty("user", "hakkaton_11");
 		properties.setProperty("password", "IeS5nahweitohwaa");
 		properties.setProperty("ssl", "true");
@@ -58,7 +59,7 @@ public class SessieDb {
 			String klaslokaal = result.getString("klaslokaal");
 
 			OpenClassSession sessie = new OpenClassSession(sessionId, title, description, begin, einde,
-					maxInschrijvingen,klaslokaal, controller.telAantalInschrijvingen(sessionId));
+					maxInschrijvingen, klaslokaal, controller.telAantalInschrijvingen(sessionId));
 			return sessie;
 
 		} catch (SQLException e) {
@@ -76,7 +77,7 @@ public class SessieDb {
 				int sessionId = Integer.parseInt(result.getString("sessieid"));
 				String title = result.getString("naam");
 				String description = result.getString("beschrijving");
-				
+
 				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
 				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
@@ -94,32 +95,34 @@ public class SessieDb {
 		}
 
 	}
-	
-	public void addNewSession(OpenClassSession sessie){
-		
-		String sql = "INSERT into sessie (naam, beschrijving,max_inschrijvingen,klaslokaal,begin,einde) VALUES (?,?,?,?,?,?)";
-		
+
+	public void addNewSession(OpenClassSession sessie) {
+
+		String sql = "INSERT into sessie (naam, beschrijving,max_inschrijvingen,klaslokaal,begin,einde, openlesdagid) VALUES (?,?,?,?,?,?,?)";
+
 		try (Connection connection = DriverManager.getConnection(url, properties);
 				PreparedStatement statement = connection.prepareStatement(sql)) {
-		statement.setString(1, sessie.getTitle());
-		statement.setString(2, sessie.getDescription());
-		
-		statement.setInt(3, sessie.getMaxEntries());
-		statement.setString(4, sessie.getClassroom());
-		
-		statement.setTime(5, Time.valueOf(sessie.getStart()));
-		statement.setTime(6, Time.valueOf(sessie.getEnd()));
-		
-		statement.executeUpdate();
-		connection.close();
-		
-		
-		
+			statement.setString(1, sessie.getTitle());
+			statement.setString(2, sessie.getDescription());
+
+			statement.setInt(3, sessie.getMaxEntries());
+			statement.setString(4, sessie.getClassroom());
+
+			statement.setTime(5, Time.valueOf(sessie.getStart()));
+			statement.setTime(6, Time.valueOf(sessie.getEnd()));
+			
+			statement.setInt(7, sessie.getOpenlesdagid());
+
+			statement.executeUpdate();
+			connection.close();
+
 		} catch (Exception e) {
 			System.out.println(sessie.getStart().toString());
 			System.out.println("werkt niet: " + e.getMessage());
 		}
 	}
+
+	
 
 	public void schrijfIn(Student student, OpenClassSession sessie) {
 		if (student == null)
@@ -136,7 +139,6 @@ public class SessieDb {
 			throw new DbException(e.getMessage(), e);
 		}
 	}
-	
 
 	public ArrayList<OpenClassSession> getSessiesOpenLesDag(int openLesDagId) {
 		ArrayList<OpenClassSession> sessies = new ArrayList<OpenClassSession>();
@@ -148,7 +150,7 @@ public class SessieDb {
 				int sessionId = Integer.parseInt(result.getString("sessieid"));
 				String title = result.getString("naam");
 				String description = result.getString("beschrijving");
-				
+
 				LocalTime begin = result.getTimestamp("begin").toLocalDateTime().toLocalTime();
 				LocalTime einde = result.getTimestamp("einde").toLocalDateTime().toLocalTime();
 				int maxInschrijvingen = Integer.parseInt(result.getString("max_inschrijvingen"));
@@ -163,9 +165,6 @@ public class SessieDb {
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage(), e);
 		}
-
-	} 
-	
-	
+	}
 
 }

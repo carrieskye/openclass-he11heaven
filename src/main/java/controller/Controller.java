@@ -320,6 +320,7 @@ public class Controller extends HttpServlet {
 		setmaxEntries(sessie,errors, request.getParameter("maxaantal"));
 		setClassroom(sessie,errors, request.getParameter("classroom"));
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
+		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
 
 		if(errors.size() == 0){
 			sessieDb.addNewSession(sessie);
@@ -328,6 +329,16 @@ public class Controller extends HttpServlet {
 			request.setAttribute("errormessage", errors);
 			return "voegSessieToe.jsp";
 		}
+	}
+
+	private void setOpenlesdagid(OpenClassSession sessie, List<String> errors, String date, String opleiding) {
+		try {
+			int id = openLesdagDb.getOpenlesdagID(date, Integer.parseInt(opleiding));
+			sessie.setOpenlesdagid(id);
+		} catch (Exception e) {
+			errors.add(e.getMessage());
+		}
+		
 	}
 
 	private void setOpleidingsid(OpenClassSession sessie, List<String> errors, String id) {
