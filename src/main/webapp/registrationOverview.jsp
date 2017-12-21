@@ -4,17 +4,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Inschrijvingen testtest ${session.title}</title>
+<title>Inschrijvingen ${session.title}</title>
 <%@include file="fragments/head.jspf"%>
 </head>
 <body>
-	<h1>testkdv</h1>
 	<div class="container">
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
 			<div class="container">
 
-				<h2>Inschrijving test ${session.title}</h2>
+				<h2>Inschrijvingen ${session.title}</h2>
 				<table class="table table-striped">
 					<thead>
 						<tr>
