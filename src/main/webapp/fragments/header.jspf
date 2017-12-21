@@ -6,7 +6,7 @@
 			<li><a href="index.jsp"><img src="images/ucll-logo.png"
 					alt="logo" height="60"></a></li>
 			<li><a href="index.jsp" style="color: #FFFFFF"><i
-					class="fa fa-home" style="font-size: 32px;line-height:2em"></i></a></li>
+					class="fa fa-home" style="font-size: 28px;line-height:2em"></i></a></li>
 			<li><a href="Controller?action=getOpleidingenOverzicht"
 				style="color: #FFFFFF;font-size:15px;line-height:4em">Opleidingen</a></li>
 			<li><a href="Controller?action=toonAlleInschrijvingen"
