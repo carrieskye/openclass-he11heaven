@@ -63,6 +63,8 @@ public class AfdelingDb {
 				throw new DomainException(e.getMessage());
 			}
 	}
+	
+	
 }
 
 

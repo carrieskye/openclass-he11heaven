@@ -3,6 +3,8 @@ package domain;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OpenClassSession {
 	private int id;
@@ -83,6 +85,9 @@ public class OpenClassSession {
 	}
 
 	public void setEnd(LocalTime end) {
+		if(end.isBefore(start)) {
+			throw new DomainException("End date must be after start date");
+		}
 		this.end = end;
 	}
 
@@ -92,9 +97,10 @@ public class OpenClassSession {
 	}
 
 	public void setTitle(String title) {
-		if(title == null || title.trim().isEmpty()){
+		if(title == null || title.trim().isEmpty())
 			throw new DomainException("Title can't be empty");
-		}
+		if(match(title, "^(\\d).*$"))
+			throw new DomainException("Title cannot consist of only numbers.");
 		this.title = title;
 	}
 
@@ -153,6 +159,16 @@ public class OpenClassSession {
 
 	public void setOpenlesdagid(int openlesdagid) {
 		this.openlesdagid = openlesdagid;
+	}
+	
+	private boolean match(String text, String pattern) {
+		Pattern p =  Pattern.compile(pattern);
+		Matcher matcher = p.matcher(text);
+		if(matcher.find()) {
+			return true;
+		}
+		else return false;
+
 	}
 	
 }

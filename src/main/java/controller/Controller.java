@@ -26,6 +26,7 @@ import db.AfdelingDb;
 import db.ImageDb;
 import db.InschrijvingenDb;
 import db.OpenLesdagDb;
+import db.OpleidingDb;
 import db.SessieDb;
 import db.StudentDb;
 import domain.Afdeling;
@@ -49,6 +50,7 @@ public class Controller extends HttpServlet {
 	private OpenLesdagDb openLesdagDb;
 	private StudentDb studentDb;
 	private InschrijvingenDb inschrijvingenDb;
+	private OpleidingDb opleidingDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
@@ -60,6 +62,7 @@ public class Controller extends HttpServlet {
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		inschrijvingenDb = new InschrijvingenDb();
+		opleidingDb = new OpleidingDb();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -257,16 +260,16 @@ public class Controller extends HttpServlet {
 
 		List<String> errors = new ArrayList<String>();
 		OpenLesDag openDay = new OpenLesDag();
-		
+
 		setTitel(openDay, errors, request.getParameter("title"));
 		setLocation(openDay, errors, request.getParameter("location"));
 		setDatum(openDay, errors, request.getParameter("date"));
 		setOpenlesdagOpleidingID(openDay, errors, request.getParameter("opleiding"));
-		
-		if(errors.size() == 0) {
+
+		if (errors.size() == 0) {
 			openLesdagDb.addOpenDay(openDay);
 			return "index.jsp";
-		}else {
+		} else {
 			request.setAttribute("errorMessage", errors);
 			return "addOpenDay.jsp";
 		}
@@ -278,7 +281,7 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
-		
+
 	}
 
 	private void setDatum(OpenLesDag openDay, List<String> errors, String date) {
@@ -304,29 +307,40 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
-		
+
 	}
 
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		
+
 		List<String> errors = new ArrayList<String>();
 		OpenClassSession sessie = new OpenClassSession();
 
-		setTitel(sessie,errors,request.getParameter("sessionName"));
-		setDescription(sessie,errors,request.getParameter("content"));
-		setStartDate(sessie,errors, request.getParameter("date"), request.getParameter("beginTime"));
-		setEndDate(sessie,errors,request.getParameter("date"), request.getParameter("endTime"));
-		setmaxEntries(sessie,errors, request.getParameter("maxaantal"));
-		setClassroom(sessie,errors, request.getParameter("classroom"));
+		setTitel(sessie, errors, request.getParameter("sessionName"));
+		setDescription(sessie, errors, request.getParameter("content"));
+		setStartDate(sessie, errors, request.getParameter("date"), request.getParameter("beginTime"));
+		setEndDate(sessie, errors, request.getParameter("date"), request.getParameter("endTime"));
+		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
+		setClassroom(sessie, errors, request.getParameter("classroom"));
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 		setOpenlesdagid(sessie, errors, request.getParameter("date"), request.getParameter("opleiding"));
 
-		if(errors.size() == 0){
+		 if (sessie.getOpenlesdagid() < 1) {
+			request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
+			request.setAttribute("sessie", sessie);
+			request.setAttribute("datePreviousValue", request.getParameter("date"));
+			request.setAttribute("opleidingId", Integer.parseInt(request.getParameter("opleiding")));
+			request.setAttribute("opleidingPreviousValue", opleidingDb.getOpleiding(Integer.parseInt(request.getParameter("opleiding"))));
+			System.out.println(request.getAttribute("opleidingPreviousValue"));
+			return "addOpenDay.jsp";
+		} else if (errors.size() == 0) {
 			sessieDb.addNewSession(sessie);
 			return "index.jsp";
 		} else {
+
 			request.setAttribute("errormessage", errors);
+			request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
+
 			return "voegSessieToe.jsp";
 		}
 	}
@@ -338,7 +352,7 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
-		
+
 	}
 
 	private void setOpleidingsid(OpenClassSession sessie, List<String> errors, String id) {
@@ -347,7 +361,7 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add("Invalid education.");
 		}
-		
+
 	}
 
 	private void setClassroom(OpenClassSession sessie, List<String> errors, String klaslokaal) {
@@ -365,8 +379,8 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			if (e instanceof DomainException) {
 				errors.add(e.getMessage());
-			} else {
-				errors.add("Max entries is not correct!");
+			} else if (e instanceof NumberFormatException) {
+				errors.add("Max entries moet een getal zijn");
 			}
 		}
 	}
@@ -493,7 +507,7 @@ public class Controller extends HttpServlet {
 		request.setAttribute("studentId", studentId);
 		return registrationOverview(request, response);
 	}
-	
+
 	public int telAantalInschrijvingen(int sessieId) {
 		return inschrijvingenDb.telIngeschrevenStudenten(sessieId);
 	}

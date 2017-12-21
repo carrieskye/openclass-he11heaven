@@ -78,6 +78,8 @@ public class OpenLesDag {
 	}
 
 	public void setDatum(LocalDate datum) {
+		if(datum.isBefore(LocalDate.now()))
+			throw new DomainException("De datum moet in de toekomst zijn");
 		this.datum = datum;
 		this.datumString = generateDatumString();
 	}
