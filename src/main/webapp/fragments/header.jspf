@@ -9,8 +9,8 @@
 					class="fa fa-home" style="font-size: 32px;line-height:3.1em"></i></a></li>
 			<li><a href="Controller?action=getOpleidingenOverzicht"
 				style="color: #FFFFFF;font-size:20px;line-height:5em">Opleidingen</a></li>
-			<li><a href="Controller?action=sessionoverview"
-				style="color: #FFFFFF;font-size: 20px;line-height:5em">Sessies</a></li>
+			<li><a href="Controller?action=toonAlleInschrijvingen"
+				style="color: #FFFFFF;font-size: 20px;line-height:5em">Inschrijvingen</a></li>
 			<li><a href="Controller?action=toonVoegSessieToe"
 				style="color: #FFFFFF;font-size: 20px;line-height:5em">Voeg sessie toe</a></li>
 		</ul>

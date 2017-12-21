@@ -4,11 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,15 +19,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.time.*;
-
-import org.apache.xalan.xsltc.dom.LoadDocument;
-import org.joda.time.LocalDate;
 
 import db.AfdelingDb;
 import db.ImageDb;
 import db.InschrijvingenDb;
 import db.OpenLesdagDb;
+import db.OpleidingDb;
 import db.SessieDb;
 import db.StudentDb;
 import domain.Afdeling;
@@ -36,7 +34,6 @@ import domain.OpenLesDag;
 import domain.Opleiding;
 import domain.SimpleMail;
 import domain.Student;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 @WebServlet("/Controller")
 @MultipartConfig
@@ -45,6 +42,7 @@ public class Controller extends HttpServlet {
 	private ImageDb imageDb;
 	private SimpleMail mail;
 	private AfdelingDb afdelingDb;
+	private OpleidingDb opleidingDb;
 	ArrayList<Afdeling> afdelingen;
 	private SessieDb sessieDb;
 	private OpenLesdagDb openLesdagDb;
@@ -56,6 +54,7 @@ public class Controller extends HttpServlet {
 		imageDb = new ImageDb();
 		mail = new SimpleMail();
 		afdelingDb = new AfdelingDb();
+		opleidingDb = new OpleidingDb();
 		afdelingen = new ArrayList<>();
 		sessieDb = new SessieDb(this);
 		openLesdagDb = new OpenLesdagDb();
@@ -119,6 +118,15 @@ public class Controller extends HttpServlet {
 			break;
 		case "removeSessionStudent":
 			destination = removeSessionStudent(request, response);
+			break;
+		case "toonAlleInschrijvingen":
+			destination = toonAlleInschrijvingen(request, response);
+			break;
+		case "toonInschrijvingenOpenlesdagen":
+			destination = toonInschrijvingenOpenlesdagen(request, response);
+			break;
+		case "inschrijvingen":
+			destination = inschrijvingen(request, response);
 			break;
 		default:
 			destination = "index.jsp";
@@ -245,19 +253,19 @@ public class Controller extends HttpServlet {
 
 	private String voegSessieToe(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		
+
 		List<String> errors = new ArrayList<String>();
 		OpenClassSession sessie = new OpenClassSession();
 
-		setTitel(sessie,errors,request.getParameter("sessionName"));
-		setdescription(sessie,errors,request.getParameter("content"));
-		setStartDate(sessie,errors, request.getParameter("date"), request.getParameter("beginTime"));
-		setEndDate(sessie,errors,request.getParameter("date"), request.getParameter("endTime"));
-		setmaxEntries(sessie,errors, request.getParameter("maxaantal"));
-		setClassroom(sessie,errors, request.getParameter("classroom"));
+		setTitel(sessie, errors, request.getParameter("sessionName"));
+		setdescription(sessie, errors, request.getParameter("content"));
+		setStartDate(sessie, errors, request.getParameter("date"), request.getParameter("beginTime"));
+		setEndDate(sessie, errors, request.getParameter("date"), request.getParameter("endTime"));
+		setmaxEntries(sessie, errors, request.getParameter("maxaantal"));
+		setClassroom(sessie, errors, request.getParameter("classroom"));
 		setOpleidingsid(sessie, errors, request.getParameter("opleiding"));
 
-		if(errors.size() == 0){
+		if (errors.size() == 0) {
 			System.out.println("alles ok");
 			sessieDb.addNewSession(sessie);
 			return "index.jsp";
@@ -265,8 +273,6 @@ public class Controller extends HttpServlet {
 			request.setAttribute("errormessage", errors);
 			return "voegSessieToe.jsp";
 		}
-
-	
 
 	}
 
@@ -276,7 +282,7 @@ public class Controller extends HttpServlet {
 		} catch (Exception e) {
 			errors.add("Invalid education.");
 		}
-		
+
 	}
 
 	private void setClassroom(OpenClassSession sessie, List<String> errors, String klaslokaal) {
@@ -424,9 +430,36 @@ public class Controller extends HttpServlet {
 		request.setAttribute("studentId", studentId);
 		return registrationOverview(request, response);
 	}
-	
+
 	public int telAantalInschrijvingen(int sessieId) {
 		return inschrijvingenDb.telIngeschrevenStudenten(sessieId);
+	}
+
+	private String toonAlleInschrijvingen(HttpServletRequest request, HttpServletResponse response) {
+		Map<OpenClassSession, ArrayList<Student>> inschrijvingen = new HashMap<>();
+		
+		for (OpenClassSession sessie : sessieDb.getAll()) {
+			inschrijvingen.put(sessie, inschrijvingenDb.get(sessie.getId()));
+		}
+		request.setAttribute("afdelingen", afdelingDb.getAfdelingen());
+		request.setAttribute("opleidingen", opleidingDb.getOpleidingen());
+		request.setAttribute("inschrijvingen", inschrijvingen);
+		return "inschrijvingen.jsp";
+
+	}
+
+	private String toonInschrijvingenOpenlesdagen(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("openlesdagen", null);
+		return "inschrijvingen.jsp";
+	}
+
+	private String toonInschrijvingenSessies(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("sessies", null);
+		return "inschrijvingen.jsp";
+	}
+
+	private String inschrijvingen(HttpServletRequest request, HttpServletResponse response) {
+		return null;
 	}
 
 }
