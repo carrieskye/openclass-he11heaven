@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class Tests {
 
@@ -25,16 +26,16 @@ public class Tests {
 	@Before
 	public void setup(){
 		
-		System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver");
+		System.setProperty("webdriver.chrome.driver", "C://Users//Tom Stockmans//Documents//web3//chromedriver.exe");
 		// windows: gebruik dubbele \\ om pad aan te geven
 		// hint: zoek een werkende test op van web 2 ...
-	driver = new ChromeDriver();
+	driver = new HtmlUnitDriver();
 	System.out.println("ok");
 	}
 	
 	@After
 	public void quit(){
-		//driver.quit();
+		driver.quit();
 	}
 
 	@Given("^a link to the overview page$")
