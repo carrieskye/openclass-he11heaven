@@ -126,6 +126,9 @@ public class Controller extends HttpServlet {
 		case "toonInschrijvingenOpenlesdagen":
 			destination = toonInschrijvingenOpenlesdagen(request, response);
 			break;
+		case "toonInschrijvingenSessies":
+			destination = toonInschrijvingenSessies(request,response);
+			break;
 		case "inschrijvingen":
 			destination = inschrijvingen(request, response);
 			break;
