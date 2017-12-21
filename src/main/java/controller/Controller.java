@@ -42,12 +42,12 @@ public class Controller extends HttpServlet {
 	private OpenClassService service;
 	private ImageDb imageDb;
 	private AfdelingDb afdelingDb;
-	private OpleidingDb opleidingDb;
 	ArrayList<Afdeling> afdelingen;
 	private SessieDb sessieDb;
 	private OpenLesdagDb openLesdagDb;
 	private StudentDb studentDb;
 	private InschrijvingenDb inschrijvingenDb;
+	private OpleidingDb opleidingDb;
 
 	public Controller() throws ClassNotFoundException, SQLException {
 		super();
@@ -59,7 +59,6 @@ public class Controller extends HttpServlet {
 		openLesdagDb = new OpenLesdagDb();
 		studentDb = new StudentDb();
 		inschrijvingenDb = new InschrijvingenDb();
-		opleidingDb = new OpleidingDb();
 		
 		service = new OpenClassService();
 	}
@@ -587,6 +586,7 @@ public class Controller extends HttpServlet {
 		List<String> result = new ArrayList<>();
 		
 		Student student = new Student();
+		student.setId(studentId);
 		result = getFirstName(student, request, result);
 		result = getLastName(student, request, result);
 		result = getEmail(student, request, result);

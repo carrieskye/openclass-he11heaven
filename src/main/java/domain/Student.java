@@ -9,7 +9,7 @@ public class Student {
 	}
 
 	public Student(int id, String firstName, String lastName, String email) {
-		this.id = id;
+		setId(id);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setEmail(email);
@@ -53,5 +53,9 @@ public class Student {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public void setId(int studentId) {
+		this.id = studentId;
 	}
 }
