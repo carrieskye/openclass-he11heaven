@@ -613,7 +613,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("infoMessage",
 					"Inschrijving voor " + student.getFirstName() + " " + student.getLastName() + " aangepast.");
 		}
-		return sessionOverview(request, response);
+		return toonAlleInschrijvingen(request, response);
 	}
 
 	private String removeSessionStudent(HttpServletRequest request, HttpServletResponse response) {
