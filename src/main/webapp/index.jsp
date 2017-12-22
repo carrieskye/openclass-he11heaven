@@ -8,6 +8,7 @@
 </head>
 
 <body>
+	<jsp:forward page="/Controller?action=getOpleidingenOverzicht"></jsp:forward>
 	<div class="container">
 		<%@include file="fragments/header.jspf"%>
 		<div class="jumbotron">
